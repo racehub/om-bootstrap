@@ -1,22 +1,59 @@
 ## Om-Bootstrap [![Build Status](https://secure.travis-ci.org/racehub/om-bootstrap.png)](http://travis-ci.org/racehub/om-bootstrap)
 
+## TODO before release:
+
+- Make sure all required vs non-required properties are set!
+- Wrap componentk schemas in `om-tools.schema/cursor`
+- Verify types with tests.
+
 ## Components
 
-* Button
-* Input
+* Button, ButtonGroup, Toolbar (button.cljs)
+* Input (input.cljs)
+* Jumbotron (random.cljs)
+* Label (random.cljs)
+* Well (random.cljs)
+* PageHeader (random.cljs)
+* Grid, Row, Col (grid.cljs)
+* ToolTip (random.cljs, except for examples)
+* Alert (random.cljs, except for examples)
+
+## In Progress
+
+* Modal, ModalTrigger (modal.cljs)
+* ProgressBar (progress-bar.cljs)
+
+## Needed Components
+
+* DropdownButton, SplitButton, MenuItem
+* DropdownMenu (?)
+* Subnav (?)
+* Panel (hard), PanelGroup (easy), Accordion (easy)
+* Popover (easy)
+* Nav, NavItem, NavBar
+* TabbedArea, TabPane
+* Pager
+* Carousel
+* CarouselItem
+* Badge
+* Use Input as a wrapper (easy):
+
+```
+If type is not set, child element(s) will be rendered instead of an input
+element.getValue() will not work when used this way.
+```
 
 ## Mixins
 
 * Fade
 * Overlay
+* Listener (mixins.cljs)
+* Timeout (mixins.cljs)
 
-## In Progress
+### Needed Mixins
 
-* Modal
-
-## Needed Components
-
-Fill in.
+* DropdownStateMixin
+* CollapsibleMixin
 
 ## Community
 
