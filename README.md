@@ -5,6 +5,7 @@
 - Make sure all required vs non-required properties are set!
 - Wrap componentk schemas in `om-tools.schema/cursor`
 - Verify types with tests.
+- Add the clojars pill to the README.
 
 ## Components
 
