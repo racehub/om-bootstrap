@@ -15,6 +15,7 @@
   :plugins [[lein-cljsbuild "1.0.3"]
             [com.cemerick/clojurescript.test "0.3.0"]]
   :profiles {:dev {:dependencies [[prismatic/dommy "0.1.2"]]
+                   :plugins [[paddleguru/lein-gitflow "0.1.2"]]
                    :cljsbuild
                    {:builds
                     [{:id "docs"
