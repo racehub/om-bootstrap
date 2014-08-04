@@ -2,6 +2,7 @@
   (:require [clojure.string :as string]
             [om.core :as om]
             [om-bootstrap.types :as t]
+            [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
             [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
@@ -33,23 +34,26 @@
 (def FeedbackIcons
   "Helps render feedback icons."
   {(s/optional-key :bs-style) (s/enum "success" "warning" "error")
-   (s/optional-key :has-feedback) s/Bool})
+   (s/optional-key :feedback?) s/Bool})
 
 (def Input
   "Input fields that match these bad dawgs:
    https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Input.jsx"
   (merge Addons
          FeedbackIcons
-         {:type s/Str
-          (s/optional-key :attrs) (-> {s/Keyword s/Any}
-                                      (s/named "Custom attributes for the dom element."))
-          (s/optional-key :children) s/Any
+         {(s/optional-key :type) s/Str
           (s/optional-key :label) s/Str
           (s/optional-key :skip-form-group?) (s/named s/Bool "DON'T render a wrapping form group?")
           (s/optional-key :help) s/Str
           (s/optional-key :group-classname) s/Str
           (s/optional-key :wrapper-classname) s/Str
           (s/optional-key :label-classname) s/Str}))
+
+(def Radio
+  (t/bootstrap
+   {:label s/Str
+    (s/optional-key :checked?) s/Bool
+    (s/optional-key :inline?) s/Bool}))
 
 ;; ### Utilities
 
@@ -71,8 +75,8 @@
   (d/span {:class (str "glyphicon glyphicon-" glyph-name)}))
 
 (sm/defn render-icon :- t/Component
-  [{:keys [has-feedback bs-style]} :- FeedbackIcons]
-  (when has-feedback
+  [{:keys [feedback? bs-style]} :- FeedbackIcons]
+  (when feedback?
     (let [klasses {:glyphicon true
                    :form-control-feedback true
                    :glyphicon-ok (= "success" bs-style)
@@ -139,7 +143,7 @@
   [{bs-style :bs-style cn :group-classname :as input} :- Input
    children]
   (let [classes (merge {:form-group (not (:skip-form-group? input))
-                        :has-feedback (boolean (:has-feedback input))
+                        :has-feedback (boolean (:feedback? input))
                         :has-success (= "success" bs-style)
                         :has-warning (= "warning" bs-style)
                         :has-error (= "error" bs-style)}
@@ -147,32 +151,23 @@
     (d/div {:class (class-set classes)}
            children)))
 
-;; TODO: Use as a wrapper if :type isn't set.
-;; http://react-bootstrap.github.io/components.html#input
-
 (sm/defn render-input :- t/Component
-  [{:keys [attrs] :as input} :- Input]
-  (case (:type input)
-    "select" (d/select (merge attrs {:class "form-control"
-                                     :ref "input"
-                                     :key "input"})
-                       (:children input))
-    "textarea" (d/textarea (merge attrs {:class "form-control"
-                                         :ref "input"
-                                         :key "input"}))
-    "static" (d/p (merge attrs {:class "form-control-static"
-                                :ref "input"
-                                :key "input"})
-                  (:children input))
-    (d/input
-     (merge attrs
-            {:ref "input"
-             :key "input"
-             :class (if (checkbox-or-radio? input)
-                      ""
-                      "form-control")
-             :type (:type input)})
-     (:children input))))
+  [input :- Input attrs children]
+  (let [props (fn [klass]
+                (u/merge-props attrs {:class klass
+                                      :ref "input"
+                                      :key "input"}))]
+    (if-not (:type input)
+      children
+      (case (:type input)
+        "select" (d/select (props "form-control") children)
+        "textarea" (d/textarea (props "form-control"))
+        "static" (d/p (props "form-control-static") children)
+        (d/input (assoc (props (if (checkbox-or-radio? input)
+                                 ""
+                                 "form-control"))
+                   :type (:type input))
+                 children)))))
 
 ;; ### API Methods
 
@@ -180,21 +175,23 @@
   "Returns an input component. This currently does NOT handle any of
   the default values or validation messages that we'll need to make
   this work, though."
-  [input :- Input]
-  (if (checkbox-or-radio? input)
-    (->> [(->> (render-input input)
-               (render-label input)
-               (checkbox-or-radio-wrapper input))
-          (render-help (:help input))]
-         (render-wrapper input)
-         (render-form-group input))
-    (->> [(render-label input)
-          (->> [(render-input-group (select-keys input [:addon-before :addon-after])
-                                    (render-input input))
-                (render-icon (select-keys input [:has-feedback :bs-style]))
-                (render-help (:help input))]
-               (render-wrapper input))]
-         (render-form-group input))))
+  [opts :- Input & children]
+  (let [[input attrs] (t/separate Input opts)]
+    (if (checkbox-or-radio? input)
+      (->> [(->> (render-input input attrs children)
+                 (render-label input)
+                 (checkbox-or-radio-wrapper input))
+            (render-help (:help input))]
+           (render-wrapper input)
+           (render-form-group input))
+      (->> [(render-label input)
+            (->> [(render-input-group
+                   (select-keys input [:addon-before :addon-after])
+                   (render-input input attrs children))
+                  (render-icon (select-keys input [:feedback? :bs-style]))
+                  (render-help (:help input))]
+                 (render-wrapper input))]
+           (render-form-group input)))))
 
 ;; TODO: Have a better story for class-set - maybe allow a set too?
 
@@ -206,21 +203,12 @@
 (sm/defn radio-option :- t/Component
   "Generates a radio button entry, to place into a radio button
    grouping."
-  [{:keys [name value label inline? checked? attrs]}
-   :- {:name s/Str
-       :value s/Str
-       :label s/Str
-       (s/optional-key :checked?) s/Bool
-       (s/optional-key :inline?) s/Bool
-       (s/optional-key :attrs) s/Any}]
-  (let [core (d/input
-              (cond-> {:value value
-                       :name name
-                       :ref "input"
-                       :key "input"
-                       :type "radio"}
-                      checked? (assoc :checked true)
-                      attrs (merge attrs)))]
+  [opts :- Radio]
+  (let [[bs props] (t/separate Radio opts {:ref "input"
+                                           :key "input"
+                                           :type "radio"})
+        {:keys [label checked? inline?]} bs
+        core (d/input (assoc props :checked checked?))]
     (if inline?
       (d/label {:class "radio-inline"} core label)
       (d/div {:class "radio"} (d/label {} core label)))))
@@ -265,9 +253,9 @@
     :help "Label AFTER the input field."}
    {:type "text" :addon-before "$" :addon-after ".00"
     :help "Label both before and after the input field."}
-   {:type "text" :bs-style "success" :label "Success" :has-feedback true}
-   {:type "text" :bs-style "warning" :label "Warning" :has-feedback true}
-   {:type "text" :bs-style "error" :label "Error" :has-feedback true}
+   {:type "text" :bs-style "success" :label "Success" :feedback? true}
+   {:type "text" :bs-style "warning" :label "Warning" :feedback? true}
+   {:type "text" :bs-style "error" :label "Error" :feedback? true}
    (make-horizontal
     {:type "select"
      :label "Pick Events"

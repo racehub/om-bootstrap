@@ -1,7 +1,7 @@
 (ns om-bootstrap.modal
   (:require [cljs.core.async :as a :refer [chan put! close!]]
             [om.core :as om]
-            [om-bootstrap.mixins :refer [fade-mixin listener-mixin]]
+            [om-bootstrap.mixins :refer [fade-mixin set-listener-mixin]]
             [om-bootstrap.types :as t]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]

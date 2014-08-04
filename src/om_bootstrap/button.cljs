@@ -39,8 +39,8 @@
 (sm/defn button :- t/Component
   "Renders a button."
   [props :- Button & children]
-  (let [[bs props] (t/separate Button props {:bs-class :button
-                                             :bs-style :default
+  (let [[bs props] (t/separate Button props {:bs-class "button"
+                                             :bs-style "default"
                                              :type "button"})
         klasses (if (:nav-dropdown? bs)
                   {}
@@ -60,13 +60,14 @@
                      :disabled? (:disabled? bs)
                      :classes klasses}
                     children)
-     :else (d/button (u/merge-props props {:class (d/class-set klasses)})
+     :else (d/button (u/merge-props props {:class (d/class-set klasses)
+                                           :disabled (:disabled? bs)})
                      children))))
 
 (sm/defn toolbar :- t/Component
   "Renders a button toolbar."
   [opts & children]
-  (let [[bs props] (t/separate {} opts {:bs-class :button-toolbar})]
+  (let [[bs props] (t/separate {} opts {:bs-class "button-toolbar"})]
     (d/div {:role "toolbar"
             :class (d/class-set (t/bs-class-set bs))}
            children)))
@@ -74,7 +75,7 @@
 (sm/defn button-group :- t/Component
   "Renders the supplied children in a wrapping button-group div."
   [opts :- ButtonGroup & children]
-  (let [[bs props] (t/separate ButtonGroup opts {:bs-class :button-group})
+  (let [[bs props] (t/separate ButtonGroup opts {:bs-class "button-group"})
         classes (merge (t/bs-class-set bs)
                        {:btn-group (not (:vertical? bs))
                         :btn-group-vertical (:vertical? bs)

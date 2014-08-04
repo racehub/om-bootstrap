@@ -81,7 +81,7 @@
 
 (def Alert
   (t/bootstrap
-   {:on-dismiss (s/=> s/Any s/Any)
+   {:on-dismiss (sm/=> s/Any s/Any)
     :dismiss-after s/Int}))
 
 (def alert-defaults

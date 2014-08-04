@@ -1,6 +1,9 @@
 (ns om-bootstrap.mixins
-  (:require [om.core :as om]
-            [om-tools.mixin :refer-macros [defmixin]]))
+  (:require [cljs.core.async :as a :refer [put!]]
+            [om.core :as om]
+            [om-tools.mixin :refer-macros [defmixin]]
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Fade
 
@@ -57,24 +60,39 @@
 
 ;; ## Listener
 
+(sm/defn event-listener :- (sm/=> s/Any)
+  "Registers the callback on the supplied target for events of type
+   `event-type`. Returns a function of no arguments that, when called,
+   unregisters the callback."
+  [target :- s/Any
+   event-type :- s/Str
+   callback :- (sm/=> s/Any s/Any)]
+  (cond (.-addEventListener target)
+        (do (.addEventListener target event-type callback false)
+            (fn [] (.removeEventListener target event-type callback false)))
+
+        (.-attachEvent target)
+        (let [event-type (str "on" event-type)]
+          (.attachEvent target event-type callback)
+          (fn [] (.detachEvent target event-type callback)))
+        :else (fn [])))
+
 (defmixin set-listener-mixin
   "Handles a sequence of listeners for the component, and removes them
-   from the document when the component is unmounted.
-
-   TODO: Do we want to use this with something other than js/document?"
+   from the document when the component is unmounted."
   (will-mount [owner] (set! (.-listeners owner) #js []))
-  (will-unmount [owner] (.. owner -listeners (map #(.remove %))))
-  (set-listener [owner k c]
-                (let [listener (.listen js/React.EventListener js/document k #(put! c %))]
-                  (.push (.-listeners owner) listener))))
+  (will-unmount [owner] (.. owner -listeners (map #(%))))
+  (set-listener [owner target event-type callback]
+                (let [remove-fn (event-listener target event-type callback)]
+                  (.push (.-listeners owner) remove-fn))))
 
 (defmixin set-timeout-mixin
   "Handles a sequence of timeouts for the component, and removes them
-   from the document when the component is unmounted.
-
-   TODO: Do we want to use this with something other than js/document?"
-  (will-mount [owner] (set! (.-timeouts owner) #js []))
-  (will-unmount [owner] (.. owner -timeouts (map #(.clearTimeout %))))
-  (set-listener [owner f timeout]
-                (let [timeout (.setTimeout f timeout)]
-                  (.push (.-timeouts owner) timeout))))
+   from the document when the component is unmounted."
+  (will-mount [owner]
+              (set! (.-timeouts owner) #js []))
+  (will-unmount [owner]
+                (.. owner -timeouts (map #(js/clearTimeout %))))
+  (set-timeout [owner f timeout]
+               (let [timeout (js/setTimeout f timeout)]
+                 (.push (.-timeouts owner) timeout))))

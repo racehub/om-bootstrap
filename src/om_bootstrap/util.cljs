@@ -14,3 +14,7 @@
     (if-let [r-class (:class r)]
       (assoc props :class (str (:class l) " " (:class r)))
       props)))
+
+(sm/defn collectify :- [s/Any]
+  [x :- s/Any]
+  (if (sequential? x) x [x]))
