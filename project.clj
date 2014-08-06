@@ -1,4 +1,4 @@
-(defproject racehub/om-bootstrap "0.2.0-SNAPSHOT"
+(defproject racehub/om-bootstrap "0.2.0"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "Eclipse Public License - v 1.0"
