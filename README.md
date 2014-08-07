@@ -56,6 +56,16 @@ element.getValue() will not work when used this way.
 * DropdownStateMixin
 * CollapsibleMixin
 
+## ClojureScript Repl
+
+`om-bootstrap` comes with a development environment you can use to hack on the demo project. to start the Clojurescript repl,
+
+```clojure
+lein repl
+```
+
+Then, at the repl, run `(start-repl)` to fire it up. Navigating to the docs site will connect to the repl automatically and you'll be all set.
+
 ## Community
 
 TODO: Note on joining the Clojure mailing list.
