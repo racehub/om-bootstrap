@@ -22,7 +22,6 @@
 
 (defn button-sizing []
   (d/div
-   {}
    (b/toolbar {}
               (b/button {:bs-style "primary" :bs-size "large"} "Large button")
               (b/button {:bs-size "large"} "Large button"))
@@ -37,33 +36,86 @@
                         "Extra small button")
               (b/button {:bs-size "large"} "Large button"))))
 
+(defn button-block []
+  (d/div
+   (d/h3 "Button Examples")
+   (button-example)
+   (d/h3 "Button Sizing")
+   (button-sizing)
+   (d/p "Create block level buttons—those that span the full width of a parent— by adding the block prop.")
+   (d/div {:class "well"
+           :style {:max-width 400
+                   :margin "0 auto 10px"}}
+          (b/button {:bs-style "primary" :bs-size "large" :block? true}
+                    "Block level button")
+          (b/button {:bs-size "large" :block? true}
+                    "Block level button"))
+   (d/p "To set a buttons active state simply set the components active prop.")
+   (b/toolbar {}
+              (b/button {:bs-style "primary" :bs-size "large" :active? true}
+                        "Primary button")
+              (b/button {:bs-size "large" :bs-style "default" :active? true}
+                        "Button"))
+   (d/p "Make buttons look unclickable by fading them back 50%. To do
+   this add the disabled attribute to buttons.")
+   (b/toolbar {}
+              (b/button {:bs-style "primary" :bs-size "large" :disabled? true}
+                        "Primary button")
+              (b/button {:bs-size "large" :bs-style "default" :disabled? true}
+                        "Button"))
+   (d/h3 "Button Groups")
+   (d/p "Wrap a series of buttons in a button group.")
+   (b/button-group {}
+                   (b/button {} "Left")
+                   (b/button {} "Middle")
+                   (b/button {} "Right"))
+   (d/p "Combine sets of buttongroups into a button toolbar for more
+   complex components.")
+   (b/toolbar {}
+              (b/button-group {} (for [i (range 4)]
+                                   (b/button {} (str (inc i)))))
+              (b/button-group {} (for [i (range 4 7)]
+                                   (b/button {} (str (inc i)))))
+              (b/button-group {} (b/button {} 8)))
+
+   (d/p "Instead of applying button sizing props to every button in a group, just add bs-size prop to the <ButtonGroup />.")
+   (let [buttons (for [s ["Left" "Middle" "Right"]]
+                   (b/button {} s))]
+     (b/toolbar {}
+                (b/toolbar {} (b/button-group {:bs-size "large"} buttons))
+                (b/toolbar {} (b/button-group {} buttons))
+                (b/toolbar {} (b/button-group {:bs-size "small"} buttons))
+                (b/toolbar {} (b/button-group {:bs-size "xsmall"} buttons))))
+
+   ))
+
 ;; ## Jumbotron Examples
 
 (defn jumbotron-example []
   (r/jumbotron {}
-               (d/h1 {} "Hello, World!")
+               (d/h1 "Hello, World!")
                (d/p "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.")
-               (d/p {} (b/button {:bs-style "primary"} "Learn More"))))
+               (d/p (b/button {:bs-style "primary"} "Learn More"))))
 
 ;; ## Label Examples
 
 (defn label-examples []
-  (d/div {}
-         (d/h1 {} "Label " (r/label {} "New"))
-         (d/h2 {} "Label " (r/label {} "New"))
-         (d/h3 {} "Label " (r/label {} "New"))
-         (d/h4 {} "Label " (r/label {} "New"))
-         (d/h5 {} "Label " (r/label {} "New"))
-         (d/p {} "Label " (r/label {} "New"))))
+  (d/div
+   (d/h1 "Label " (r/label {} "New"))
+   (d/h2 "Label " (r/label {} "New"))
+   (d/h3 "Label " (r/label {} "New"))
+   (d/h4 "Label " (r/label {} "New"))
+   (d/h5 "Label " (r/label {} "New"))
+   (d/p "Label " (r/label {} "New"))))
 
 (defn label-variations []
-  (d/div {}
-         (r/label {:bs-style "default"} "Default")
-         (r/label {:bs-style "primary"} "Primary")
-         (r/label {:bs-style "success"} "Success")
-         (r/label {:bs-style "info"} "Info")
-         (r/label {:bs-style "warning"} "Warning")
-         (r/label {:bs-style "danger"} "Danger")))
+  (d/div
+   (r/label {:bs-style "default"} "Default")
+   (r/label {:bs-style "primary"} "Primary")
+   (r/label {:bs-style "success"} "Success")
+   (r/label {:bs-style "info"} "Info")
+   (r/label {:bs-style "warning"} "Warning")
+   (r/label {:bs-style "danger"} "Danger")))
 
 ;; ## Well Examples
 
@@ -71,15 +123,15 @@
     (r/well {} "Look, I'm in a well!"))
 
 (def optional-well-classes
-  (d/div {}
-         (r/well {:bs-size "large"} "Look, I'm in a large well!")
-         (r/well {:bs-size "small"} "Look, I'm in a small well!")))
+  (d/div
+   (r/well {:bs-size "large"} "Look, I'm in a large well!")
+   (r/well {:bs-size "small"} "Look, I'm in a small well!")))
 
 ;; ## Page Header
 
 (def header-example
   (r/page-header {} "Example page header "
-                 (d/small {} "Subtext for header")))
+                 (d/small "Subtext for header")))
 
 ;; ## Grid
 
@@ -109,63 +161,31 @@
                         (g/col {:md 6 :md-pull 6}
                                (d/code {} "(g/col {:md 6 :md-push 6})"))))))
 
-;; ## Final Page Loading
-
-(defcomponentk app
-  "This is the top level component that renders the entire example
-  docs page."
-  []
-  (render [_]
-          (d/div {}
-                 (d/h3 {} "Button Examples")
-                 (button-example)
-                 (d/h3 {} "Button Sizing")
-                 (button-sizing)
-                 (d/h3 {} "Jumbotron")
-                 (jumbotron-example)
-                 (d/h3 {} "Label Examples")
-                 (label-examples)
-                 (d/h3 {} "Label Variations")
-                 (label-variations)
-                 (d/h3 {} "Well!")
-                 default-well
-                 optional-well-classes
-                 (d/h3 {} "Page Header")
-                 header-example
-                 (d/h3 {} "Grid")
-                 grid-example)))
-
-(defonce app-state
-  (atom {:text "Hi!"}))
-
-(om/root app app-state
-         {:target (. js/document (getElementById "app"))})
-
-(when-not (ws-repl/alive?)
-  (ws-repl/connect "ws://localhost:9001" :verbose true))
-
 ;; ## Tooltip
 
+(def tooltip-example
+  (d/div {:class "bs-example"}
+         (d/div {:style {:height 50}}
+                (r/tooltip {:placement "right"
+                            :position-left 150
+                            :position-top 50}
+                           (d/strong "Holy guacamole!")
+                           "Check this info."))))
+
 (comment
-  "Tooltip component:"
-  (d/div {:style {:height 50}}
-         (t/tooltip {:placement "right"
-                     :position-left 150
-                     :position-top 50}
-                    (d/strong "Holy guacamole!")
-                    "Check this info."))
 
-  "Positioned tooltip component. (TODO: Needs overlay trigger to finish!)"
-  (let [tooltip  (r/tooltip {}
-                            (d/strong "Holy guacamole!")
-                            "Check this info.")]
-    (b/toolbar {}
-               (overlay-trigger {:placement "left" :overlay tooltip})
-               (overlay-trigger {:placement "top" :overlay tooltip})
-               (overlay-trigger {:placement "bottom" :overlay tooltip})
-               (overlay-trigger {:placement "right" :overlay tooltip})))
+  (def positioned-tooltip-example
+    "Positioned tooltip component. (TODO: Needs overlay trigger to
+   finish!)"
+    (let [tooltip  (r/tooltip {}
+                              (d/strong "Holy guacamole!")
+                              "Check this info.")]
+      (b/toolbar {}
+                 (overlay-trigger {:placement "left" :overlay tooltip})
+                 (overlay-trigger {:placement "top" :overlay tooltip})
+                 (overlay-trigger {:placement "bottom" :overlay tooltip})
+                 (overlay-trigger {:placement "right" :overlay tooltip}))))
 
-  "Positioned tooltip in copy. (TODO: Needs overlay trigger to finish!)"
   (defn link-with-tooltip
     [{:keys [tooltip href]} & children]
     (overlay-trigger {:placement "top"
@@ -174,31 +194,69 @@
                       :delay-hide 150}
                      (d/a {:href href} children)))
 
-  (d/p {:class "muted" :style {:margin-bottom 0}}
-       "Call me Ishmael. Some years ago - never mind how long "
-       (link-with-tooltip {:tooltip "Probably about two." :href "#"} "precisely")
-       " - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly "
-       (link-with-tooltip {:tooltip "The eleventh month!" :href "#"} "November")
-       " in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the "
-       (link-with-tooltip {:tooltip "A large alley or a small avenue." :href "#"} "street")
-       "m and methodically knocking people's hats off - then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in "
-       (link-with-tooltip {:tooltip "The ship, that is." :href "#"} "this")
-       ". If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me."))
+  (def positioned-tooltip-with-copy
+    (d/p {:class "muted" :style {:margin-bottom 0}}
+         "Call me Ishmael. Some years ago - never mind how long "
+         (link-with-tooltip {:tooltip "Probably about two." :href "#"} "precisely")
+         " - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly "
+         (link-with-tooltip {:tooltip "The eleventh month!" :href "#"} "November")
+         " in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the "
+         (link-with-tooltip {:tooltip "A large alley or a small avenue." :href "#"} "street")
+         "m and methodically knocking people's hats off - then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in "
+         (link-with-tooltip {:tooltip "The ship, that is." :href "#"} "this")
+         ". If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")))
 
 ;; ## Alerts
 
-(comment
-  "Alert component."
-
+(def alert-example
   "Basic alert styles:"
   (r/alert {:bs-style "warning"}
            (d/strong "Holy guacamole!")
-           "Best check yo self, you're not looking too good.")
+           "Best check yo self, you're not looking too good."))
 
-  "Closeable alerts, just pass in a onDismiss function."
+(comment
+  "TODO: Closeable alerts, just pass in a onDismiss function."
   ;; Fill in.
 
-  "Auto close after a set time with dismissAfter prop."
+  "TODO: Auto close after a set time with dismissAfter prop."
   ;; Fill in.
-
   )
+;; ## Final Page Loading
+
+(defcomponentk app
+  "This is the top level component that renders the entire example
+  docs page."
+  []
+  (render [_]
+          (d/div
+           (button-block)
+           (d/h3 "Jumbotron")
+           (jumbotron-example)
+           (d/h3 "Label Examples")
+           (label-examples)
+           (d/h3 "Label Variations")
+           (label-variations)
+           (d/h3 "Well!")
+           default-well
+           optional-well-classes
+           (d/h3 "Page Header")
+           header-example
+           (d/h3 "Grid")
+           grid-example
+           (d/h3 "Tooltip")
+           tooltip-example
+           (d/h3 "Positioned Tooltip (in progress)")
+           (d/h3 "Alert")
+           alert-example)))
+
+(defonce app-state
+  (atom {:text "Hi!"}))
+
+(defn load-om []
+  (om/root app app-state
+           {:target (. js/document (getElementById "app"))}))
+
+(load-om)
+
+(when-not (ws-repl/alive?)
+  (ws-repl/connect "ws://localhost:9001" :verbose true))
