@@ -1,8 +1,8 @@
 (defproject racehub/om-bootstrap "0.2.1-SNAPSHOT"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
-  :license {:name "Eclipse Public License - v 1.0"
-            :url "http://www.eclipse.org/legal/epl-v10.html"
+  :license {:name "MIT Licens"
+            :url "http://www.opensource.org/licenses/mit-license.php"
             :distribution :repo}
   :scm {:name "git"
         :url "https://github.com/racehub/om-bootstrap"}
