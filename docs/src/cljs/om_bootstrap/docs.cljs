@@ -1,5 +1,8 @@
 (ns om-bootstrap.docs
-  (:require [om.core :as om]
+  (:import goog.History)
+  (:require [cljs.core.async :as a :refer [chan put!]]
+            [goog.events :as ev]
+            [om.core :as om :include-macros true]
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
@@ -7,7 +10,9 @@
             [om-tools.core :refer-macros [defcomponent defcomponentk]]
             [om-tools.dom :as d :include-macros true]
             [secretary.core :as route :include-macros true :refer [defroute]]
-            [weasel.repl :as ws-repl]))
+            [weasel.repl :as ws-repl])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]])
+  (:import [goog.history EventType Html5History]))
 
 ;; ## Button Examples
 
@@ -222,11 +227,8 @@
   "TODO: Auto close after a set time with dismissAfter prop."
   ;; Fill in.
   )
-;; ## Final Page Loading
 
-#_(def page-routes
-    (silk/routes {:home-page [[]]
-                  :other-page [["pages" :title]]}))
+;; ## Final Page Loading
 
 (defcomponentk app
   "This is the top level component that renders the entire example
@@ -257,11 +259,60 @@
 (defonce app-state
   (atom {:text "Hi!"}))
 
-(defn load-om []
-  (om/root app app-state
+(defn load-om [component state]
+  (om/root component state
            {:target (. js/document (getElementById "app"))}))
 
-(load-om)
+;; ## Client Side Routing and Navigation
 
-(when-not (ws-repl/alive?)
-  (ws-repl/connect "ws://localhost:9001" :verbose true))
+(defroute "/" []
+  (load-om app app-state))
+
+(defcomponentk four-oh-four []
+  (render [_] (d/p {:class "inner cover"} "We're not home!!")))
+
+(defroute "*" []
+  (load-om four-oh-four (atom {})))
+
+(def history
+  "Instance of the HTML5 History class."
+  (doto (Html5History.)
+    (.setUseFragment false)
+    (.setEnabled true)))
+
+(defn listen
+  "Registers a listener of type `type` on the supplied
+  element. Returns a channel that contains events."
+  [el type]
+  (let [out (chan)]
+    (ev/listen el type (fn [e] (put! out e)))
+    out))
+
+(defn setup-app
+  "Sets up an event loop that listens for client side "
+  []
+  (let [nav (listen history (.-NAVIGATE EventType))]
+    (go-loop []
+      (let [token (.-token (a/<! nav))]
+        (route/dispatch! (str "/" token)))
+      (recur))))
+
+(defn client-nav!
+  "This trick comes from here:
+   https://github.com/theJohnnyBrown/matchcolor/blob/master/src/matchcolor/views.cljs.
+
+   This function is meant to be used as the :on-click event of an
+   anchor tag."
+  [e]
+  (.setToken history
+             (-> e .-target (.getAttribute "href"))
+             (-> e .-target .-title))
+  (.preventDefault e))
+
+(defn on-load []
+  (route/dispatch! (-> js/window .-location .-pathname))
+  (setup-app)
+  (when-not (ws-repl/alive?)
+    (ws-repl/connect "ws://localhost:9001" :verbose true)))
+
+(on-load)

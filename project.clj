@@ -16,19 +16,24 @@
                              [prismatic/om-tools "0.3.0"]
                              [om "0.7.1"]]}
              :dev {:dependencies [[com.cemerick/piggieback "0.1.3"]
+                                  ;; See https://groups.google.com/forum/#!topic/compojure/GyPAwLQcjzY
+                                  [javax.servlet/servlet-api "2.5"]
                                   [prismatic/dommy "0.1.2"]
+                                  [compojure "1.1.8"]
+                                  [http-kit "2.1.18"]
                                   [secretary "1.2.0"]
                                   [weasel "0.3.0"]]
                    :source-paths ["docs/src/clj"]
-                   :main om-bootstrap.repl
+                   :main om-bootstrap.server
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :plugins [[paddleguru/lein-gitflow "0.1.2"]]
                    :cljsbuild
                    {:builds
                     [{:id "docs"
                       :source-paths ["src" "docs/src/cljs"]
-                      :compiler {:output-to "docs/main.js"
+                      :compiler {:output-to "docs/assets/main.js"
                                  :output-dir "docs/out"
-                                 :optimizations :none}}]}}}
+                                 :optimizations :none
+                                 :source-maps true}}]}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
