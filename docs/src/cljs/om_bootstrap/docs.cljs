@@ -6,6 +6,7 @@
             [om-bootstrap.random :as r]
             [om-tools.core :refer-macros [defcomponent defcomponentk]]
             [om-tools.dom :as d :include-macros true]
+            [secretary.core :as route :include-macros true :refer [defroute]]
             [weasel.repl :as ws-repl]))
 
 ;; ## Button Examples
@@ -222,6 +223,10 @@
   ;; Fill in.
   )
 ;; ## Final Page Loading
+
+#_(def page-routes
+    (silk/routes {:home-page [[]]
+                  :other-page [["pages" :title]]}))
 
 (defcomponentk app
   "This is the top level component that renders the entire example

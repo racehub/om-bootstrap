@@ -15,18 +15,12 @@ syntax: glob
 *.project
 *.settings
 *.dot
-.cake/
 .lein-failures
 .repl
-resources/public/cljs/cljs/
-resources/public/cljs/clojure/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins
 .clojurescript-output
-resources/public/cljs/generated*
-resources/public/cljs/dev*
-resources/public/cljs/prod*
 repl
 .repl-*
 .lein-env
@@ -34,3 +28,4 @@ repl
 checkouts
 schema.png
 docs/main.js
+_site

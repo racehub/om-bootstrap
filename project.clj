@@ -17,6 +17,7 @@
                              [om "0.7.1"]]}
              :dev {:dependencies [[com.cemerick/piggieback "0.1.3"]
                                   [prismatic/dommy "0.1.2"]
+                                  [secretary "1.2.0"]
                                   [weasel "0.3.0"]]
                    :source-paths ["docs/src/clj"]
                    :main om-bootstrap.repl
