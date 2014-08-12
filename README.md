@@ -1,5 +1,9 @@
 ## Om-Bootstrap [![Build Status](https://secure.travis-ci.org/racehub/om-bootstrap.png)](http://travis-ci.org/racehub/om-bootstrap)
 
+Here's the latest version:
+
+[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)]
+
 ## TODO before release:
 
 - Make sure all required vs non-required properties are set!
