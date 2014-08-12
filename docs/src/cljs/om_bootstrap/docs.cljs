@@ -309,7 +309,9 @@
              (-> e .-target .-title))
   (.preventDefault e))
 
-(defn on-load []
+(defn on-load
+  "Loading actions for the main docs page."
+  []
   (route/dispatch! (-> js/window .-location .-pathname))
   (setup-app)
   (when-not (ws-repl/alive?)

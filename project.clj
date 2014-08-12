@@ -26,15 +26,27 @@
                    :source-paths ["docs/src/clj"]
                    :resource-paths ["dev"]
                    :main om-bootstrap.server
+                   :hooks [leiningen.cljsbuild]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :plugins [[paddleguru/lein-gitflow "0.1.2"]]
                    :cljsbuild
-                   {:builds
-                    [{:id "docs"
-                      :source-paths ["src" "docs/src/cljs"]
-                      :compiler {:output-to "dev/public/assets/main.js"
-                                 :output-dir "dev/public/generated"
-                                 :optimizations :none
-                                 :source-maps true}}]}}}
+                   {:test-commands {"unit" ["phantomjs" :runner
+                                            "test/vendor/es5-shim.js"
+                                            "test/vendor/es5-sham.js"
+                                            "test/vendor/console-polyfill.js"
+                                            "this.literal_js_was_evaluated=true"
+                                            "target/om_bootstrap.js"]}
+                    :builds
+                    {:docs {:source-paths ["src" "docs/src/cljs"]
+                            :compiler {:output-to "dev/public/assets/main.js"
+                                       :output-dir "dev/public/generated"
+                                       :optimizations :none
+                                       :source-maps true}}
+                     :test {:source-paths ["src" "test"]
+                            :compiler {:output-to "target/om_bootstrap.js"
+                                       :optimizations :whitespace
+                                       :pretty-print true
+                                       :preamble ["react/react.min.js"]
+                                       :externs ["react/externs/react.js"]}}}}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
