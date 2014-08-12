@@ -37,16 +37,17 @@
                                             "this.literal_js_was_evaluated=true"
                                             "target/om_bootstrap.js"]}
                     :builds
-                    {:docs {:source-paths ["src" "docs/src/cljs"]
-                            :compiler {:output-to "dev/public/assets/main.js"
-                                       :output-dir "dev/public/generated"
-                                       :optimizations :none
-                                       :source-maps true}}
-                     :test {:source-paths ["src" "test"]
-                            :compiler {:output-to "target/om_bootstrap.js"
-                                       :optimizations :whitespace
-                                       :pretty-print true
-                                       :preamble ["react/react.min.js"]
-                                       :externs ["react/externs/react.js"]}}}}}}
+                    [{:source-paths ["src" "docs/src/cljs"]
+                      :compiler {:output-to "dev/public/assets/main.js"
+                                 :output-dir "dev/public/generated"
+                                 :optimizations :none
+                                 :source-maps true}}
+                     {:id "test"
+                      :source-paths ["src" "test"]
+                      :compiler {:output-to "target/om_bootstrap.js"
+                                 :optimizations :whitespace
+                                 :pretty-print true
+                                 :preamble ["react/react.min.js"]
+                                 :externs ["react/externs/react.js"]}}]}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
