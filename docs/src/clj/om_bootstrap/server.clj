@@ -13,9 +13,8 @@
   (p/cljs-repl :repl-env (w/repl-env)))
 
 (defroutes app-routes
-  (route/files "/vendor" {:root "docs/vendor"})
-  (route/files "/assets" {:root "docs/assets"})
-  (GET "/*" [] (io/file "docs/index.html")))
+  (GET "/" [] (io/file "docs/index.html"))
+  (route/resources "/static"))
 
 (defonce server
   (atom nil))

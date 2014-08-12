@@ -27,5 +27,6 @@ repl
 .nrepl*
 checkouts
 schema.png
-docs/assets/main.js
+dev/public/assets/main.js
+dev/public/generated
 _site

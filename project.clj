@@ -24,6 +24,7 @@
                                   [secretary "1.2.0"]
                                   [weasel "0.3.0"]]
                    :source-paths ["docs/src/clj"]
+                   :resource-paths ["dev"]
                    :main om-bootstrap.server
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    :plugins [[paddleguru/lein-gitflow "0.1.2"]]
@@ -31,8 +32,8 @@
                    {:builds
                     [{:id "docs"
                       :source-paths ["src" "docs/src/cljs"]
-                      :compiler {:output-to "docs/assets/main.js"
-                                 :output-dir "docs/out"
+                      :compiler {:output-to "dev/public/assets/main.js"
+                                 :output-dir "dev/public/generated"
                                  :optimizations :none
                                  :source-maps true}}]}}}
   :lein-release {:deploy-via :shell
