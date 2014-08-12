@@ -4,6 +4,10 @@ Here's the latest version:
 
 [![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
 
+## Deploying to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## TODO before release:
 
 - Make sure all required vs non-required properties are set!
