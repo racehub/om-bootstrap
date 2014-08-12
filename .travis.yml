@@ -1,0 +1,13 @@
+# See this guide for more settings:
+#
+# http://about.travis-ci.org/docs/user/build-configuration/
+
+language: clojure
+lein: lein2
+script: lein2 test
+branches:
+  only:
+    - develop
+    - master
+jdk:
+  - openjdk7

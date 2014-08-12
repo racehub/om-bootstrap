@@ -1,11 +1,14 @@
 ## Om-Bootstrap [![Build Status](https://secure.travis-ci.org/racehub/om-bootstrap.png)](http://travis-ci.org/racehub/om-bootstrap)
 
+Here's the latest version:
+
+[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)]
+
 ## TODO before release:
 
 - Make sure all required vs non-required properties are set!
 - Wrap componentk schemas in `om-tools.schema/cursor`
 - Verify types with tests.
-- Add the clojars pill to the README.
 
 ## Components
 
@@ -56,6 +59,16 @@ element.getValue() will not work when used this way.
 * DropdownStateMixin
 * CollapsibleMixin
 
+## ClojureScript Repl
+
+`om-bootstrap` comes with a development environment you can use to hack on the demo project. to start the Clojurescript repl,
+
+```clojure
+lein repl
+```
+
+Then, at the repl, run `(start-repl)` to fire it up. Navigating to the docs site will connect to the repl automatically and you'll be all set.
+
 ## Community
 
 TODO: Note on joining the Clojure mailing list.
@@ -67,7 +80,3 @@ We welcome contributions in the form of bug reports and pull requests; please se
 ## Supported Clojure versions
 
 Om-Bootstrap is currently supported on 1.5.1 and 1.6.x and the latest version of ClojureScript. TODO: Note about supported Om and React versions.
-
-## License
-
-Copyright (C) 2015 RaceHub and Contributors.  Distributed under the Eclipse Public License, the same as Clojure.

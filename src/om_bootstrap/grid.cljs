@@ -26,7 +26,7 @@
 ;; TODO: Do we want a custom component class, like in react-bootstrap?
 (sm/defn grid :- t/Component
   "Generates a wrapper for a bootstrap grid."
-  [opts & children]
+  [opts :- Grid & children]
   (let [[bs props] (t/separate Grid opts {})
         class (if (:fluid? bs)
                 "container-fluid"
