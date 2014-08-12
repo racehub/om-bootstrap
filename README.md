@@ -2,7 +2,7 @@
 
 Here's the latest version:
 
-[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)]
+[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
 
 ## TODO before release:
 
