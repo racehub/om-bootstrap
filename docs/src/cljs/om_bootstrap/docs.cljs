@@ -10,9 +10,11 @@
             [om-bootstrap.random :as r]
             [om-tools.core :refer-macros [defcomponent defcomponentk]]
             [om-tools.dom :as d :include-macros true]
+            [schema.core :as s]
             [secretary.core :as route :include-macros true :refer [defroute]]
             [weasel.repl :as ws-repl])
-  (:require-macros [cljs.core.async.macros :refer [go-loop]])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]]
+                   [schema.macros :as sm])
   (:import [goog.history EventType Html5History]))
 
 ;; ## Button Examples
@@ -227,17 +229,47 @@
   ;; Fill in.
   )
 
+;; ## Popovers
+
+(def popover-example
+  (d/div {:class "bs-example"}
+         (d/div {:style {:height 120}}
+                (r/popover {:placement "right"
+                            :position-left 200
+                            :position-top 50
+                            :title "Popover right"}
+                           "And here's some "
+                           (d/strong "amazing")
+                           " content. It's very engaging. Right?"))))
+
 ;; ## Navs
 
 (def nav-example
+  (let [on-select (fn [k _] (js/alert (str "Selected " k)))
+        example (fn [style]
+                  (n/nav {:bs-style style}
+                         (n/nav-item {:key 1 :href "/home" :active? true
+                                      :on-select on-select}
+                                     "nav-item 1 content")
+                         (n/nav-item {:key 2 :href "/home"
+                                      :on-select on-select}
+                                     "nav-item 2 content")
+                         (n/nav-item {:key 3 :href "/home" :disabled? true
+                                      :on-select on-select}
+                                     "nav-item 3 content")))]
+    (d/div
+     (d/p "Navs come in two styles, pills:")
+     (example "pills")
+     (d/p "And tabs:")
+     (example "tabs"))))
+
+;; ## Badges
+
+(def badge-example
   (d/div
-   (d/p "Navs come in two styles, pills and tabs.")
-   (n/nav {:bs-style "pills"
-           :on-select (fn [k _]
-                        (js/alert (str "Selected" k)))}
-          (n/nav-item {:key 1 :href "/home"} "nav-item 1 content")
-          (n/nav-item {:key 2 :href "/home"} "nav-item 1 content")
-          (n/nav-item {:key 3 :href "/home" :disabled? true} "nav-item 1 content"))))
+   (d/p "Easily highlight new or unread items by adding a <Badge> to links, Bootstrap navs, and more.")
+   (d/div {:class "bs-example grids-examples"}
+          (d/p "Badges" (r/badge {} 42)))))
 
 ;; ## Final Page Loading
 
@@ -266,12 +298,12 @@
            (d/h3 "Positioned Tooltip (in progress)")
            (d/h3 "Alert")
            alert-example
+           (d/h3 "Popover")
+           popover-example
            (d/h3 "Nav")
            nav-example
-           (i/input
-            {:type "text" :addon-before "$"
-             :help "Label before the input field."})
-           )))
+           (d/h3 "Badges")
+           badge-example)))
 
 (defonce app-state
   (atom {:text "Hi!"}))

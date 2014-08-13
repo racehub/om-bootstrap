@@ -20,3 +20,11 @@
          {:face "cake" :className "first second" :cake "face"})
       "When properties merge, they normalize :class -> :className and
       properly merge classes."))
+
+
+(deftest valid-component-test
+  (is (true? (valid-component? 1)))
+  (is (true? (valid-component? "string")))
+  (is (false? (valid-component? null)))
+  (is (true? (some-valid-component? [1 2 null])))
+  (is (false? (some-valid-component? [null null]))))

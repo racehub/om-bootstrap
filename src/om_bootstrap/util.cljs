@@ -30,12 +30,26 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
-(sm/defn some-valid-component? :- s/Bool
+(sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
   false otherwise."
+  [child]
+  (or (string? child)
+      (number? child)
+      (.isValidComponent js/React child)))
+
+(sm/defn some-valid-component? :- s/Bool
+  "Returns true if the supplied sequence contains some valid React component,
+  false otherwise."
   [children]
-  (boolean
-   (some #(.isValidComponent js/React %) children)))
+  (boolean (some valid-component? children)))
+
+(defn map-valid-components
+  "Only applies the supplied function to valid components. Leaves the
+  rest undisturbed."
+  [f xs]
+  (map (fn [x] (if (valid-component? x) (f x) x))
+       xs))
 
 (def react-merges
   "Map of React keyword to a custom function for its merge."
@@ -75,3 +89,13 @@
                               (when-let [children (:children props)]
                                 {:children children}))]
          (.constructor child (clj->js new-props))))))
+
+(defn chain-fns
+  "Generates a new function that calls each supplied side-effecting
+  function."
+  [l r]
+  (if (and l r)
+    (fn [& args]
+      (apply l args)
+      (apply r args))
+    (or l r)))

@@ -1,5 +1,7 @@
 (ns om-bootstrap.nav
-  (:require [om-bootstrap.types :as t]
+  (:require [clojure.string :as st]
+            [om.core :as om]
+            [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
             [schema.core :as s])
@@ -15,12 +17,14 @@
 
 ;; TODO: Why can't I put a ref inside the anchor tag without throwing
 ;; an invariant violation?
+
 (sm/defn nav-item
   "Generates a nav item for use inside of a nav element. It LOOKS like
   Key might be a required thing here."
   [opts :- NavItem & children]
   (let [[bs props] (t/separate NavItem opts {:href "#"})
-        classes {:active (:active? bs)}
+        classes {:active (:active? bs)
+                 :disabled (:disabled? bs)}
         handle-click (fn [e]
                        (when-let [f (:on-select bs)]
                          (.preventDefault e)
@@ -35,22 +39,27 @@
 
 (def Nav
   {:bs-style (s/enum "tabs" "pills")
-   :on-select (sm/=> s/Any s/Any)
-   :stacked? s/Bool
-   :justified? s/Bool
-   :collapsible? s/Bool
-   :expanded? s/Bool
-   :navbar? s/Bool
-   :pull-right? s/Bool})
+   (s/optional-key :stacked?) s/Bool
+   (s/optional-key :justified?) s/Bool
+   (s/optional-key :collapsible?) s/Bool
+   (s/optional-key :expanded?) s/Bool
+   (s/optional-key :navbar?) s/Bool
+   (s/optional-key :pull-right?) s/Bool})
 
+;; NOTE: Compared to the nav in react-bootstrap, this nav doesn't
+;; handle setting the navItem property on child dropdown buttons, or
+;; work on the activeHref or activeKey property.
+;;
+;; We're also missing support for the :on-select property, because I
+;; can't mutate and propagate the properties on down.
 (sm/defn nav
   [opts :- Nav & children]
   (let [[bs opts] (t/separate Nav opts {:bs-class "nav"})]
-    (d/nav {:class (d/class-set (t/bs-class-set bs))}
-           (d/ul {:ref "ul"
-                  :class (d/class-set
-                          {:nav-stacked (:stacked? bs)
-                           :nav-justified (:justified? bs)
-                           :navbar-nav (:navbar? bs)
-                           :pull-right (:pull-right? bs)})})
-           children)))
+    (d/nav
+     (d/ul {:class (d/class-set
+                    (merge (t/bs-class-set bs)
+                           {:nav-stacked (:stacked? bs)
+                            :nav-justified (:justified? bs)
+                            :navbar-nav (:navbar? bs)
+                            :pull-right (:pull-right? bs)}))}
+           children))))

@@ -25,11 +25,15 @@ Here's the latest version:
 * Grid, Row, Col (grid.cljs)
 * ToolTip (random.cljs, except for examples)
 * Alert (random.cljs, except for examples)
+* Nav, NavItem (nav.cljs)
+* Popover (random.cljs)
+* Badge (random.cljs)
 
 ## In Progress
 
 * Modal, ModalTrigger (modal.cljs)
 * ProgressBar (progress-bar.cljs)
+* Nav Collapsible Functionality
 
 ## Needed Components
 
@@ -37,29 +41,21 @@ Here's the latest version:
 * DropdownMenu (?)
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
-* Popover (easy)
-* Nav, NavItem, NavBar
+* NavBar
 * TabbedArea, TabPane
 * Pager
 * Carousel
 * CarouselItem
-* Badge
-* Use Input as a wrapper (easy):
-
-```
-If type is not set, child element(s) will be rendered instead of an input
-element.getValue() will not work when used this way.
-```
 
 ## Mixins
 
-* Fade
-* Overlay
 * Listener (mixins.cljs)
 * Timeout (mixins.cljs)
 
 ### Needed Mixins
 
+* Fade
+* Overlay
 * DropdownStateMixin
 * CollapsibleMixin
 
