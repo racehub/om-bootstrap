@@ -37,7 +37,8 @@
                                             "this.literal_js_was_evaluated=true"
                                             "target/om_bootstrap.js"]}
                     :builds
-                    [{:source-paths ["src" "docs/src/cljs"]
+                    [{:id "docs"
+                      :source-paths ["src" "docs/src/cljs"]
                       :compiler {:output-to "dev/public/assets/main.js"
                                  :output-dir "dev/public/generated"
                                  :optimizations :none

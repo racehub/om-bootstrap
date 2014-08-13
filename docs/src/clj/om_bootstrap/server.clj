@@ -13,8 +13,8 @@
   (p/cljs-repl :repl-env (w/repl-env)))
 
 (defroutes app-routes
-  (GET "/" [] (io/file "docs/index.html"))
-  (route/resources "/static"))
+  (route/resources "/static")
+  (GET "/*" [] (io/file "docs/index.html")))
 
 (defonce server
   (atom nil))

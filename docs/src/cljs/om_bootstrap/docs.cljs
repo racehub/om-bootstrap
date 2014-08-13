@@ -6,6 +6,7 @@
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
+            [om-bootstrap.nav :as n]
             [om-bootstrap.random :as r]
             [om-tools.core :refer-macros [defcomponent defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -91,9 +92,7 @@
                 (b/toolbar {} (b/button-group {:bs-size "large"} buttons))
                 (b/toolbar {} (b/button-group {} buttons))
                 (b/toolbar {} (b/button-group {:bs-size "small"} buttons))
-                (b/toolbar {} (b/button-group {:bs-size "xsmall"} buttons))))
-
-   ))
+                (b/toolbar {} (b/button-group {:bs-size "xsmall"} buttons))))))
 
 ;; ## Jumbotron Examples
 
@@ -228,6 +227,18 @@
   ;; Fill in.
   )
 
+;; ## Navs
+
+(def nav-example
+  (d/div
+   (d/p "Navs come in two styles, pills and tabs.")
+   (n/nav {:bs-style "pills"
+           :on-select (fn [k _]
+                        (js/alert (str "Selected" k)))}
+          (n/nav-item {:key 1 :href "/home"} "nav-item 1 content")
+          (n/nav-item {:key 2 :href "/home"} "nav-item 1 content")
+          (n/nav-item {:key 3 :href "/home" :disabled? true} "nav-item 1 content"))))
+
 ;; ## Final Page Loading
 
 (defcomponentk app
@@ -254,7 +265,13 @@
            tooltip-example
            (d/h3 "Positioned Tooltip (in progress)")
            (d/h3 "Alert")
-           alert-example)))
+           alert-example
+           (d/h3 "Nav")
+           nav-example
+           (i/input
+            {:type "text" :addon-before "$"
+             :help "Label before the input field."})
+           )))
 
 (defonce app-state
   (atom {:text "Hi!"}))
