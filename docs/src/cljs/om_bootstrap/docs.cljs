@@ -7,6 +7,7 @@
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
             [om-bootstrap.nav :as n]
+            [om-bootstrap.panel :as p]
             [om-bootstrap.random :as r]
             [om-tools.core :refer-macros [defcomponent defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -95,6 +96,25 @@
                 (b/toolbar {} (b/button-group {} buttons))
                 (b/toolbar {} (b/button-group {:bs-size "small"} buttons))
                 (b/toolbar {} (b/button-group {:bs-size "xsmall"} buttons))))))
+
+;; ## Panel Examples
+
+(defn panel-example []
+  (d/div
+   (d/p "By default, all the <Panel /> does is apply some basic border and padding to contain some content.")
+   (p/panel {} "Basic panel example.")
+   (d/p "Easily add a heading container to your panel with the header prop.")
+   (p/panel {:header "Panel heading without title"}
+            "Panel content")
+   (p/panel {:header (d/h3 "Panel title")}
+            "Panel content")
+   (d/p "Pass buttons or secondary text in the footer prop. Note that panel footers do not inherit colors and borders when using contextual variations as they are not meant to be in the foreground.")
+   (p/panel {:footer "Panel footer"} "Panel content")
+   (d/p "Like other components, easily make a panel more meaningful to a particular context by adding a :bs-style prop.")
+   (for [style [nil "primary" "success" "info" "warning" "danger"]]
+     (p/panel (merge {:header (d/h3 "Panel title")}
+                     (when style {:bs-style style}))
+              "Panel content"))))
 
 ;; ## Jumbotron Examples
 
@@ -280,6 +300,8 @@
   (render [_]
           (d/div
            (button-block)
+           (d/h3 "Panels")
+           (panel-example)
            (d/h3 "Jumbotron")
            (jumbotron-example)
            (d/h3 "Label Examples")

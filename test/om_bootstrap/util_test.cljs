@@ -5,7 +5,6 @@
                 :refer [deftest is use-fixtures]]
             [schema.test :as st]))
 
-
 (deftest merge-with-fns-test
   (is (= (u/merge-with-fns {:a +, :b -}
                            [{:a 1 :b 10}

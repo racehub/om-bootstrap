@@ -30,6 +30,10 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
+(sm/defn strict-valid-component? :- s/Bool
+  [child]
+  (.isValidComponent js/React child))
+
 (sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
   false otherwise."
@@ -44,12 +48,9 @@
   [children]
   (boolean (some valid-component? children)))
 
-(defn map-valid-components
-  "Only applies the supplied function to valid components. Leaves the
-  rest undisturbed."
-  [f xs]
-  (map (fn [x] (if (valid-component? x) (f x) x))
-       xs))
+;; TODO: We want to generate a map-valid-component, we have to hook
+;; into the implementation of the internal one that can handle numbers
+;; and strings properly.
 
 (def react-merges
   "Map of React keyword to a custom function for its merge."
