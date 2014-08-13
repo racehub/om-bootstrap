@@ -79,4 +79,4 @@ We welcome contributions in the form of bug reports and pull requests; please se
 
 ## Supported Clojure versions
 
-Om-Bootstrap is currently supported on 1.5.1 and 1.6.x and the latest version of ClojureScript. TODO: Note about supported Om and React versions.
+Om-Bootstrap is currently supported on Clojure 1.5.1 and 1.6.x and the latest version of ClojureScript. TODO: Note about supported Om and React versions.
