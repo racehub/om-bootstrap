@@ -58,7 +58,7 @@
                     ;; Firefox needs delay for transition to be triggered
                     (js/setTimeout fade-out 20)))))
 
-;; ## Listener
+;; ## Listener Mixin
 
 (sm/defn event-listener :- (sm/=> s/Any)
   "Registers the callback on the supplied target for events of type
@@ -85,6 +85,8 @@
   (set-listener [owner target event-type callback]
                 (let [remove-fn (event-listener target event-type callback)]
                   (.push (.-listeners owner) remove-fn))))
+
+;; ## Timeout Mixin
 
 (defmixin set-timeout-mixin
   "Handles a sequence of timeouts for the component, and removes them

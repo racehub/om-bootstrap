@@ -157,7 +157,7 @@
 
 (sm/defn badge :- t/Component
   [opts :- Badge & children]
-  (let [[bs _] (t/separate Badge opts)
+  (let [[bs props] (t/separate Badge opts)
         classes {:pull-right (:pull-right? bs)
                  :badge (u/some-valid-component? children)}]
     (d/span (u/merge-props props {:class (d/class-set classes)})
