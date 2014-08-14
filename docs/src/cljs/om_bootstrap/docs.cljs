@@ -4,12 +4,14 @@
             [goog.events :as ev]
             [om.core :as om :include-macros true]
             [om-bootstrap.docs.example :refer [bs-example ->example TODO]]
+            [om-bootstrap.docs.footer :refer [footer]]
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
             [om-bootstrap.mixins :as m]
             [om-bootstrap.nav :as n]
             [om-bootstrap.panel :as p]
+            [om-bootstrap.progress-bar :as pb]
             [om-bootstrap.random :as r]
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
@@ -24,6 +26,11 @@
 
 ;; ## Helpers
 
+(defn info-callout [title content]
+  (d/div {:class "bs-callout bs-callout-info"}
+         (d/h4 title)
+         content))
+
 (defn warning [title content]
   (d/div {:class "bs-callout bs-callout-warning"}
          (d/h4 title)
@@ -34,7 +41,7 @@
          (d/h1 {:id id :class "page-header"} title)
          children))
 
-;; ## Button Examples
+;; ## Button
 
 (defn button-options []
   [(d/h2 {:id "button-options"} "Options")
@@ -158,7 +165,7 @@
    (button-groups)
    (button-dropdowns)])
 
-;; ## Panel Examples
+;; ## Panel
 
 (defn panel-block []
   (section
@@ -209,7 +216,231 @@
    (d/p "The header is added automatically if you pass in
    a " (d/code ":title") " option.")))
 
-;; ## Label
+;; ## Tooltips
+
+(defn tooltip-block []
+  (section
+   "tooltips"
+   ["Tooltips " (d/small "Tooltip")]
+   (d/h3 "Example tooltips")
+   (d/p "Tooltip component.")
+   (->example (slurp-example "tooltip/basic"))
+
+   (d/p "Positioned tooltip component.")
+   (TODO)
+
+   (d/p "Positioned tooltip in copy.")
+   (TODO)))
+
+(comment
+  (def positioned-tooltip-example
+    "Positioned tooltip component. (TODO: Needs overlay trigger to
+   finish!)"
+    (let [tooltip  (r/tooltip {}
+                              (d/strong "Holy guacamole!")
+                              "Check this info.")]
+      (b/toolbar {}
+                 (overlay-trigger {:placement "left" :overlay tooltip})
+                 (overlay-trigger {:placement "top" :overlay tooltip})
+                 (overlay-trigger {:placement "bottom" :overlay tooltip})
+                 (overlay-trigger {:placement "right" :overlay tooltip}))))
+
+  (defn link-with-tooltip
+    [{:keys [tooltip href]} & children]
+    (overlay-trigger {:placement "top"
+                      :overlay (r/tooltip {} tooltip)
+                      :delay-show 300
+                      :delay-hide 150}
+                     (d/a {:href href} children)))
+
+  (def positioned-tooltip-with-copy
+    (d/p {:class "muted" :style {:margin-bottom 0}}
+         "Call me Ishmael. Some years ago - never mind how long "
+         (link-with-tooltip {:tooltip "Probably about two." :href "#"} "precisely")
+         " - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly "
+         (link-with-tooltip {:tooltip "The eleventh month!" :href "#"} "November")
+         " in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the "
+         (link-with-tooltip {:tooltip "A large alley or a small avenue." :href "#"} "street")
+         "m and methodically knocking people's hats off - then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in "
+         (link-with-tooltip {:tooltip "The ship, that is." :href "#"} "this")
+         ". If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")))
+
+;; ## Popovers
+
+(defn popover-block []
+  (section
+   "popovers"
+   ["Popovers " (d/small "Popover")]
+   (d/h3 "Example popovers")
+   (d/p "Popovers component.")
+   (->example (slurp-example "popover/basic"))
+
+   (d/p "Popovers component.")
+   (TODO)
+
+   (d/p "Popovers scrolling.")
+   (TODO)))
+
+;; ## Progress Bars
+
+(defn progress-bar-block []
+  (section
+   "progress"
+   ["Progress bars" (d/small "ProgressBar")]
+   (d/p {:class "lead"}
+        "Provide up-to-date feedback on the progress of a workflow or
+        action with simple yet flexible progress bars.")
+   (d/h3 "Basic example")
+   (d/p "Default progress bar.")
+   (TODO)
+
+   (d/h3 "With label")
+   (d/p "Add a " (d/code ":label") " prop to show a visible
+   percentage. For low percentages, consider adding
+   a" (d/code ":min-width") " to ensure the label's text is fully
+   visible.")
+   (TODO)
+
+   (d/h3 "Screenreader only label")
+   (d/p "Add the " (d/code ":sr-only? true") " option to hide the
+   label visually.")
+   (TODO)
+
+   (d/h3 "Contextual alternatives")
+   (d/p "Progress bars use some of the same button and alert classes
+   for consistent styles.")
+   (TODO)
+
+   (d/h3 "Striped")
+   (d/p "Uses a gradient to create a striped effect. Not available in IE8.")
+   (TODO)
+
+   (d/h3 "Animated")
+   (d/p "Add the " (d/code ":active? true") " option to animate the
+   stripes right to left. Not available in IE9 and below.")
+   (TODO)
+
+   (d/h3 "Stacked")
+   (d/p "Nest " (d/code "pb/progress-bar") "s to stack them.")
+   (TODO)))
+
+;; ## Navs
+
+(defn nav-block []
+  (section
+   "navs"
+   ["Navs" (d/small "Nav, NavItem")]
+   (d/h3 "Example navs")
+   (d/p "Navs come in two styles, pills:")
+   (->example (slurp-example "nav/pills"))
+
+   (d/p "And tabs:")
+   (->example (slurp-example "nav/tabs"))))
+
+;; ## Navbars
+
+(defn navbar-block []
+  (section
+   "navbars"
+   ["Navbars" (d/small "Navbar, Nav, NavItem")]
+   (d/h3 "Example navbars")
+   (TODO)))
+
+;; ## Toggleable Tabs
+
+(defn tab-block []
+  (section
+   "tabs"
+   ["Toggleable tabs" (d/small "TabbedArea, TabPane")]
+   (d/h2 "Example tabs")
+   (d/p "Add quick, dynamic tab functionality to transition through
+   panes of local content, even via dropdown menus.")
+
+   (d/h3 "Uncontrolled")
+   (d/p "Allow the component to control its own state.")
+   (TODO)
+
+   (d/h3 "Controlled")
+   (d/p "Pass down the active state on render via props.")
+   (TODO)
+
+   (d/h3 "No animation")
+   (d/p "Set the " (d/code ":animation?") " property to " (d/code "false") ".")
+   (TODO)
+
+   (info-callout
+    "Extends tabbed navigation"
+    ["This plugin extends the "
+     (d/a {:href "#navs"} "tabbed navigation component")
+     " to add tabbable areas."])))
+
+;; ## Pager
+
+(defn pager-block []
+  (section
+   "pager"
+   ["Pager" (d/small "Pager, PageItem")]
+   (d/p "Quick previous and next links.")
+   (d/h3 "Default")
+   (d/p "Centers by default.")
+   (TODO)
+
+   (d/h3 "Aligned")
+   (d/p "Set the "
+        (d/code ":previous?") " or "
+        (d/code ":next?") " to "
+        (d/code "true") " to align left or right.")
+   (TODO)
+
+   (d/h3 "Disabled")
+   (d/p "Set the "
+        (d/code ":disabled?") " prop to "
+        (d/code "true") " to disabled the link.")
+   (TODO)))
+
+;; ## Alerts
+
+(defn alert-block []
+  (section
+   "alerts"
+   ["Alert messages" (d/small "Alert")]
+   (d/h3 "Example alerts")
+   (d/p "Basic alert styles.")
+   (->example (slurp-example "alert/basic"))
+
+   (d/p "For closeable alerts, just pass an " (d/code ":on-dismiss") "
+   function.")
+   (TODO)
+
+   (d/p "Auto close after a set time with
+   the " (d/code ":dismiss-after") " option.")
+   (TODO)))
+
+;; ## Carousels
+
+(defn carousel-block []
+  (section
+   "carousels"
+   ["Carousels" (d/small "Carousel, CarouselItem")]
+   (d/h2 "Example Carousels")
+   (d/h3 "Uncontrolled")
+   (d/p "Allow the component to control its own state.")
+   (TODO)
+
+   (d/h3 "Controlled")
+   (d/p "Pass down the active state on render via props.")
+   (TODO)))
+
+;; ## Grids
+
+(defn grid-block []
+  (section
+   "grids"
+   ["Grids" (d/small "Grid, Row, Col")]
+   (d/h3 "Example grids")
+   (->example (slurp-example "grid"))))
+
+;; ## Labels
 
 (defn label-block []
   (section
@@ -272,129 +503,84 @@
    (d/p "Control padding and rounded corners with two optional modifier classes.")
    (->example (slurp-example "well/sizes"))))
 
-;; ## Grid
+;; ## Glyphicons
 
-(def grid-example
-  ;; Clearly this doesn't give me the coloring I need, but it's a
-  ;; start toward what the bootstrap docs page gives me.
-  (bs-example {:class "grids-examples"}
-              (g/grid {}
-                      (g/row {:class "show-grid"}
-                             (g/col {:xs 12 :md 8}
-                                    (d/code {} "(g/col {:xs 12 :md 8})"))
-                             (g/col {:xs 6 :md 4}
-                                    (d/code {} "(g/col {:xs 6 :md 4})")))
-                      (g/row {:class "show-grid"}
-                             (g/col {:xs 6 :md 4}
-                                    (d/code {} "(g/col {:xs 6 :md 4})"))
-                             (g/col {:xs 6 :md 4}
-                                    (d/code {} "(g/col {:xs 6 :md 4})"))
-                             (g/col {:xs 6 :md 4}
-                                    (d/code {} "(g/col {:xs 6 :md 4})")))
-                      (g/row {:class "show-grid"}
-                             (g/col {:xs 6 :xs-offset 6}
-                                    (d/code {} "(g/col {:xs 6 :xs-offset 6})")))
-                      (g/row {:class "show-grid"}
-                             (g/col {:md 6 :md-push 6}
-                                    (d/code {} "(g/col {:md 6 :md-push 6})"))
-                             (g/col {:md 6 :md-pull 6}
-                                    (d/code {} "(g/col {:md 6 :md-push 6})"))))))
+(defn glyphicon-block []
+  (section
+   "glyphicons"
+   "Glyphicons"
+   (d/p "Use them in buttons, button groups for a toolbar, navigation,
+   or prepended form inputs.")
+   (d/h3 "Example")
+   (TODO)))
 
-;; ## Tooltip
+;; ## Tables
 
-(def tooltip-example
-  (bs-example {:style {:height 50}}
-              (r/tooltip {:placement "right"
-                          :position-left 150
-                          :position-top 50}
-                         (d/strong "Holy guacamole!")
-                         "Check this info.")))
+(defn table-block []
+  (section
+   "tables"
+   "Tables"
+   (d/h3 "Example")
+   (d/p "Use the "
+        (d/code ":striped? true") ", "
+        (d/code ":bordered? true") ", "
+        (d/code ":condensed? true") ", and "
+        (d/code ":hover? true") " options to customize the table.")
+   (TODO)
 
-(comment
+   (d/h3 "Responsive")
+   (d/p "Add the " (d/code ":responsive? true") " option to make them
+   scroll horizontally up to small devices (under 768px). When viewing
+   on anything larger than 768px wide, you will not see any difference
+   in these tables.")
+   (TODO)))
 
-  (def positioned-tooltip-example
-    "Positioned tooltip component. (TODO: Needs overlay trigger to
-   finish!)"
-    (let [tooltip  (r/tooltip {}
-                              (d/strong "Holy guacamole!")
-                              "Check this info.")]
-      (b/toolbar {}
-                 (overlay-trigger {:placement "left" :overlay tooltip})
-                 (overlay-trigger {:placement "top" :overlay tooltip})
-                 (overlay-trigger {:placement "bottom" :overlay tooltip})
-                 (overlay-trigger {:placement "right" :overlay tooltip}))))
+;; ## Input
 
-  (defn link-with-tooltip
-    [{:keys [tooltip href]} & children]
-    (overlay-trigger {:placement "top"
-                      :overlay (r/tooltip {} tooltip)
-                      :delay-show 300
-                      :delay-hide 150}
-                     (d/a {:href href} children)))
+(defn input-block []
+  (section
+   "input"
+   "Input"
+   (d/p "Renders an input in bootstrap wrappers. Supports label, help,
+   text input add-ons, validation and use as wrapper. TODO: Add more
+   info about how to get the current value.")
+   (TODO)
 
-  (def positioned-tooltip-with-copy
-    (d/p {:class "muted" :style {:margin-bottom 0}}
-         "Call me Ishmael. Some years ago - never mind how long "
-         (link-with-tooltip {:tooltip "Probably about two." :href "#"} "precisely")
-         " - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly "
-         (link-with-tooltip {:tooltip "The eleventh month!" :href "#"} "November")
-         " in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the "
-         (link-with-tooltip {:tooltip "A large alley or a small avenue." :href "#"} "street")
-         "m and methodically knocking people's hats off - then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in "
-         (link-with-tooltip {:tooltip "The ship, that is." :href "#"} "this")
-         ". If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")))
+   (d/h3 "Types")
+   (d/p "Supports "
+        (d/code "select") ", "
+        (d/code "textarea") ", "
+        (d/code "static") " as well as the standard HTML input types.")
+   (TODO)
 
-;; ## Alerts
+   (d/h3 "Add-ons")
+   (d/p "Use " (d/code ":addon-before") "
+   and " (d/code ":addon-after") ". Does not support buttons.")
+   (TODO)
 
-(def alert-example
-  "Basic alert styles:"
-  (bs-example
-   (r/alert {:bs-style "warning"}
-            (d/strong "Holy guacamole!")
-            "Best check yo self, you're not looking too good.")))
+   (d/h3 "Validation")
+   (d/p "Set " (d/code ":bs-style") " to one of "
+        (d/code "\"success\"") ", "
+        (d/code "\"warning\"") ", or"
+        (d/code "\"error\"") ". Add "
+        (d/code ":has-feedback? true")
+        " to show a glyphicon. Glyphicon may need additional styling
+        if there is an add-on or no label.")
+   (TODO)
 
-(comment
-  "TODO: Closeable alerts, just pass in a onDismiss function."
-  ;; Fill in.
+   (d/h3 "Horizontal forms")
+   (d/p "Use"
+        (d/code ":label-classname")
+        " and "
+        (d/code ":wrapper-classname")
+        (d/p " options to add col classes manually. Checkbox and radio
+        types need special treatment because label wraps input."))
+   (TODO)
 
-  "TODO: Auto close after a set time with dismissAfter prop."
-  ;; Fill in.
-  )
-
-;; ## Popovers
-
-(def popover-example
-  (bs-example
-   (d/div {:style {:height 120}}
-          (r/popover {:placement "right"
-                      :position-left 200
-                      :position-top 50
-                      :title "Popover right"}
-                     "And here's some "
-                     (d/strong "amazing")
-                     " content. It's very engaging. Right?"))))
-
-;; ## Navs
-
-(def nav-example
-  (let [on-select (fn [k _] (js/alert (str "Selected " k)))
-        nav-example (fn [style]
-                      (bs-example
-                       (n/nav {:bs-style style}
-                              (n/nav-item {:key 1 :href "/home" :active? true
-                                           :on-select on-select}
-                                          "nav-item 1 content")
-                              (n/nav-item {:key 2 :href "/home"
-                                           :on-select on-select}
-                                          "nav-item 2 content")
-                              (n/nav-item {:key 3 :href "/home" :disabled? true
-                                           :on-select on-select}
-                                          "nav-item 3 content"))))]
-    (d/div
-     (d/p "Navs come in two styles, pills:")
-     (nav-example "pills")
-     (d/p "And tabs:")
-     (nav-example "tabs"))))
+   (d/h3 "Use as a wrapper")
+   (d/p "If " (d/code ":type") " is not set, child element(s) will be
+   rendered instead of an input element.")
+   (TODO)))
 
 ;; ## Final Page Loading
 
@@ -411,7 +597,7 @@
            (n/nav-item {:href "#tooltips"} "Tooltips")
            (n/nav-item {:href "#popovers"} "Popovers")
            (n/nav-item {:href "#progress"} "Progress bars")
-           (n/nav-item {:href "navs"} "Navs")
+           (n/nav-item {:href "#navs"} "Navs")
            (n/nav-item {:href "#navbars"} "Navbars")
            (n/nav-item {:href "#tabs"} "Toggleable Tabs")
            (n/nav-item {:href "#pager"} "Pager")
@@ -429,6 +615,15 @@
            (n/nav-item {:href "#input"} "Input"))
           (d/a {:class "back-to-top" :href "#top"} "Back to top"))))
 
+(defn lead []
+  (d/div {:class "lead"}
+         "This page lists the Om-Bootstrap components. For each component, we provide:"
+         (d/ul
+          (d/li "Usage instructions")
+          (d/li "An example code snippet")
+          (d/li "The rendered result of the example snippet"))
+         "Click \"show code\" below the rendered component to reveal the snippet."))
+
 (defcomponentk app
   "This is the top level component that renders the entire example
   docs page."
@@ -444,34 +639,30 @@
              {:class "row"}
              (d/div
               {:class "col-md-9" :role "main"}
-              (d/div {:class "lead"}
-                     "This page lists the Om-Bootstrap components. For each component, we provide:"
-                     (d/ul
-                      (d/li "Usage instructions")
-                      (d/li "An example code snippet")
-                      (d/li "The rendered result of the example snippet"))
-                     "Click \"show code\" below the rendered component to reveal the snippet.")
+              (lead)
               (button-block)
               (panel-block)
               (modal-block)
+              (tooltip-block)
+              (popover-block)
+              (progress-bar-block)
+              (nav-block)
+              (navbar-block)
+              (tab-block)
+              (pager-block)
+              (alert-block)
+              (carousel-block)
+              (grid-block)
               (label-block)
               (badge-block)
               (jumbotron-block)
               (header-block)
               (well-block)
-
-              (d/h3 "Grid")
-              grid-example
-              (d/h3 "Tooltip")
-              tooltip-example
-              (d/h3 "Positioned Tooltip (in progress)")
-              (d/h3 "Alert")
-              alert-example
-              (d/h3 "Popover")
-              popover-example
-              (d/h3 "Nav")
-              nav-example)
-             (sidebar))))))
+              (glyphicon-block)
+              (table-block)
+              (input-block))
+             (sidebar)))
+           (footer))))
 
 (defonce app-state
   (atom {:text "Hi!"}))
