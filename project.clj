@@ -38,7 +38,7 @@
                                             "target/om_bootstrap.js"]}
                     :builds
                     [{:id "docs"
-                      :source-paths ["src" "docs/src/cljs"]
+                      :source-paths ["src" "docs/src/cljs" "docs/src/clj"]
                       :compiler {:output-to "dev/public/assets/main.js"
                                  :output-dir "dev/public/generated"
                                  :optimizations :none

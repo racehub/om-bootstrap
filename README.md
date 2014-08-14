@@ -13,6 +13,7 @@ Here's the latest version:
 - Make sure all required vs non-required properties are set!
 - Wrap componentk schemas in `om-tools.schema/cursor`
 - Verify types with schema tests
+- Add note on how we're using Highlight
 
 ## Components
 
