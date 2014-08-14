@@ -132,11 +132,35 @@
   (section
    "btn-dropdowns"
    "Button dropdowns"
-   (d/h3 "Single button dropdowns (TODO)")
-   (d/h3 "Split button dropdowns (TODO)")
-   (d/h3 "Sizing (TODO)")
-   (d/h3 "Dropup variation (TODO)")
-   (d/h3 "Dropdown right variation (TODO)")))
+   (d/p {:class "lead"}
+        "Use " (d/code "b/dropdown") " or " (d/code "b/split") "
+        components to display a button with a dropdown menu.")
+
+
+
+   (d/h3 "Single button dropdowns")
+   (d/p "Create a dropdown button with the " (d/code "b/dropdown") " component.")
+   (TODO)
+
+   (d/h3 "Split button dropdowns")
+   (d/p "Similarly, create split button dropdowns with
+   the " (d/code "b/split") " component.")
+   (TODO)
+
+   (d/h3 "Sizing")
+   (d/p "Button dropdowns work with buttons of all sizes.")
+   (TODO)
+
+   (d/h3 "Dropup variation")
+   (d/p "Trigger dropdown menus that site above the button by adding
+   the " (d/code ":dropup? true") " option.")
+   (TODO)
+
+
+   (d/h3 "Dropdown right variation")
+   (d/p "Trigger dropdown menus that align to the right of the button
+   using the " (d/code ":pull-right? true") " option.")
+   (TODO)))
 
 (defn button-main []
   (section
@@ -214,7 +238,18 @@
    (d/h3 "A static example")
    (d/p "A rendered modal with header, body, and set of actions in the footer.")
    (d/p "The header is added automatically if you pass in
-   a " (d/code ":title") " option.")))
+   a " (d/code ":title") " option.")
+   (TODO)
+
+   (d/h3 "Live Demo")
+   (d/p "Use " (d/code "overlay-trigger") " to create a real modal
+   that's added to the document body when opened.")
+   (TODO)
+
+   (d/h3 "Custom trigger")
+   (d/p "Use " (d/code "overlay-mixin") " in a custom component to
+   manage the modal's state yourself.")
+   (TODO)))
 
 ;; ## Tooltips
 
