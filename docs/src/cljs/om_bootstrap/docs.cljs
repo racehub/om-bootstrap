@@ -3,6 +3,7 @@
   (:require [cljs.core.async :as a :refer [chan put!]]
             [goog.events :as ev]
             [om.core :as om :include-macros true]
+            [om-bootstrap.docs.example :refer [bs-example ->example]]
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
@@ -23,43 +24,6 @@
 
 ;; ## Helpers
 
-(defn example
-  ([item] (d/div {:class "bs-example"} item))
-  ([props item]
-     (d/div (u/merge-props props {:class "bs-example"})
-            item)))
-
-(defcomponentk code-block
-  "Generates a component"
-  [[:data code {language "clojure"}] owner]
-  (did-mount [_]
-             (let [block (om/get-node owner "highlight")]
-               (.highlightBlock js/hljs block)))
-  (will-unmount [_])
-  (render [_]
-          (let [code-opts (if language {:class language} {})]
-            (d/div
-             {:class "highlight solarized-light-wrapper"}
-             (d/pre {:ref "highlight"}
-                    (d/code code-opts code))))))
-
-(defcomponentk bs-example
-  [[:data body code] state]
-  (init-state [_] {:open? false})
-  (render-state
-   [_ {:keys [open?]}]
-   (d/div {:class "playground"}
-          (example body)
-          (when open?
-            (->code-block {:code code}))
-          (d/a {:class (d/class-set
-                        {:code-toggle true
-                         :open open?})
-                :on-click #(swap! state update-in [:open?] not)}
-               (if open?
-                 "hide code"
-                 "show code")))))
-
 (defn warning [title content]
   (d/div {:class "bs-callout bs-callout-warning"}
          (d/h4 title)
@@ -67,32 +31,38 @@
 
 ;; ## Button Examples
 
+(defonce buttonex
+  {:types (slurp-example "button/types")
+   :sizes (slurp-example "button/sizes")
+   :block (slurp-example "button/block")})
 
-(defn button-options []
+(defn button-options
+  []
   [(d/h2 {:id "button-options"} "Options")
-   (d/p "Use any of the available button style types to quickly create a styled button. Just modify the " (d/code ":bs-style" ) " prop.")
-   (->bs-example (slurp-example "button/types"))
+   (d/p "Use any of the available button style types to quickly create a styled button. Just modify the " (d/code ":bs-style") " prop.")
+   (->example (:types buttonex))
    (warning
     "Button Spacing"
     (d/p "Because React doesn't output newlines between elements, buttons on the same line are displayed flush against each other. To preserve the spacing between multiple inline buttons, wrap your button group in " (d/code "b/toolbar") "."))])
 
-(defn button-sizing []
+(defn button-sizing
+  []
   [(d/h2 "Sizes")
    (d/p "Fancy larger or smaller buttons? Add "
         (d/code ":bs-size large") ", "
         (d/code ":bs-size small") ", or "
         (d/code ":bs-size xsmall") " for additional sizes.")
-   (->bs-example (slurp-example "button/sizes"))
+   (->example (:sizes buttonex))
    (d/p "Create block level buttons—those that span the full width of a parent— by adding the " (d/code ":block? true") " prop.")
-   (->bs-example (slurp-example "button/block"))])
+   (->example (:block buttonex))])
 
 (defn button-states []
   [(d/h2 "Active state")
    (d/p "To set a button's active state, simply set the component's " (d/code ":active? true") " prop.")
-   (->bs-example (slurp-example "button/active"))
+   (->example (slurp-example "button/active"))
    (d/h2 "Disabled state")
    (d/p "Make buttons look unclickable by fading them back 50%. To do this, add the " (d/code ":disabled? true") "attribute to buttons.")
-   (->bs-example (slurp-example "button/disabled"))
+   (->example (slurp-example "button/disabled"))
    (warning
     "Event handler functionality not impacted"
     (d/p "This option will only change the button's appearance, not its functionality. Use custom logic to disable the effect of the " (d/code ":on-click") "handlers."))])
@@ -105,17 +75,17 @@
    (d/h3 "Basic example")
    (d/p "Wrap a series of " (d/code "b/button")
         "s together in a " (d/code "b/button-group") ".")
-   (->bs-example (slurp-example "button/group_basic"))
+   (->example (slurp-example "button/group_basic"))
    (d/h3 "Button toolbar")
    (d/p "Combine sets of " (d/code "b/button-group")
         "s into a " (d/code "b/toolbar") " for more complex components.")
-   (->bs-example (slurp-example "button/toolbar_basic"))
+   (->example (slurp-example "button/toolbar_basic"))
    (d/h3 "Sizing")
    (d/p "Instead of applying button sizing props to every button in a group, add the "
         (d/code ":bs-size") " prop to the "
         (d/code "b/button-group")
         ".")
-   (->bs-example (slurp-example "button/group_sizes"))
+   (->example (slurp-example "button/group_sizes"))
    (d/h3 "Nesting (TODO)")
    (d/h3 "Vertical variation (TODO)")
    (d/h3 "Justified button groups (TODO)")))
@@ -140,14 +110,14 @@
 
    (d/h2 "Button tags")
    (d/p "The DOM element tag is chosen automatically for you based on the options you supply. Passing " (d/code ":href") " will result in the button using a " (d/code "<a />") " element. Otherwise, a " (d/code "<button />") " element will be used.")
-   (->bs-example (slurp-example "button/tag_types"))
+   (->example (slurp-example "button/tag_types"))
 
    (d/h2 "Button loading state")
    (d/p "When activating an asynchronous action from a button it is a
    good UX pattern to give the user feedback as to the loading
    state. This can easily be done by updating your button's props from
    a state change like below.")
-   (->bs-example (slurp-example "button/loading"))
+   (->example (slurp-example "button/loading"))
    ))
 
 (defn button-block []
@@ -162,19 +132,19 @@
    (d/h1 {:id "panels" :class "page-header"} "Panels "
          (d/small "Panel, PanelGroup, Accordion"))
    (d/p "By default, all the <Panel /> does is apply some basic border and padding to contain some content.")
-   (example
+   (bs-example
     (p/panel {} "Basic panel example."))
    (d/p "Easily add a heading container to your panel with the header prop.")
-   (example
+   (bs-example
     [(p/panel {:header "Panel heading without title"}
               "Panel content")
      (p/panel {:header (d/h3 "Panel title")}
               "Panel content")])
    (d/p "Pass buttons or secondary text in the footer prop. Note that panel footers do not inherit colors and borders when using contextual variations as they are not meant to be in the foreground.")
-   (example
+   (bs-example
     (p/panel {:footer "Panel footer"} "Panel content"))
    (d/p "Like other components, easily make a panel more meaningful to a particular context by adding a :bs-style prop.")
-   (example
+   (bs-example
     (for [style [nil "primary" "success" "info" "warning" "danger"]]
       (p/panel (merge {:header (d/h3 "Panel title")}
                       (when style {:bs-style style}))
@@ -183,7 +153,7 @@
 ;; ## Jumbotron Examples
 
 (defn jumbotron-example []
-  (example
+  (bs-example
    (r/jumbotron {}
                 (d/h1 "Hello, World!")
                 (d/p "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.")
@@ -192,7 +162,7 @@
 ;; ## Label Examples
 
 (defn label-examples []
-  (example
+  (bs-example
    (d/div
     (d/h1 "Label " (r/label {} "New"))
     (d/h2 "Label " (r/label {} "New"))
@@ -202,7 +172,7 @@
     (d/p "Label " (r/label {} "New")))))
 
 (defn label-variations []
-  (example
+  (bs-example
    [(r/label {:bs-style "default"} "Default")
     (r/label {:bs-style "primary"} "Primary")
     (r/label {:bs-style "success"} "Success")
@@ -213,18 +183,18 @@
 ;; ## Well Examples
 
 (def default-well
-  (example
+  (bs-example
    (r/well {} "Look, I'm in a well!")))
 
 (def optional-well-classes
-  (example
+  (bs-example
    [(r/well {:bs-size "large"} "Look, I'm in a large well!")
     (r/well {:bs-size "small"} "Look, I'm in a small well!")]))
 
 ;; ## Page Header
 
 (def header-example
-  (example
+  (bs-example
    (r/page-header {} "Example page header "
                   (d/small "Subtext for header"))))
 
@@ -233,38 +203,38 @@
 (def grid-example
   ;; Clearly this doesn't give me the coloring I need, but it's a
   ;; start toward what the bootstrap docs page gives me.
-  (example {:class "grids-examples"}
-           (g/grid {}
-                   (g/row {:class "show-grid"}
-                          (g/col {:xs 12 :md 8}
-                                 (d/code {} "(g/col {:xs 12 :md 8})"))
-                          (g/col {:xs 6 :md 4}
-                                 (d/code {} "(g/col {:xs 6 :md 4})")))
-                   (g/row {:class "show-grid"}
-                          (g/col {:xs 6 :md 4}
-                                 (d/code {} "(g/col {:xs 6 :md 4})"))
-                          (g/col {:xs 6 :md 4}
-                                 (d/code {} "(g/col {:xs 6 :md 4})"))
-                          (g/col {:xs 6 :md 4}
-                                 (d/code {} "(g/col {:xs 6 :md 4})")))
-                   (g/row {:class "show-grid"}
-                          (g/col {:xs 6 :xs-offset 6}
-                                 (d/code {} "(g/col {:xs 6 :xs-offset 6})")))
-                   (g/row {:class "show-grid"}
-                          (g/col {:md 6 :md-push 6}
-                                 (d/code {} "(g/col {:md 6 :md-push 6})"))
-                          (g/col {:md 6 :md-pull 6}
-                                 (d/code {} "(g/col {:md 6 :md-push 6})"))))))
+  (bs-example {:class "grids-examples"}
+              (g/grid {}
+                      (g/row {:class "show-grid"}
+                             (g/col {:xs 12 :md 8}
+                                    (d/code {} "(g/col {:xs 12 :md 8})"))
+                             (g/col {:xs 6 :md 4}
+                                    (d/code {} "(g/col {:xs 6 :md 4})")))
+                      (g/row {:class "show-grid"}
+                             (g/col {:xs 6 :md 4}
+                                    (d/code {} "(g/col {:xs 6 :md 4})"))
+                             (g/col {:xs 6 :md 4}
+                                    (d/code {} "(g/col {:xs 6 :md 4})"))
+                             (g/col {:xs 6 :md 4}
+                                    (d/code {} "(g/col {:xs 6 :md 4})")))
+                      (g/row {:class "show-grid"}
+                             (g/col {:xs 6 :xs-offset 6}
+                                    (d/code {} "(g/col {:xs 6 :xs-offset 6})")))
+                      (g/row {:class "show-grid"}
+                             (g/col {:md 6 :md-push 6}
+                                    (d/code {} "(g/col {:md 6 :md-push 6})"))
+                             (g/col {:md 6 :md-pull 6}
+                                    (d/code {} "(g/col {:md 6 :md-push 6})"))))))
 
 ;; ## Tooltip
 
 (def tooltip-example
-  (example {:style {:height 50}}
-           (r/tooltip {:placement "right"
-                       :position-left 150
-                       :position-top 50}
-                      (d/strong "Holy guacamole!")
-                      "Check this info.")))
+  (bs-example {:style {:height 50}}
+              (r/tooltip {:placement "right"
+                          :position-left 150
+                          :position-top 50}
+                         (d/strong "Holy guacamole!")
+                         "Check this info.")))
 
 (comment
 
@@ -304,7 +274,7 @@
 
 (def alert-example
   "Basic alert styles:"
-  (example
+  (bs-example
    (r/alert {:bs-style "warning"}
             (d/strong "Holy guacamole!")
             "Best check yo self, you're not looking too good.")))
@@ -320,7 +290,7 @@
 ;; ## Popovers
 
 (def popover-example
-  (example
+  (bs-example
    (d/div {:style {:height 120}}
           (r/popover {:placement "right"
                       :position-left 200
@@ -335,7 +305,7 @@
 (def nav-example
   (let [on-select (fn [k _] (js/alert (str "Selected " k)))
         nav-example (fn [style]
-                      (example
+                      (bs-example
                        (n/nav {:bs-style style}
                               (n/nav-item {:key 1 :href "/home" :active? true
                                            :on-select on-select}
@@ -357,7 +327,7 @@
 (def badge-example
   (d/div
    (d/p "Easily highlight new or unread items by adding a <Badge> to links, Bootstrap navs, and more.")
-   (example (d/p "Badges" (r/badge {} 42)))))
+   (bs-example (d/p "Badges" (r/badge {} 42)))))
 
 ;; ## Final Page Loading
 
