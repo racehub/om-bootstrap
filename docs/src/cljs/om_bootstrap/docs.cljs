@@ -3,7 +3,7 @@
   (:require [cljs.core.async :as a :refer [chan put!]]
             [goog.events :as ev]
             [om.core :as om :include-macros true]
-            [om-bootstrap.docs.example :refer [bs-example ->example]]
+            [om-bootstrap.docs.example :refer [bs-example ->example TODO]]
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
@@ -29,49 +29,57 @@
          (d/h4 title)
          content))
 
+(defn section [id title & children]
+  (d/div {:class "bs-docs-section"}
+         (d/h1 {:id id :class "page-header"} title)
+         children))
+
 ;; ## Button Examples
 
-(defonce buttonex
-  {:types (slurp-example "button/types")
-   :sizes (slurp-example "button/sizes")
-   :block (slurp-example "button/block")})
-
-(defn button-options
-  []
+(defn button-options []
   [(d/h2 {:id "button-options"} "Options")
-   (d/p "Use any of the available button style types to quickly create a styled button. Just modify the " (d/code ":bs-style") " prop.")
-   (->example (:types buttonex))
+   (d/p "Use any of the available button style types to quickly create
+   a styled button. Just modify the " (d/code ":bs-style") " prop.")
+   (->example (slurp-example "button/types"))
    (warning
     "Button Spacing"
-    (d/p "Because React doesn't output newlines between elements, buttons on the same line are displayed flush against each other. To preserve the spacing between multiple inline buttons, wrap your button group in " (d/code "b/toolbar") "."))])
+    (d/p "Because React doesn't output newlines between elements,
+    buttons on the same line are displayed flush against each
+    other. To preserve the spacing between multiple inline buttons,
+    wrap your button group in " (d/code "b/toolbar") "."))])
 
-(defn button-sizing
-  []
+(defn button-sizing []
   [(d/h2 "Sizes")
    (d/p "Fancy larger or smaller buttons? Add "
         (d/code ":bs-size large") ", "
         (d/code ":bs-size small") ", or "
         (d/code ":bs-size xsmall") " for additional sizes.")
-   (->example (:sizes buttonex))
-   (d/p "Create block level buttons—those that span the full width of a parent— by adding the " (d/code ":block? true") " prop.")
-   (->example (:block buttonex))])
+   (->example (slurp-example "button/sizes"))
+   (d/p "Create block level buttons — those that span the full width
+   of a parent — by adding the " (d/code ":block? true") " prop.")
+   (->example (slurp-example "button/block"))])
 
 (defn button-states []
   [(d/h2 "Active state")
-   (d/p "To set a button's active state, simply set the component's " (d/code ":active? true") " prop.")
+   (d/p "To set a button's active state, simply set the
+   component's " (d/code ":active? true") " prop.")
    (->example (slurp-example "button/active"))
    (d/h2 "Disabled state")
-   (d/p "Make buttons look unclickable by fading them back 50%. To do this, add the " (d/code ":disabled? true") "attribute to buttons.")
+   (d/p "Make buttons look unclickable by fading them back 50%. To do
+   this, add the " (d/code ":disabled? true") "attribute to buttons.")
    (->example (slurp-example "button/disabled"))
    (warning
     "Event handler functionality not impacted"
-    (d/p "This option will only change the button's appearance, not its functionality. Use custom logic to disable the effect of the " (d/code ":on-click") "handlers."))])
+    (d/p "This option will only change the button's appearance, not
+    its functionality. Use custom logic to disable the effect of
+    the " (d/code ":on-click") "handlers."))])
 
 (defn button-groups []
-  (d/div
-   {:class "bs-docs-section"}
-   (d/h1 {:id "btn-groups" :class "page-header"} "Button groups " (d/small "ButtonGroup, ButtonToolbar"))
-   (d/p {:class "lead"} "Group a series of buttons together on a single line with the button group.")
+  (section
+   "btn-groups"
+   ["Button groups " (d/small "ButtonGroup, ButtonToolbar")]
+   (d/p {:class "lead"} "Group a series of buttons together on a
+   single line with the button group.")
    (d/h3 "Basic example")
    (d/p "Wrap a series of " (d/code "b/button")
         "s together in a " (d/code "b/button-group") ".")
@@ -86,14 +94,37 @@
         (d/code "b/button-group")
         ".")
    (->example (slurp-example "button/group_sizes"))
-   (d/h3 "Nesting (TODO)")
-   (d/h3 "Vertical variation (TODO)")
-   (d/h3 "Justified button groups (TODO)")))
+
+   (d/h3 "Nesting")
+   (d/p "You can place other button types within the <ButtonGroup /> like<DropdownButton />’s.")
+   (TODO)
+
+   (d/h3 "Vertical variation")
+   (d/p "Make a set of buttons appear vertically stacked rather than
+   horizontally. " (d/strong {:class "text-danger"} "Split button
+   dropdowns are not supported here."))
+   (d/p "Just add" (d/code ":vertical? true") "  to the " (d/code "b/button-group"))
+   (TODO)
+
+   (d/h3 "Justified button groups")
+   (d/p "Make a group of buttons stretch at equal sizes to span the
+   entire width of its parent. Also works with button dropdowns within
+   the button group.")
+   (warning
+    "Style issues"
+    (d/p "There are some issues and workarounds required when using
+     this property, please see"
+         (d/a {:href "http://getbootstrap.com/components/#btn-groups-justified"}
+              "bootstrap's button group docs")
+         " for more specifics."))
+   (d/p "Just add " (d/code ":justified? true") " to
+   the " (d/code "b/button-group") ".")
+   (TODO)))
 
 (defn button-dropdowns []
-  (d/div
-   {:class "bs-docs-section"}
-   (d/h1 {:id "btn-dropdowns" :class "page-header"} "Button dropdowns")
+  (section
+   "btn-dropdowns"
+   "Button dropdowns"
    (d/h3 "Single button dropdowns (TODO)")
    (d/h3 "Split button dropdowns (TODO)")
    (d/h3 "Sizing (TODO)")
@@ -101,15 +132,18 @@
    (d/h3 "Dropdown right variation (TODO)")))
 
 (defn button-main []
-  (d/div
-   {:class "bs-docs-section"}
-   (d/h1 {:id "buttons" :class "page-header"} "Buttons " (d/small "Button"))
+  (section
+   "buttons"
+   ["Buttons " (d/small "Button")]
    (button-options)
    (button-sizing)
    (button-states)
 
    (d/h2 "Button tags")
-   (d/p "The DOM element tag is chosen automatically for you based on the options you supply. Passing " (d/code ":href") " will result in the button using a " (d/code "<a />") " element. Otherwise, a " (d/code "<button />") " element will be used.")
+   (d/p "The DOM element tag is chosen automatically for you based on
+   the options you supply. Passing " (d/code ":href") " will result in
+   the button using a " (d/code "<a />") " element. Otherwise,
+   a " (d/code "<button />") " element will be used.")
    (->example (slurp-example "button/tag_types"))
 
    (d/h2 "Button loading state")
@@ -117,8 +151,7 @@
    good UX pattern to give the user feedback as to the loading
    state. This can easily be done by updating your button's props from
    a state change like below.")
-   (->example (slurp-example "button/loading"))
-   ))
+   (->example (slurp-example "button/loading"))))
 
 (defn button-block []
   [(button-main)
@@ -128,75 +161,116 @@
 ;; ## Panel Examples
 
 (defn panel-block []
-  (d/div {:class "bs-docs-section"}
-   (d/h1 {:id "panels" :class "page-header"} "Panels "
-         (d/small "Panel, PanelGroup, Accordion"))
-   (d/p "By default, all the <Panel /> does is apply some basic border and padding to contain some content.")
-   (bs-example
-    (p/panel {} "Basic panel example."))
-   (d/p "Easily add a heading container to your panel with the header prop.")
-   (bs-example
-    [(p/panel {:header "Panel heading without title"}
-              "Panel content")
-     (p/panel {:header (d/h3 "Panel title")}
-              "Panel content")])
-   (d/p "Pass buttons or secondary text in the footer prop. Note that panel footers do not inherit colors and borders when using contextual variations as they are not meant to be in the foreground.")
-   (bs-example
-    (p/panel {:footer "Panel footer"} "Panel content"))
-   (d/p "Like other components, easily make a panel more meaningful to a particular context by adding a :bs-style prop.")
-   (bs-example
-    (for [style [nil "primary" "success" "info" "warning" "danger"]]
-      (p/panel (merge {:header (d/h3 "Panel title")}
-                      (when style {:bs-style style}))
-               "Panel content")))))
+  (section
+   "panels"
+   ["Panels " (d/small "Panel, PanelGroup, Accordion")]
 
-;; ## Jumbotron Examples
+   (d/h3 "Basic example")
+   (d/p "By default, all the " (d/code "p/panel") " does is apply some
+   basic border and padding to contain some content.")
+   (->example (slurp-example "panel/basic"))
 
-(defn jumbotron-example []
-  (bs-example
-   (r/jumbotron {}
-                (d/h1 "Hello, World!")
-                (d/p "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.")
-                (d/p (b/button {:bs-style "primary"} "Learn More")))))
+   (d/h3 "Panel with heading")
+   (d/p "Easily add a heading container to your panel with
+   the " (d/code ":header") " option.")
+   (->example (slurp-example "panel/heading"))
 
-;; ## Label Examples
+   (d/h3 "Panel with footer")
+   (d/p "Pass buttons or secondary text with
+   the" (d/code ":footer") "option. Note that panel footers do not
+   inherit colors and borders when using contextual variations as they
+   are not meant to be in the foreground.")
+   (->example (slurp-example "panel/footer"))
 
-(defn label-examples []
-  (bs-example
-   (d/div
-    (d/h1 "Label " (r/label {} "New"))
-    (d/h2 "Label " (r/label {} "New"))
-    (d/h3 "Label " (r/label {} "New"))
-    (d/h4 "Label " (r/label {} "New"))
-    (d/h5 "Label " (r/label {} "New"))
-    (d/p "Label " (r/label {} "New")))))
+   (d/h3 "Contextual alternatives")
+   (d/p "Like other components, make a panel more meaningful to a
+   particular context by adding a " (d/code ":bs-style") " prop.")
+   (->example (slurp-example "panel/contextual"))
 
-(defn label-variations []
-  (bs-example
-   [(r/label {:bs-style "default"} "Default")
-    (r/label {:bs-style "primary"} "Primary")
-    (r/label {:bs-style "success"} "Success")
-    (r/label {:bs-style "info"} "Info")
-    (r/label {:bs-style "warning"} "Warning")
-    (r/label {:bs-style "danger"} "Danger")]))
+   (d/h3 "Controlled PanelGroups")
+   (d/p (d/code "p/panel-group") "s can be controlled by a parent
+   component. The " (d/code ":active-key") " prop dictates which panel
+   is open.")
+   (TODO)
 
-;; ## Well Examples
+   (d/h3 "Accordions")
+   (d/p (d/code "p/accordion") " aliases " (d/code "(d/panel-group
+   {:accordion? true} ,,,)") ".")
+   (TODO)))
 
-(def default-well
-  (bs-example
-   (r/well {} "Look, I'm in a well!")))
+;; ## Modal
 
-(def optional-well-classes
-  (bs-example
-   [(r/well {:bs-size "large"} "Look, I'm in a large well!")
-    (r/well {:bs-size "small"} "Look, I'm in a small well!")]))
+(defn modal-block []
+  (section
+   "modals"
+   ["Modals " (d/small "Modal")]
+   (d/h3 "A static example")
+   (d/p "A rendered modal with header, body, and set of actions in the footer.")
+   (d/p "The header is added automatically if you pass in
+   a " (d/code ":title") " option.")))
+
+;; ## Label
+
+(defn label-block []
+  (section
+   "labels" "Labels"
+   (d/h3 "Example")
+   (d/p "Create " (d/code "(r/label {} \"label\")") " to show
+   highlight information.")
+   (->example (slurp-example "label/basic"))
+
+   (d/h3 "Available variations")
+   (d/p "Add any of the below mentioned modifier classes to change the
+   appearance of a label.")
+   (->example (slurp-example "label/variations"))))
+
+;; ## Badges
+
+(defn badge-block []
+  (section
+   "badges"
+   "Badges"
+   (d/p "Easily highlight new or unread items by adding
+   a " (d/code "r/badge") " to links, Bootstrap navs, and more.")
+   (d/h3 "Example")
+   (->example (slurp-example "badge"))))
+
+;; ## Jumbotron
+
+(defn jumbotron-block []
+  (section
+   "jumbotron" "Jumbotron"
+   (d/p "A lightweight, flexible component that can optionally extend
+   the entire viewport to showcase key content on your site.")
+   (d/h3 "Example")
+   (->example (slurp-example "jumbotron/basic"))))
 
 ;; ## Page Header
 
-(def header-example
-  (bs-example
-   (r/page-header {} "Example page header "
-                  (d/small "Subtext for header"))))
+(defn header-block []
+  (section
+   "page-header"
+   "Page Header"
+   (d/p "A simple shell for an " (d/code "h1") " to appropriately
+   space out and segment sections of content on a page. It can utilize
+   the " (d/code "h1") "’s default " (d/code "small") " small element,
+   as well as most other components (with additional styles).")
+   (d/h3 "Example")
+   (->example (slurp-example "page_header"))))
+
+;; ## Well
+
+(defn well-block []
+  (section
+   "wells"
+   "Wells"
+   (d/p "Use the well as a simple effect on an element to give it an inset effect.")
+   (d/h3 "Default Wells")
+   (->example (slurp-example "well/basic"))
+
+   (d/h3 "Optional classes")
+   (d/p "Control padding and rounded corners with two optional modifier classes.")
+   (->example (slurp-example "well/sizes"))))
 
 ;; ## Grid
 
@@ -322,14 +396,38 @@
      (d/p "And tabs:")
      (nav-example "tabs"))))
 
-;; ## Badges
-
-(def badge-example
-  (d/div
-   (d/p "Easily highlight new or unread items by adding a <Badge> to links, Bootstrap navs, and more.")
-   (bs-example (d/p "Badges" (r/badge {} 42)))))
-
 ;; ## Final Page Loading
+
+(defn sidebar []
+  (d/div
+   {:class "col-md-3"}
+   (d/div {:class "bs-docs-sidebar hidden-print"
+           :role "complementary"}
+          (n/nav
+           {:class "bs-docs-sidenav"}
+           (n/nav-item {:href "#buttons"} "Buttons")
+           (n/nav-item {:href "#panels"} "Panels")
+           (n/nav-item {:href "#modals"} "Modals")
+           (n/nav-item {:href "#tooltips"} "Tooltips")
+           (n/nav-item {:href "#popovers"} "Popovers")
+           (n/nav-item {:href "#progress"} "Progress bars")
+           (n/nav-item {:href "navs"} "Navs")
+           (n/nav-item {:href "#navbars"} "Navbars")
+           (n/nav-item {:href "#tabs"} "Toggleable Tabs")
+           (n/nav-item {:href "#pager"} "Pager")
+           (n/nav-item {:href "#alerts"} "Alerts")
+           (n/nav-item {:href "#carousels"} "Carousels")
+           (n/nav-item {:href "#grids"} "Grids")
+           (n/nav-item {:href "#listgroup"} "List group")
+           (n/nav-item {:href "#labels"} "Labels")
+           (n/nav-item {:href "#badges"} "Badges")
+           (n/nav-item {:href "#jumbotron"} "Jumbotron")
+           (n/nav-item {:href "#page-header"} "Page header")
+           (n/nav-item {:href "#wells"} "Wells")
+           (n/nav-item {:href "#glyphicons"} "Glyphicons")
+           (n/nav-item {:href "#tables"} "Tables")
+           (n/nav-item {:href "#input"} "Input"))
+          (d/a {:class "back-to-top" :href "#top"} "Back to top"))))
 
 (defcomponentk app
   "This is the top level component that renders the entire example
@@ -354,19 +452,14 @@
                       (d/li "The rendered result of the example snippet"))
                      "Click \"show code\" below the rendered component to reveal the snippet.")
               (button-block)
-
               (panel-block)
-              (d/h3 "Jumbotron")
-              (jumbotron-example)
-              (d/h3 "Label Examples")
-              (label-examples)
-              (d/h3 "Label Variations")
-              (label-variations)
-              (d/h3 "Well!")
-              default-well
-              optional-well-classes
-              (d/h3 "Page Header")
-              header-example
+              (modal-block)
+              (label-block)
+              (badge-block)
+              (jumbotron-block)
+              (header-block)
+              (well-block)
+
               (d/h3 "Grid")
               grid-example
               (d/h3 "Tooltip")
@@ -377,38 +470,8 @@
               (d/h3 "Popover")
               popover-example
               (d/h3 "Nav")
-              nav-example
-              (d/h3 "Badges")
-              badge-example)
-             (d/div
-              {:class "col-md-3"}
-              (d/div {:class "bs-docs-sidebar hidden-print"
-                      :role "complementary"}
-                     (n/nav
-                      {:class "bs-docs-sidenav"}
-                      (n/nav-item {:href "#buttons"} "Buttons")
-                      (n/nav-item {:href "#panels"} "Panels")
-                      (n/nav-item {:href "#modals"} "Modals")
-                      (n/nav-item {:href "#tooltips"} "Tooltips")
-                      (n/nav-item {:href "#popovers"} "Popovers")
-                      (n/nav-item {:href "#progress"} "Progress bars")
-                      (n/nav-item {:href "navs"} "Navs")
-                      (n/nav-item {:href "#navbars"} "Navbars")
-                      (n/nav-item {} "Toggleable Tabs")
-                      (n/nav-item {} "Pager")
-                      (n/nav-item {} "Alerts")
-                      (n/nav-item {} "Carousels")
-                      (n/nav-item {} "Grids")
-                      (n/nav-item {} "List group")
-                      (n/nav-item {} "Labels")
-                      (n/nav-item {} "Badges")
-                      (n/nav-item {} "Jumbotron")
-                      (n/nav-item {} "Page header")
-                      (n/nav-item {} "Wells")
-                      (n/nav-item {} "Glyphicons")
-                      (n/nav-item {} "Tables")
-                      (n/nav-item {} "Input"))
-                     (d/a {:class "back-to-top" :href "#top"} "Back to top"))))))))
+              nav-example)
+             (sidebar))))))
 
 (defonce app-state
   (atom {:text "Hi!"}))

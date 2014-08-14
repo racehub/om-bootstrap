@@ -46,7 +46,8 @@
   sections of content on a page. It can utilize the h1’s default small
   element, as well as most other components (with additional styles)."
   [opts & children]
-  (d/div (u/merge-props opts {:class "page-header"}) children))
+  (d/div (u/merge-props opts {:class "page-header"})
+         (d/h1 children)))
 
 ;; ## Tooltip
 

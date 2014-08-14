@@ -1,4 +1,5 @@
-;; (:require [om-bootstrap.button :as b])
+#_
+(:require [om-bootstrap.button :as b])
 
 (b/toolbar {}
            (b/button {} "Default")

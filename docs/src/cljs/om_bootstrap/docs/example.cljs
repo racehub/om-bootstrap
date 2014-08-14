@@ -40,3 +40,6 @@
                (if open?
                  "hide code"
                  "show code")))))
+
+(defn TODO []
+  (->example {:code "TODO" :body (d/p "TODO")}))
