@@ -286,7 +286,7 @@
 (defn progress-bar-block []
   (section
    "progress"
-   ["Progress bars" (d/small "ProgressBar")]
+   ["Progress bars " (d/small "ProgressBar")]
    (d/p {:class "lead"}
         "Provide up-to-date feedback on the progress of a workflow or
         action with simple yet flexible progress bars.")
@@ -329,7 +329,7 @@
 (defn nav-block []
   (section
    "navs"
-   ["Navs" (d/small "Nav, NavItem")]
+   ["Navs " (d/small "Nav, NavItem")]
    (d/h3 "Example navs")
    (d/p "Navs come in two styles, pills:")
    (->example (slurp-example "nav/pills"))
@@ -342,7 +342,7 @@
 (defn navbar-block []
   (section
    "navbars"
-   ["Navbars" (d/small "Navbar, Nav, NavItem")]
+   ["Navbars " (d/small "Navbar, Nav, NavItem")]
    (d/h3 "Example navbars")
    (TODO)))
 
@@ -351,7 +351,7 @@
 (defn tab-block []
   (section
    "tabs"
-   ["Toggleable tabs" (d/small "TabbedArea, TabPane")]
+   ["Toggleable tabs " (d/small "TabbedArea, TabPane")]
    (d/h2 "Example tabs")
    (d/p "Add quick, dynamic tab functionality to transition through
    panes of local content, even via dropdown menus.")
@@ -379,7 +379,7 @@
 (defn pager-block []
   (section
    "pager"
-   ["Pager" (d/small "Pager, PageItem")]
+   ["Pager " (d/small "Pager, PageItem")]
    (d/p "Quick previous and next links.")
    (d/h3 "Default")
    (d/p "Centers by default.")
@@ -403,7 +403,7 @@
 (defn alert-block []
   (section
    "alerts"
-   ["Alert messages" (d/small "Alert")]
+   ["Alert messages " (d/small "Alert")]
    (d/h3 "Example alerts")
    (d/p "Basic alert styles.")
    (->example (slurp-example "alert/basic"))
@@ -421,7 +421,7 @@
 (defn carousel-block []
   (section
    "carousels"
-   ["Carousels" (d/small "Carousel, CarouselItem")]
+   ["Carousels " (d/small "Carousel, CarouselItem")]
    (d/h2 "Example Carousels")
    (d/h3 "Uncontrolled")
    (d/p "Allow the component to control its own state.")
@@ -436,7 +436,7 @@
 (defn grid-block []
   (section
    "grids"
-   ["Grids" (d/small "Grid, Row, Col")]
+   ["Grids " (d/small "Grid, Row, Col")]
    (d/h3 "Example grids")
    (->example (slurp-example "grid"))))
 
