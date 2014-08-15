@@ -14,6 +14,7 @@
             :distribution :repo}
   :scm {:name "git"
         :url "https://github.com/racehub/om-bootstrap"}
+  :min-lein-version "2.3.0"
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [prismatic/schema "0.2.4"
