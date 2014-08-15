@@ -28,5 +28,7 @@ repl
 checkouts
 schema.png
 dev/public/assets/main.js
+dev/public/assets/whitespace.js
 dev/public/generated
+dev/public/whitespace
 _site

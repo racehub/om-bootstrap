@@ -1,3 +1,9 @@
+(def server-deps
+  '[[javax.servlet/servlet-api "2.5"]
+    [compojure "1.1.8"]
+    [http-kit "2.1.18"]
+    [hiccup "1.0.5"]])
+
 (defproject racehub/om-bootstrap "0.2.2-SNAPSHOT"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
@@ -24,22 +30,16 @@
                        :plugins [[lein-cljsbuild "1.0.3"]]
                        :prep-tasks ^:replace [["clean"]
                                               ["cljsbuild" "clean"]
-                                              ["cljsbuild" "once" "docs"]
+                                              ["cljsbuild" "once" "heroku"]
                                               ["javac"]
                                               ["compile" ":all"]]
-                       :dependencies [[javax.servlet/servlet-api "2.5"]
-                                      [compojure "1.1.8"]
-                                      [http-kit "2.1.18"]]
+                       :dependencies ~server-deps
                        :source-paths ["docs/src/clj"]
                        :resource-paths ["dev"]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
                              [com.cemerick/clojurescript.test "0.3.0"]
                              [paddleguru/lein-gitflow "0.1.2"]]
-                   :dependencies [[com.cemerick/piggieback "0.1.3"]
-                                  ;; See https://groups.google.com/forum/#!topic/compojure/GyPAwLQcjzY
-                                  [javax.servlet/servlet-api "2.5"]
-                                  [compojure "1.1.8"]
-                                  [http-kit "2.1.18"]]
+                   :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.3"])
                    :source-paths ["docs/src/clj" "docs/src-dev"]
                    :resource-paths ["dev"]
                    :main om-bootstrap.server
@@ -56,17 +56,25 @@
                     "this.literal_js_was_evaluated=true"
                     "target/om_bootstrap.js"]}
    :builds
-   {:docs {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
-           :compiler {:output-to "dev/public/assets/main.js"
-                      :output-dir "dev/public/generated"
-                      :optimizations :none
-                      :source-maps true}}
-
-    :test {:source-paths ["src" "test"]
-           :compiler {:output-to "target/om_bootstrap.js"
-                      :optimizations :whitespace
-                      :pretty-print true
-                      :preamble ["react/react.min.js"]
-                      :externs ["react/externs/react.js"]}}}}
+   {:docs
+    {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
+     :compiler {:output-to "dev/public/assets/main.js"
+                :output-dir "dev/public/generated"
+                :optimizations :none
+                :source-maps true}}
+    :heroku
+    {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
+     :compiler {:output-to "dev/public/assets/whitespace.js"
+                :output-dir "dev/public/whitespace"
+                :optimizations :whitespace
+                :pretty-print true
+                :source-maps "dev/public/assets/whitespace.js.map"}}
+    :test
+    {:source-paths ["src" "test"]
+     :compiler {:output-to "target/om_bootstrap.js"
+                :optimizations :whitespace
+                :pretty-print true
+                :preamble ["react/react.min.js"]
+                :externs ["react/externs/react.js"]}}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
