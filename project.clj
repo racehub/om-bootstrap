@@ -66,7 +66,8 @@
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/generated/om_bootstrap.js"
                 :output-dir "dev/public/assets/generated"
-                :externs ["react/externs/react.js"]
+                :externs ["react/externs/react.js"
+                          "externs/highlight.js"]
                 :preamble ["react/react.min.js"]
                 :optimizations :advanced
                 :pretty-print false
