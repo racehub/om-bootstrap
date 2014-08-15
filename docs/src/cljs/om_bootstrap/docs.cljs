@@ -136,8 +136,6 @@
         "Use " (d/code "b/dropdown") " or " (d/code "b/split") "
         components to display a button with a dropdown menu.")
 
-
-
    (d/h3 "Single button dropdowns")
    (d/p "Create a dropdown button with the " (d/code "b/dropdown") " component.")
    (TODO)

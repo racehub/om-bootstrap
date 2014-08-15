@@ -21,7 +21,7 @@
                   :exclude [org.clojure/clojurescript]]]
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2261"]
-                             [prismatic/om-tools "0.3.0"]
+                             [prismatic/om-tools "0.3.2"]
                              [secretary "1.2.0"]
                              [weasel "0.3.0"]
                              [om "0.7.1"]]}
@@ -72,6 +72,7 @@
                 :preamble ["react/react.min.js"]
                 :optimizations :advanced
                 :pretty-print false
+                :pseudo-names true
                 :source-map "dev/public/assets/generated/om_bootstrap.js.map"}}
     :test
     {:source-paths ["src" "test"]

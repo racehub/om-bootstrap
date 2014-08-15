@@ -91,8 +91,7 @@
 (defmixin set-timeout-mixin
   "Handles a sequence of timeouts for the component, and removes them
    from the document when the component is unmounted."
-  (will-mount [owner]
-              (set! (.-timeouts owner) #js []))
+  (will-mount [owner] (set! (.-timeouts owner) #js []))
   (will-unmount [owner]
                 (.. owner -timeouts (map #(js/clearTimeout %))))
   (set-timeout [owner f timeout]
