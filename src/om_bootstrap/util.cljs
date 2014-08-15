@@ -31,8 +31,10 @@
 ;; Some of these are rewritten from various React addons.
 
 (sm/defn strict-valid-component? :- s/Bool
+  "TODO: Once Om updates its externs to include this file, we can
+  remove the janky aget call."
   [child]
-  (.isValidComponent js/React child))
+  ((aget js/React "isValidComponent") child))
 
 (sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
@@ -40,7 +42,7 @@
   [child]
   (or (string? child)
       (number? child)
-      (.isValidComponent js/React child)))
+      (strict-valid-component? child)))
 
 (sm/defn some-valid-component? :- s/Bool
   "Returns true if the supplied sequence contains some valid React component,

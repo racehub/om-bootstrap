@@ -64,11 +64,13 @@
                 :source-maps true}}
     :heroku
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
-     :compiler {:output-to "dev/public/assets/whitespace.js"
-                :output-dir "dev/public/whitespace"
-                :optimizations :whitespace
-                :pretty-print true
-                :source-maps "dev/public/assets/whitespace.js.map"}}
+     :compiler {:output-to "dev/public/assets/generated/om_bootstrap.js"
+                :output-dir "dev/public/assets/generated"
+                :externs ["react/externs/react.js"]
+                :preamble ["react/react.min.js"]
+                :optimizations :advanced
+                :pretty-print false
+                :source-map "dev/public/assets/generated/om_bootstrap.js.map"}}
     :test
     {:source-paths ["src" "test"]
      :compiler {:output-to "target/om_bootstrap.js"

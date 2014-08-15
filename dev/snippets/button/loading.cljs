@@ -12,7 +12,7 @@
    (let [toggle #(swap! state update-in [:loading?] not)
          handle-click (fn [e]
                         (toggle)
-                        (.set-timeout owner toggle 2000))]
+                        ((aget owner "set-timeout") toggle 2000))]
      (b/button {:bs-style "primary"
                 :disabled? loading?
                 :on-click (when-not loading?
