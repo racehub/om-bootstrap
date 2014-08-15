@@ -72,7 +72,6 @@
                 :preamble ["react/react.min.js"]
                 :optimizations :advanced
                 :pretty-print false
-                :pseudo-names true
                 :source-map "dev/public/assets/generated/om_bootstrap.js.map"}}
     :test
     {:source-paths ["src" "test"]
