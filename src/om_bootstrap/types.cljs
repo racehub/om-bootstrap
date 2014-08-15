@@ -42,7 +42,7 @@
    "link" "link"
    "inline" "inline"
    "tabs" "tabs"
-   "pills" "pill"})
+   "pills" "pills"})
 
 (def size-map
   {"large" "lg"
@@ -96,8 +96,9 @@
 ;; Separate follows the best practices set out here:
 ;; https://gist.github.com/sebmarkbage/a6e220b7097eb3c79ab7
 
-(sm/defn separate :- (s/pair {s/Any s/Any} "om-bootstrap options."
-                          {s/Any s/Any} "all other props.")
+(sm/defn separate :- (s/pair
+                      {s/Any s/Any} "om-bootstrap options."
+                      {s/Any s/Any} "all other props.")
   "Returns two maps; the first is all of the schema options, the
   second is the REST of the options."
   ([schema opts]

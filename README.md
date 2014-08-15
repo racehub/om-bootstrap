@@ -2,13 +2,18 @@
 
 Here's the latest version:
 
-[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)]
+[![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
+
+## Deploying to Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ## TODO before release:
 
 - Make sure all required vs non-required properties are set!
 - Wrap componentk schemas in `om-tools.schema/cursor`
-- Verify types with tests.
+- Verify types with schema tests
+- Add note on how we're using Highlight
 
 ## Components
 
@@ -21,11 +26,15 @@ Here's the latest version:
 * Grid, Row, Col (grid.cljs)
 * ToolTip (random.cljs, except for examples)
 * Alert (random.cljs, except for examples)
+* Nav, NavItem (nav.cljs)
+* Popover (random.cljs)
+* Badge (random.cljs)
 
 ## In Progress
 
 * Modal, ModalTrigger (modal.cljs)
 * ProgressBar (progress-bar.cljs)
+* Nav Collapsible Functionality
 
 ## Needed Components
 
@@ -33,29 +42,21 @@ Here's the latest version:
 * DropdownMenu (?)
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
-* Popover (easy)
-* Nav, NavItem, NavBar
+* NavBar
 * TabbedArea, TabPane
 * Pager
 * Carousel
 * CarouselItem
-* Badge
-* Use Input as a wrapper (easy):
-
-```
-If type is not set, child element(s) will be rendered instead of an input
-element.getValue() will not work when used this way.
-```
 
 ## Mixins
 
-* Fade
-* Overlay
 * Listener (mixins.cljs)
 * Timeout (mixins.cljs)
 
 ### Needed Mixins
 
+* Fade
+* Overlay
 * DropdownStateMixin
 * CollapsibleMixin
 
@@ -79,4 +80,4 @@ We welcome contributions in the form of bug reports and pull requests; please se
 
 ## Supported Clojure versions
 
-Om-Bootstrap is currently supported on 1.5.1 and 1.6.x and the latest version of ClojureScript. TODO: Note about supported Om and React versions.
+Om-Bootstrap is currently supported on Clojure 1.5.1 and 1.6.x and the latest version of ClojureScript. TODO: Note about supported Om and React versions.

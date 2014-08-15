@@ -3,183 +3,271 @@
   (:require [cljs.core.async :as a :refer [chan put!]]
             [goog.events :as ev]
             [om.core :as om :include-macros true]
+            [om-bootstrap.docs.example :refer [bs-example ->example TODO]]
+            [om-bootstrap.docs.footer :refer [footer]]
             [om-bootstrap.button :as b]
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
+            [om-bootstrap.mixins :as m]
+            [om-bootstrap.nav :as n]
+            [om-bootstrap.panel :as p]
+            [om-bootstrap.progress-bar :as pb]
             [om-bootstrap.random :as r]
-            [om-tools.core :refer-macros [defcomponent defcomponentk]]
+            [om-bootstrap.util :as u]
+            [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
+            [schema.core :as s]
             [secretary.core :as route :include-macros true :refer [defroute]]
             [weasel.repl :as ws-repl])
-  (:require-macros [cljs.core.async.macros :refer [go-loop]])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]]
+                   [om-bootstrap.macros :refer [slurp-example]]
+                   [schema.macros :as sm])
   (:import [goog.history EventType Html5History]))
 
-;; ## Button Examples
+;; ## Helpers
 
-(defn button-example []
-  (b/toolbar {}
-             (b/button {} "Default")
-             (b/button {:bs-style "primary"} "Primary")
-             (b/button {:bs-style "success"} "Success")
-             (b/button {:bs-style "info"} "Info")
-             (b/button {:bs-style "warning"} "Warning")
-             (b/button {:bs-style "danger"} "Danger")
-             (b/button {:bs-style "link"} "Link")))
+(defn info-callout [title content]
+  (d/div {:class "bs-callout bs-callout-info"}
+         (d/h4 title)
+         content))
+
+(defn warning [title content]
+  (d/div {:class "bs-callout bs-callout-warning"}
+         (d/h4 title)
+         content))
+
+(defn section [id title & children]
+  (d/div {:class "bs-docs-section"}
+         (d/h1 {:id id :class "page-header"} title)
+         children))
+
+;; ## Button
+
+(defn button-options []
+  [(d/h2 {:id "button-options"} "Options")
+   (d/p "Use any of the available button style types to quickly create
+   a styled button. Just modify the " (d/code ":bs-style") " prop.")
+   (->example (slurp-example "button/types"))
+   (warning
+    "Button Spacing"
+    (d/p "Because React doesn't output newlines between elements,
+    buttons on the same line are displayed flush against each
+    other. To preserve the spacing between multiple inline buttons,
+    wrap your button group in " (d/code "b/toolbar") "."))])
 
 (defn button-sizing []
-  (d/div
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "large"} "Large button")
-              (b/button {:bs-size "large"} "Large button"))
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "large"} "Default button")
-              (b/button {:bs-size "large"} "Large button"))
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "large"} "Small button")
-              (b/button {:bs-size "large"} "Large button"))
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "xsmall"}
-                        "Extra small button")
-              (b/button {:bs-size "large"} "Large button"))))
+  [(d/h2 "Sizes")
+   (d/p "Fancy larger or smaller buttons? Add "
+        (d/code ":bs-size large") ", "
+        (d/code ":bs-size small") ", or "
+        (d/code ":bs-size xsmall") " for additional sizes.")
+   (->example (slurp-example "button/sizes"))
+   (d/p "Create block level buttons — those that span the full width
+   of a parent — by adding the " (d/code ":block? true") " prop.")
+   (->example (slurp-example "button/block"))])
+
+(defn button-states []
+  [(d/h2 "Active state")
+   (d/p "To set a button's active state, simply set the
+   component's " (d/code ":active? true") " prop.")
+   (->example (slurp-example "button/active"))
+   (d/h2 "Disabled state")
+   (d/p "Make buttons look unclickable by fading them back 50%. To do
+   this, add the " (d/code ":disabled? true") "attribute to buttons.")
+   (->example (slurp-example "button/disabled"))
+   (warning
+    "Event handler functionality not impacted"
+    (d/p "This option will only change the button's appearance, not
+    its functionality. Use custom logic to disable the effect of
+    the " (d/code ":on-click") "handlers."))])
+
+(defn button-groups []
+  (section
+   "btn-groups"
+   ["Button groups " (d/small "ButtonGroup, ButtonToolbar")]
+   (d/p {:class "lead"} "Group a series of buttons together on a
+   single line with the button group.")
+   (d/h3 "Basic example")
+   (d/p "Wrap a series of " (d/code "b/button")
+        "s together in a " (d/code "b/button-group") ".")
+   (->example (slurp-example "button/group_basic"))
+   (d/h3 "Button toolbar")
+   (d/p "Combine sets of " (d/code "b/button-group")
+        "s into a " (d/code "b/toolbar") " for more complex components.")
+   (->example (slurp-example "button/toolbar_basic"))
+   (d/h3 "Sizing")
+   (d/p "Instead of applying button sizing props to every button in a group, add the "
+        (d/code ":bs-size") " prop to the "
+        (d/code "b/button-group")
+        ".")
+   (->example (slurp-example "button/group_sizes"))
+
+   (d/h3 "Nesting")
+   (d/p "You can place other button types within the <ButtonGroup /> like<DropdownButton />’s.")
+   (TODO)
+
+   (d/h3 "Vertical variation")
+   (d/p "Make a set of buttons appear vertically stacked rather than
+   horizontally. " (d/strong {:class "text-danger"} "Split button
+   dropdowns are not supported here."))
+   (d/p "Just add" (d/code ":vertical? true") "  to the " (d/code "b/button-group"))
+   (TODO)
+
+   (d/h3 "Justified button groups")
+   (d/p "Make a group of buttons stretch at equal sizes to span the
+   entire width of its parent. Also works with button dropdowns within
+   the button group.")
+   (warning
+    "Style issues"
+    (d/p "There are some issues and workarounds required when using
+     this property, please see"
+         (d/a {:href "http://getbootstrap.com/components/#btn-groups-justified"}
+              "bootstrap's button group docs")
+         " for more specifics."))
+   (d/p "Just add " (d/code ":justified? true") " to
+   the " (d/code "b/button-group") ".")
+   (TODO)))
+
+(defn button-dropdowns []
+  (section
+   "btn-dropdowns"
+   "Button dropdowns"
+   (d/p {:class "lead"}
+        "Use " (d/code "b/dropdown") " or " (d/code "b/split") "
+        components to display a button with a dropdown menu.")
+
+
+
+   (d/h3 "Single button dropdowns")
+   (d/p "Create a dropdown button with the " (d/code "b/dropdown") " component.")
+   (TODO)
+
+   (d/h3 "Split button dropdowns")
+   (d/p "Similarly, create split button dropdowns with
+   the " (d/code "b/split") " component.")
+   (TODO)
+
+   (d/h3 "Sizing")
+   (d/p "Button dropdowns work with buttons of all sizes.")
+   (TODO)
+
+   (d/h3 "Dropup variation")
+   (d/p "Trigger dropdown menus that site above the button by adding
+   the " (d/code ":dropup? true") " option.")
+   (TODO)
+
+
+   (d/h3 "Dropdown right variation")
+   (d/p "Trigger dropdown menus that align to the right of the button
+   using the " (d/code ":pull-right? true") " option.")
+   (TODO)))
+
+(defn button-main []
+  (section
+   "buttons"
+   ["Buttons " (d/small "Button")]
+   (button-options)
+   (button-sizing)
+   (button-states)
+
+   (d/h2 "Button tags")
+   (d/p "The DOM element tag is chosen automatically for you based on
+   the options you supply. Passing " (d/code ":href") " will result in
+   the button using a " (d/code "<a />") " element. Otherwise,
+   a " (d/code "<button />") " element will be used.")
+   (->example (slurp-example "button/tag_types"))
+
+   (d/h2 "Button loading state")
+   (d/p "When activating an asynchronous action from a button it is a
+   good UX pattern to give the user feedback as to the loading
+   state. This can easily be done by updating your button's props from
+   a state change like below.")
+   (->example (slurp-example "button/loading"))))
 
 (defn button-block []
-  (d/div
-   (d/h3 "Button Examples")
-   (button-example)
-   (d/h3 "Button Sizing")
-   (button-sizing)
-   (d/p "Create block level buttons—those that span the full width of a parent— by adding the block prop.")
-   (d/div {:class "well"
-           :style {:max-width 400
-                   :margin "0 auto 10px"}}
-          (b/button {:bs-style "primary" :bs-size "large" :block? true}
-                    "Block level button")
-          (b/button {:bs-size "large" :block? true}
-                    "Block level button"))
-   (d/p "To set a buttons active state simply set the components active prop.")
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "large" :active? true}
-                        "Primary button")
-              (b/button {:bs-size "large" :bs-style "default" :active? true}
-                        "Button"))
-   (d/p "Make buttons look unclickable by fading them back 50%. To do
-   this add the disabled attribute to buttons.")
-   (b/toolbar {}
-              (b/button {:bs-style "primary" :bs-size "large" :disabled? true}
-                        "Primary button")
-              (b/button {:bs-size "large" :bs-style "default" :disabled? true}
-                        "Button"))
-   (d/h3 "Button Groups")
-   (d/p "Wrap a series of buttons in a button group.")
-   (b/button-group {}
-                   (b/button {} "Left")
-                   (b/button {} "Middle")
-                   (b/button {} "Right"))
-   (d/p "Combine sets of buttongroups into a button toolbar for more
-   complex components.")
-   (b/toolbar {}
-              (b/button-group {} (for [i (range 4)]
-                                   (b/button {} (str (inc i)))))
-              (b/button-group {} (for [i (range 4 7)]
-                                   (b/button {} (str (inc i)))))
-              (b/button-group {} (b/button {} 8)))
+  [(button-main)
+   (button-groups)
+   (button-dropdowns)])
 
-   (d/p "Instead of applying button sizing props to every button in a group, just add bs-size prop to the <ButtonGroup />.")
-   (let [buttons (for [s ["Left" "Middle" "Right"]]
-                   (b/button {} s))]
-     (b/toolbar {}
-                (b/toolbar {} (b/button-group {:bs-size "large"} buttons))
-                (b/toolbar {} (b/button-group {} buttons))
-                (b/toolbar {} (b/button-group {:bs-size "small"} buttons))
-                (b/toolbar {} (b/button-group {:bs-size "xsmall"} buttons))))
+;; ## Panel
 
-   ))
+(defn panel-block []
+  (section
+   "panels"
+   ["Panels " (d/small "Panel, PanelGroup, Accordion")]
 
-;; ## Jumbotron Examples
+   (d/h3 "Basic example")
+   (d/p "By default, all the " (d/code "p/panel") " does is apply some
+   basic border and padding to contain some content.")
+   (->example (slurp-example "panel/basic"))
 
-(defn jumbotron-example []
-  (r/jumbotron {}
-               (d/h1 "Hello, World!")
-               (d/p "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.")
-               (d/p (b/button {:bs-style "primary"} "Learn More"))))
+   (d/h3 "Panel with heading")
+   (d/p "Easily add a heading container to your panel with
+   the " (d/code ":header") " option.")
+   (->example (slurp-example "panel/heading"))
 
-;; ## Label Examples
+   (d/h3 "Panel with footer")
+   (d/p "Pass buttons or secondary text with
+   the" (d/code ":footer") "option. Note that panel footers do not
+   inherit colors and borders when using contextual variations as they
+   are not meant to be in the foreground.")
+   (->example (slurp-example "panel/footer"))
 
-(defn label-examples []
-  (d/div
-   (d/h1 "Label " (r/label {} "New"))
-   (d/h2 "Label " (r/label {} "New"))
-   (d/h3 "Label " (r/label {} "New"))
-   (d/h4 "Label " (r/label {} "New"))
-   (d/h5 "Label " (r/label {} "New"))
-   (d/p "Label " (r/label {} "New"))))
+   (d/h3 "Contextual alternatives")
+   (d/p "Like other components, make a panel more meaningful to a
+   particular context by adding a " (d/code ":bs-style") " prop.")
+   (->example (slurp-example "panel/contextual"))
 
-(defn label-variations []
-  (d/div
-   (r/label {:bs-style "default"} "Default")
-   (r/label {:bs-style "primary"} "Primary")
-   (r/label {:bs-style "success"} "Success")
-   (r/label {:bs-style "info"} "Info")
-   (r/label {:bs-style "warning"} "Warning")
-   (r/label {:bs-style "danger"} "Danger")))
+   (d/h3 "Controlled PanelGroups")
+   (d/p (d/code "p/panel-group") "s can be controlled by a parent
+   component. The " (d/code ":active-key") " prop dictates which panel
+   is open.")
+   (TODO)
 
-;; ## Well Examples
+   (d/h3 "Accordions")
+   (d/p (d/code "p/accordion") " aliases " (d/code "(d/panel-group
+   {:accordion? true} ,,,)") ".")
+   (TODO)))
 
-(def default-well
-    (r/well {} "Look, I'm in a well!"))
+;; ## Modal
 
-(def optional-well-classes
-  (d/div
-   (r/well {:bs-size "large"} "Look, I'm in a large well!")
-   (r/well {:bs-size "small"} "Look, I'm in a small well!")))
+(defn modal-block []
+  (section
+   "modals"
+   ["Modals " (d/small "Modal")]
+   (d/h3 "A static example")
+   (d/p "A rendered modal with header, body, and set of actions in the footer.")
+   (d/p "The header is added automatically if you pass in
+   a " (d/code ":title") " option.")
+   (TODO)
 
-;; ## Page Header
+   (d/h3 "Live Demo")
+   (d/p "Use " (d/code "overlay-trigger") " to create a real modal
+   that's added to the document body when opened.")
+   (TODO)
 
-(def header-example
-  (r/page-header {} "Example page header "
-                 (d/small "Subtext for header")))
+   (d/h3 "Custom trigger")
+   (d/p "Use " (d/code "overlay-mixin") " in a custom component to
+   manage the modal's state yourself.")
+   (TODO)))
 
-;; ## Grid
+;; ## Tooltips
 
-(def grid-example
-  ;; Clearly this doesn't give me the coloring I need, but it's a
-  ;; start toward what the bootstrap docs page gives me.
-  (d/div {:class "bs-example grids-examples"}
-         (g/grid {}
-                 (g/row {:class "show-grid"}
-                        (g/col {:xs 12 :md 8}
-                               (d/code {} "(g/col {:xs 12 :md 8})"))
-                        (g/col {:xs 6 :md 4}
-                               (d/code {} "(g/col {:xs 6 :md 4})")))
-                 (g/row {:class "show-grid"}
-                        (g/col {:xs 6 :md 4}
-                               (d/code {} "(g/col {:xs 6 :md 4})"))
-                        (g/col {:xs 6 :md 4}
-                               (d/code {} "(g/col {:xs 6 :md 4})"))
-                        (g/col {:xs 6 :md 4}
-                               (d/code {} "(g/col {:xs 6 :md 4})")))
-                 (g/row {:class "show-grid"}
-                        (g/col {:xs 6 :xs-offset 6}
-                               (d/code {} "(g/col {:xs 6 :xs-offset 6})")))
-                 (g/row {:class "show-grid"}
-                        (g/col {:md 6 :md-push 6}
-                               (d/code {} "(g/col {:md 6 :md-push 6})"))
-                        (g/col {:md 6 :md-pull 6}
-                               (d/code {} "(g/col {:md 6 :md-push 6})"))))))
+(defn tooltip-block []
+  (section
+   "tooltips"
+   ["Tooltips " (d/small "Tooltip")]
+   (d/h3 "Example tooltips")
+   (d/p "Tooltip component.")
+   (->example (slurp-example "tooltip/basic"))
 
-;; ## Tooltip
+   (d/p "Positioned tooltip component.")
+   (TODO)
 
-(def tooltip-example
-  (d/div {:class "bs-example"}
-         (d/div {:style {:height 50}}
-                (r/tooltip {:placement "right"
-                            :position-left 150
-                            :position-top 50}
-                           (d/strong "Holy guacamole!")
-                           "Check this info."))))
+   (d/p "Positioned tooltip in copy.")
+   (TODO)))
 
 (comment
-
   (def positioned-tooltip-example
     "Positioned tooltip component. (TODO: Needs overlay trigger to
    finish!)"
@@ -212,23 +300,364 @@
          (link-with-tooltip {:tooltip "The ship, that is." :href "#"} "this")
          ". If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")))
 
+;; ## Popovers
+
+(defn popover-block []
+  (section
+   "popovers"
+   ["Popovers " (d/small "Popover")]
+   (d/h3 "Example popovers")
+   (d/p "Popovers component.")
+   (->example (slurp-example "popover/basic"))
+
+   (d/p "Popovers component.")
+   (TODO)
+
+   (d/p "Popovers scrolling.")
+   (TODO)))
+
+;; ## Progress Bars
+
+(defn progress-bar-block []
+  (section
+   "progress"
+   ["Progress bars " (d/small "ProgressBar")]
+   (d/p {:class "lead"}
+        "Provide up-to-date feedback on the progress of a workflow or
+        action with simple yet flexible progress bars.")
+   (d/h3 "Basic example")
+   (d/p "Default progress bar.")
+   (TODO)
+
+   (d/h3 "With label")
+   (d/p "Add a " (d/code ":label") " prop to show a visible
+   percentage. For low percentages, consider adding
+   a" (d/code ":min-width") " to ensure the label's text is fully
+   visible.")
+   (TODO)
+
+   (d/h3 "Screenreader only label")
+   (d/p "Add the " (d/code ":sr-only? true") " option to hide the
+   label visually.")
+   (TODO)
+
+   (d/h3 "Contextual alternatives")
+   (d/p "Progress bars use some of the same button and alert classes
+   for consistent styles.")
+   (TODO)
+
+   (d/h3 "Striped")
+   (d/p "Uses a gradient to create a striped effect. Not available in IE8.")
+   (TODO)
+
+   (d/h3 "Animated")
+   (d/p "Add the " (d/code ":active? true") " option to animate the
+   stripes right to left. Not available in IE9 and below.")
+   (TODO)
+
+   (d/h3 "Stacked")
+   (d/p "Nest " (d/code "pb/progress-bar") "s to stack them.")
+   (TODO)))
+
+;; ## Navs
+
+(defn nav-block []
+  (section
+   "navs"
+   ["Navs " (d/small "Nav, NavItem")]
+   (d/h3 "Example navs")
+   (d/p "Navs come in two styles, pills:")
+   (->example (slurp-example "nav/pills"))
+
+   (d/p "And tabs:")
+   (->example (slurp-example "nav/tabs"))))
+
+;; ## Navbars
+
+(defn navbar-block []
+  (section
+   "navbars"
+   ["Navbars " (d/small "Navbar, Nav, NavItem")]
+   (d/h3 "Example navbars")
+   (TODO)))
+
+;; ## Toggleable Tabs
+
+(defn tab-block []
+  (section
+   "tabs"
+   ["Toggleable tabs " (d/small "TabbedArea, TabPane")]
+   (d/h2 "Example tabs")
+   (d/p "Add quick, dynamic tab functionality to transition through
+   panes of local content, even via dropdown menus.")
+
+   (d/h3 "Uncontrolled")
+   (d/p "Allow the component to control its own state.")
+   (TODO)
+
+   (d/h3 "Controlled")
+   (d/p "Pass down the active state on render via props.")
+   (TODO)
+
+   (d/h3 "No animation")
+   (d/p "Set the " (d/code ":animation?") " property to " (d/code "false") ".")
+   (TODO)
+
+   (info-callout
+    "Extends tabbed navigation"
+    ["This plugin extends the "
+     (d/a {:href "#navs"} "tabbed navigation component")
+     " to add tabbable areas."])))
+
+;; ## Pager
+
+(defn pager-block []
+  (section
+   "pager"
+   ["Pager " (d/small "Pager, PageItem")]
+   (d/p "Quick previous and next links.")
+   (d/h3 "Default")
+   (d/p "Centers by default.")
+   (TODO)
+
+   (d/h3 "Aligned")
+   (d/p "Set the "
+        (d/code ":previous?") " or "
+        (d/code ":next?") " to "
+        (d/code "true") " to align left or right.")
+   (TODO)
+
+   (d/h3 "Disabled")
+   (d/p "Set the "
+        (d/code ":disabled?") " prop to "
+        (d/code "true") " to disabled the link.")
+   (TODO)))
+
 ;; ## Alerts
 
-(def alert-example
-  "Basic alert styles:"
-  (r/alert {:bs-style "warning"}
-           (d/strong "Holy guacamole!")
-           "Best check yo self, you're not looking too good."))
+(defn alert-block []
+  (section
+   "alerts"
+   ["Alert messages " (d/small "Alert")]
+   (d/h3 "Example alerts")
+   (d/p "Basic alert styles.")
+   (->example (slurp-example "alert/basic"))
 
-(comment
-  "TODO: Closeable alerts, just pass in a onDismiss function."
-  ;; Fill in.
+   (d/p "For closeable alerts, just pass an " (d/code ":on-dismiss") "
+   function.")
+   (TODO)
 
-  "TODO: Auto close after a set time with dismissAfter prop."
-  ;; Fill in.
-  )
+   (d/p "Auto close after a set time with
+   the " (d/code ":dismiss-after") " option.")
+   (TODO)))
+
+;; ## Carousels
+
+(defn carousel-block []
+  (section
+   "carousels"
+   ["Carousels " (d/small "Carousel, CarouselItem")]
+   (d/h2 "Example Carousels")
+   (d/h3 "Uncontrolled")
+   (d/p "Allow the component to control its own state.")
+   (TODO)
+
+   (d/h3 "Controlled")
+   (d/p "Pass down the active state on render via props.")
+   (TODO)))
+
+;; ## Grids
+
+(defn grid-block []
+  (section
+   "grids"
+   ["Grids " (d/small "Grid, Row, Col")]
+   (d/h3 "Example grids")
+   (->example (slurp-example "grid"))))
+
+;; ## Labels
+
+(defn label-block []
+  (section
+   "labels" "Labels"
+   (d/h3 "Example")
+   (d/p "Create " (d/code "(r/label {} \"label\")") " to show
+   highlight information.")
+   (->example (slurp-example "label/basic"))
+
+   (d/h3 "Available variations")
+   (d/p "Add any of the below mentioned modifier classes to change the
+   appearance of a label.")
+   (->example (slurp-example "label/variations"))))
+
+;; ## Badges
+
+(defn badge-block []
+  (section
+   "badges"
+   "Badges"
+   (d/p "Easily highlight new or unread items by adding
+   a " (d/code "r/badge") " to links, Bootstrap navs, and more.")
+   (d/h3 "Example")
+   (->example (slurp-example "badge"))))
+
+;; ## Jumbotron
+
+(defn jumbotron-block []
+  (section
+   "jumbotron" "Jumbotron"
+   (d/p "A lightweight, flexible component that can optionally extend
+   the entire viewport to showcase key content on your site.")
+   (d/h3 "Example")
+   (->example (slurp-example "jumbotron/basic"))))
+
+;; ## Page Header
+
+(defn header-block []
+  (section
+   "page-header"
+   "Page Header"
+   (d/p "A simple shell for an " (d/code "h1") " to appropriately
+   space out and segment sections of content on a page. It can utilize
+   the " (d/code "h1") "’s default " (d/code "small") " small element,
+   as well as most other components (with additional styles).")
+   (d/h3 "Example")
+   (->example (slurp-example "page_header"))))
+
+;; ## Well
+
+(defn well-block []
+  (section
+   "wells"
+   "Wells"
+   (d/p "Use the well as a simple effect on an element to give it an inset effect.")
+   (d/h3 "Default Wells")
+   (->example (slurp-example "well/basic"))
+
+   (d/h3 "Optional classes")
+   (d/p "Control padding and rounded corners with two optional modifier classes.")
+   (->example (slurp-example "well/sizes"))))
+
+;; ## Glyphicons
+
+(defn glyphicon-block []
+  (section
+   "glyphicons"
+   "Glyphicons"
+   (d/p "Use them in buttons, button groups for a toolbar, navigation,
+   or prepended form inputs.")
+   (d/h3 "Example")
+   (TODO)))
+
+;; ## Tables
+
+(defn table-block []
+  (section
+   "tables"
+   "Tables"
+   (d/h3 "Example")
+   (d/p "Use the "
+        (d/code ":striped? true") ", "
+        (d/code ":bordered? true") ", "
+        (d/code ":condensed? true") ", and "
+        (d/code ":hover? true") " options to customize the table.")
+   (TODO)
+
+   (d/h3 "Responsive")
+   (d/p "Add the " (d/code ":responsive? true") " option to make them
+   scroll horizontally up to small devices (under 768px). When viewing
+   on anything larger than 768px wide, you will not see any difference
+   in these tables.")
+   (TODO)))
+
+;; ## Input
+
+(defn input-block []
+  (section
+   "input"
+   "Input"
+   (d/p "Renders an input in bootstrap wrappers. Supports label, help,
+   text input add-ons, validation and use as wrapper. TODO: Add more
+   info about how to get the current value.")
+   (TODO)
+
+   (d/h3 "Types")
+   (d/p "Supports "
+        (d/code "select") ", "
+        (d/code "textarea") ", "
+        (d/code "static") " as well as the standard HTML input types.")
+   (TODO)
+
+   (d/h3 "Add-ons")
+   (d/p "Use " (d/code ":addon-before") "
+   and " (d/code ":addon-after") ". Does not support buttons.")
+   (TODO)
+
+   (d/h3 "Validation")
+   (d/p "Set " (d/code ":bs-style") " to one of "
+        (d/code "\"success\"") ", "
+        (d/code "\"warning\"") ", or"
+        (d/code "\"error\"") ". Add "
+        (d/code ":has-feedback? true")
+        " to show a glyphicon. Glyphicon may need additional styling
+        if there is an add-on or no label.")
+   (TODO)
+
+   (d/h3 "Horizontal forms")
+   (d/p "Use"
+        (d/code ":label-classname")
+        " and "
+        (d/code ":wrapper-classname")
+        (d/p " options to add col classes manually. Checkbox and radio
+        types need special treatment because label wraps input."))
+   (TODO)
+
+   (d/h3 "Use as a wrapper")
+   (d/p "If " (d/code ":type") " is not set, child element(s) will be
+   rendered instead of an input element.")
+   (TODO)))
 
 ;; ## Final Page Loading
+
+(defn sidebar []
+  (d/div
+   {:class "col-md-3"}
+   (d/div {:class "bs-docs-sidebar hidden-print"
+           :role "complementary"}
+          (n/nav
+           {:class "bs-docs-sidenav"}
+           (n/nav-item {:href "#buttons"} "Buttons")
+           (n/nav-item {:href "#panels"} "Panels")
+           (n/nav-item {:href "#modals"} "Modals")
+           (n/nav-item {:href "#tooltips"} "Tooltips")
+           (n/nav-item {:href "#popovers"} "Popovers")
+           (n/nav-item {:href "#progress"} "Progress bars")
+           (n/nav-item {:href "#navs"} "Navs")
+           (n/nav-item {:href "#navbars"} "Navbars")
+           (n/nav-item {:href "#tabs"} "Toggleable Tabs")
+           (n/nav-item {:href "#pager"} "Pager")
+           (n/nav-item {:href "#alerts"} "Alerts")
+           (n/nav-item {:href "#carousels"} "Carousels")
+           (n/nav-item {:href "#grids"} "Grids")
+           (n/nav-item {:href "#listgroup"} "List group")
+           (n/nav-item {:href "#labels"} "Labels")
+           (n/nav-item {:href "#badges"} "Badges")
+           (n/nav-item {:href "#jumbotron"} "Jumbotron")
+           (n/nav-item {:href "#page-header"} "Page header")
+           (n/nav-item {:href "#wells"} "Wells")
+           (n/nav-item {:href "#glyphicons"} "Glyphicons")
+           (n/nav-item {:href "#tables"} "Tables")
+           (n/nav-item {:href "#input"} "Input"))
+          (d/a {:class "back-to-top" :href "#top"} "Back to top"))))
+
+(defn lead []
+  (d/div {:class "lead"}
+         "This page lists the Om-Bootstrap components. For each component, we provide:"
+         (d/ul
+          (d/li "Usage instructions")
+          (d/li "An example code snippet")
+          (d/li "The rendered result of the example snippet"))
+         "Click \"show code\" below the rendered component to reveal the snippet."))
 
 (defcomponentk app
   "This is the top level component that renders the entire example
@@ -236,25 +665,39 @@
   []
   (render [_]
           (d/div
-           (button-block)
-           (d/h3 "Jumbotron")
-           (jumbotron-example)
-           (d/h3 "Label Examples")
-           (label-examples)
-           (d/h3 "Label Variations")
-           (label-variations)
-           (d/h3 "Well!")
-           default-well
-           optional-well-classes
-           (d/h3 "Page Header")
-           header-example
-           (d/h3 "Grid")
-           grid-example
-           (d/h3 "Tooltip")
-           tooltip-example
-           (d/h3 "Positioned Tooltip (in progress)")
-           (d/h3 "Alert")
-           alert-example)))
+           (d/div {:class "bs-docs-header" :id "content"}
+                  (d/div {:class "container"}
+                         (d/h1 "Components")))
+           (d/div
+            {:class "container bs-docs-container"}
+            (d/div
+             {:class "row"}
+             (d/div
+              {:class "col-md-9" :role "main"}
+              (lead)
+              (button-block)
+              (panel-block)
+              (modal-block)
+              (tooltip-block)
+              (popover-block)
+              (progress-bar-block)
+              (nav-block)
+              (navbar-block)
+              (tab-block)
+              (pager-block)
+              (alert-block)
+              (carousel-block)
+              (grid-block)
+              (label-block)
+              (badge-block)
+              (jumbotron-block)
+              (header-block)
+              (well-block)
+              (glyphicon-block)
+              (table-block)
+              (input-block))
+             (sidebar)))
+           (footer))))
 
 (defonce app-state
   (atom {:text "Hi!"}))

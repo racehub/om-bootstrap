@@ -29,4 +29,4 @@ checkouts
 schema.png
 dev/public/assets/main.js
 dev/public/generated
-_site
+dev/public/assets/generated

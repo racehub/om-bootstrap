@@ -30,7 +30,7 @@
    :close-button? s/Bool
    :animate? s/Bool
    :children (s/named s/Any "Child elements, if any.")
-   :on-request-hide s/Any #_(s/=> s/Any s/Any)})
+   :on-request-hide (sm/=> s/Any s/Any)})
 
 (sm/defn render-header :- t/Component
   "Renders the header for the modal."

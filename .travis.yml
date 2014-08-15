@@ -1,7 +1,3 @@
-# See this guide for more settings:
-#
-# http://about.travis-ci.org/docs/user/build-configuration/
-
 language: clojure
 lein: lein2
 script: lein2 test
@@ -11,3 +7,11 @@ branches:
     - master
 jdk:
   - openjdk7
+deploy:
+  provider: heroku
+  api_key:
+    secure: R0sXGyTf9IP5MGpHay47fpuL0DGvIn5VbOjSFq1Syucp6Yt5RhhjOi99x0C1BtIXvDJzqvLEW3MDAgvi111iHiHTSv0w3lrb2vnHB0LpgZ0IPGAGazPILaWiC5jKgTXc2EXz3ByLi9gqegFuxVkTKOtDYieHWyWQWtAM2qAC+gk=
+  app: om-bootstrap
+  on:
+    repo: racehub/om-bootstrap
+    branch: develop

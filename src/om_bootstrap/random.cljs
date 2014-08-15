@@ -46,7 +46,8 @@
   sections of content on a page. It can utilize the h1’s default small
   element, as well as most other components (with additional styles)."
   [opts & children]
-  (d/div (u/merge-props opts {:class "page-header"}) children))
+  (d/div (u/merge-props opts {:class "page-header"})
+         (d/h1 children)))
 
 ;; ## Tooltip
 
@@ -117,3 +118,48 @@
     (om/build alert* {:bs bs
                       :props props
                       :children children})))
+
+;; ## Popover
+
+(def Popover
+  (t/bootstrap
+   {(s/optional-key :title) t/Renderable
+    (s/optional-key :placement) Placement
+    (s/optional-key :position-left) s/Int
+    (s/optional-key :position-top) s/Int
+    (s/optional-key :arrow-offset-left) s/Int
+    (s/optional-key :arrow-offset-top) s/Int}))
+
+;; TODO: Abstract out shared style generation between here and
+;; tooltip.
+(sm/defn popover :- t/Component
+  [opts :- Popover & children]
+  (let [[bs _] (t/separate Popover opts {:placement "right"})
+        classes {:popover true
+                 (:placement bs) true
+                 :in (or (:position-left bs)
+                         (:position-top bs))}]
+    (d/div {:class (d/class-set classes)
+            :style {:left (:position-left bs)
+                    :top (:position-top bs)
+                    :display "block"}}
+           (d/div {:class "arrow"
+                   :style {:left (:arrow-offset-left bs)
+                           :top (:arrow-offset-top bs)}})
+           (when-let [title (:title bs)]
+             (d/h3 {:class "popover-title"} title))
+           (d/div {:class "popover-content"}
+                  children))))
+
+;; ## Badge
+
+(def Badge
+  {(s/optional-key :pull-right?) s/Bool})
+
+(sm/defn badge :- t/Component
+  [opts :- Badge & children]
+  (let [[bs props] (t/separate Badge opts)
+        classes {:pull-right (:pull-right? bs)
+                 :badge (u/some-valid-component? children)}]
+    (d/span (u/merge-props props {:class (d/class-set classes)})
+            children)))
