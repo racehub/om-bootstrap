@@ -29,7 +29,8 @@
                        :omit-source true
                        :main om-bootstrap.server
                        :plugins [[lein-cljsbuild "1.0.3"]]
-                       :dependencies [[compojure "1.1.8"]
+                       :dependencies [[javax.servlet/servlet-api "2.5"]
+                                      [compojure "1.1.8"]
                                       [http-kit "2.1.18"]]
                        :source-paths ["docs/src/clj"]
                        :resource-paths ["dev"]}
