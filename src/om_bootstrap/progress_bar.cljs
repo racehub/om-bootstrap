@@ -1,5 +1,6 @@
 (ns om-bootstrap.progress-bar
-  "IN PROGRESS!"
+  "IN PROGRESS! (Yuk yuk.) This code is a start, but currently doesn't
+  work."
   (:require [om-bootstrap.types :as t]
             [om-tools.dom :as d :include-macros true]
             [schema.core :as s])
