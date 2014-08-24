@@ -96,8 +96,8 @@ and the latest version of ClojureScript. Please create a [GitHub issue](https://
 
 ## Authors
 
-- [Sam Ritchie](https://github.com/sritchie)
-- [Dave Petrovics](https://github.com/dpetrovics)
+- Sam Ritchie <https://twitter.com/sritchie>
+- Dave Petrovics <https://github.com/dpetrovics>
 
 We'd love to add your name to this list! See `CONTRIBUTING.md` for information on how to help out.
 
