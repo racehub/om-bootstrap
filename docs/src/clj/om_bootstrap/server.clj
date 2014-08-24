@@ -19,9 +19,11 @@
 
 (defn clojurescript []
   (if (dev?)
-    [(h/include-js "http://fb.me/react-0.11.1.js")
+    (list
+     (h/include-js "http://fb.me/react-0.11.1.js")
      (h/include-js "static/generated/goog/base.js")
-     (h/include-js "static/assets/main.js")]
+     (h/include-js "static/assets/main.js")
+     (e/javascript-tag "goog.require(\"om_bootstrap.docs\");"))
     (h/include-js "static/assets/generated/om_bootstrap.js")))
 
 (defn index []
@@ -42,9 +44,8 @@
     "<![endif]-->"]
    [:body
     [:div#app]
-    (clojurescript)
     (h/include-js "static/vendor/highlight/highlight.pack.js")
-    (e/javascript-tag "goog.require(\"om_bootstrap.docs\");")]))
+    (clojurescript)]))
 
 (defroutes app-routes
   (route/resources "/static")

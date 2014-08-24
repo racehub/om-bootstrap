@@ -193,8 +193,6 @@
                  (render-wrapper input))]
            (render-form-group input)))))
 
-;; TODO: Have a better story for class-set - maybe allow a set too?
-
 ;; ### Input Candidates
 ;;
 ;; These bad dawgs need to be abstracted out into more solid input
@@ -222,44 +220,3 @@
   (cons (d/option {:value ""} header)
         (for [[v label] opts]
           (d/option {:value v} label))))
-
-;; ## Helpers
-
-(defn make-horizontal
-  "Adds suitable container boundaries for a horizontal form
-  field. TODO: Give this thing custom arguments."
-  [item]
-  (assoc item
-    :label-classname "col-xs-2"
-    :wrapper-classname "col-xs-10"))
-
-;; ## In Progress and Examples
-
-(sm/defn inline-fields
-  "TODO: Add an inline-fields helper that can build a group of
-  these. Some help on how to do this with bootstrap 3:
-  http://www.bootply.com/127826"
-  [inputs :- [Input]]
-  )
-
-(def example-fields
-  [{:type "text" :addon-before "$"
-    :help "Label before the input field."}
-   {:type "text" :label "Your Address:"
-    :label-classname "col-sm-3"
-    :wrapper-classname "col-sm-5"}
-   {:type "text" :addon-after ".00"
-    :label "label!"
-    :help "Label AFTER the input field."}
-   {:type "text" :addon-before "$" :addon-after ".00"
-    :help "Label both before and after the input field."}
-   {:type "text" :bs-style "success" :label "Success" :feedback? true}
-   {:type "text" :bs-style "warning" :label "Warning" :feedback? true}
-   {:type "text" :bs-style "error" :label "Error" :feedback? true}
-   (make-horizontal
-    {:type "select"
-     :label "Pick Events"
-     :children (map (fn [i]
-                      (d/option {:value i} i))
-                    (range 10))
-     :selected 3})])

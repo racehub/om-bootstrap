@@ -10,9 +10,13 @@
   (render-state
    [_ {:keys [loading?]}]
    (let [toggle #(swap! state update-in [:loading?] not)
+
+         ;; This is required to get around
+         ;; https://github.com/Prismatic/om-tools/issues/29.
+         set-timeout (aget owner "set_timeout")
          handle-click (fn [e]
                         (toggle)
-                        ((aget owner "set-timeout") toggle 2000))]
+                        (set-timeout toggle 2000))]
      (b/button {:bs-style "primary"
                 :disabled? loading?
                 :on-click (when-not loading?
