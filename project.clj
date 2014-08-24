@@ -25,18 +25,18 @@
                              [secretary "1.2.0"]
                              [weasel "0.3.0"]
                              [om "0.7.1"]]}
-             :uberjar {:aot :all
-                       :omit-source true
-                       :main om-bootstrap.server
-                       :plugins [[lein-cljsbuild "1.0.3"]]
-                       :prep-tasks ^:replace [["clean"]
-                                              ["cljsbuild" "clean"]
-                                              ["cljsbuild" "once" "heroku"]
-                                              ["javac"]
-                                              ["compile" ":all"]]
-                       :dependencies ~server-deps
-                       :source-paths ["docs/src/clj"]
-                       :resource-paths ["dev"]}
+             :docs {:aot :all
+                    :omit-source true
+                    :main om-bootstrap.server
+                    :plugins [[lein-cljsbuild "1.0.3"]]
+                    :prep-tasks ^:replace [["clean"]
+                                           ["cljsbuild" "clean"]
+                                           ["cljsbuild" "once" "heroku"]
+                                           ["javac"]
+                                           ["compile" ":all"]]
+                    :dependencies ~server-deps
+                    :source-paths ["docs/src/clj"]
+                    :resource-paths ["dev"]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
                              [com.cemerick/clojurescript.test "0.3.0"]
                              [paddleguru/lein-gitflow "0.1.2"]]
@@ -47,7 +47,8 @@
                    :repl-options
                    {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
   :aliases {"test" ["cljsbuild" "test"]
-            "repl" ["do" "cljsbuild" "once" "docs," "repl"]}
+            "repl" ["do" "cljsbuild" "once" "docs," "repl"]
+            "uberjar" ["with-profile" "docs" "uberjar"]}
   :cljsbuild
   {:test-commands {"unit"
                    ["phantomjs" :runner
