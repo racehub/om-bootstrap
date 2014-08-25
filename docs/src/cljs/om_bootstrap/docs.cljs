@@ -479,7 +479,7 @@
 (defn label-block []
   (section
    "labels"
-   ["Labels" (d/small "random.cljs")]
+   ["Labels " (d/small "random.cljs")]
    (d/h3 "Example")
    (d/p "Create " (d/code "(r/label {} \"label\")") " to show
    highlight information.")
@@ -495,7 +495,7 @@
 (defn badge-block []
   (section
    "badges"
-   ["Badges" (d/small "random.cljs")]
+   ["Badges " (d/small "random.cljs")]
    (d/p "Easily highlight new or unread items by adding
    a " (d/code "r/badge") " to links, Bootstrap navs, and more.")
    (d/h3 "Example")
@@ -509,7 +509,7 @@
 (defn jumbotron-block []
   (section
    "jumbotron"
-   ["Jumbotron" (d/small "random.cljs")]
+   ["Jumbotron " (d/small "random.cljs")]
    (d/p "A lightweight, flexible component that can optionally extend
    the entire viewport to showcase key content on your site.")
    (d/h3 "Example")
@@ -520,7 +520,7 @@
 (defn header-block []
   (section
    "page-header"
-   ["Page Header" (d/small "random.cljs")]
+   ["Page Header " (d/small "random.cljs")]
    (d/p "A simple shell for an " (d/code "h1") " to appropriately
    space out and segment sections of content on a page. It can utilize
    the " (d/code "h1") "’s default " (d/code "small") " small element,
@@ -533,7 +533,7 @@
 (defn well-block []
   (section
    "wells"
-   ["Wells" (d/small "random.cljs")]
+   ["Wells " (d/small "random.cljs")]
    (d/p "Use the well as a simple effect on an element to give it an inset effect.")
    (d/h3 "Default Wells")
    (->example (slurp-example "well/basic"))
@@ -547,7 +547,7 @@
 (defn glyphicon-block []
   (section
    "glyphicons"
-   ["Glyphicons" (d/small "random.cljs")]
+   ["Glyphicons " (d/small "random.cljs")]
    (d/p "Use them in buttons, button groups for a toolbar, navigation,
    or prepended form inputs.")
    (d/h3 "Example")
@@ -558,7 +558,7 @@
 (defn table-block []
   (section
    "tables"
-   ["Tables" (d/small "table.cljs")]
+   ["Tables " (d/small "table.cljs")]
    (d/h3 "Example")
    (d/p "Use the "
         (d/code ":striped? true") ", "
@@ -579,7 +579,7 @@
 (defn input-block []
   (section
    "input"
-   ["Input" (d/small "input.cljs")]
+   ["Input " (d/small "input.cljs")]
    (d/p "Renders an input in bootstrap wrappers. Supports label, help,
    text input add-ons, validation and use as wrapper. om-bootstrap tags the "
         (d/code "input") " node with a " (d/code ":ref") " and " (d/code ":key")
