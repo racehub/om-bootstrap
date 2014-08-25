@@ -22,11 +22,13 @@ Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usag
 * Well (random.cljs)
 * PageHeader (random.cljs)
 * Grid, Row, Col (grid.cljs)
-* ToolTip (random.cljs, except for examples)
-* Alert (random.cljs, except for examples)
+* Glyphicon (random.cljs)
+* ToolTip (random.cljs)
+* Alert (random.cljs)
 * Nav, NavItem (nav.cljs)
 * Popover (random.cljs)
 * Badge (random.cljs)
+* Table (table.cljs)
 
 ## Mixins
 

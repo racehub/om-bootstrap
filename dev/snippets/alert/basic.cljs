@@ -4,4 +4,4 @@
 
 (r/alert {:bs-style "warning"}
          (d/strong "Holy guacamole!")
-         "Best check yo self, you're not looking too good.")
+         " Best check yo self, you're not looking too good.")

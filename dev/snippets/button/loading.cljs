@@ -25,4 +25,4 @@
                  "Loading..."
                  "Loading state")))))
 
-(d/div (->loading-button {}))
+(->loading-button {})
