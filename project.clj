@@ -22,9 +22,9 @@
                   :exclude [org.clojure/clojurescript]]
                  [om "0.7.1"]]
   :profiles {:provided
-             {:dependencies [[org.clojure/clojurescript "0.0-2261"]
+             {:dependencies [[org.clojure/clojurescript "0.0-2311"]
                              [secretary "1.2.0"]
-                             [weasel "0.3.0"]]}
+                             [weasel "0.4.0-SNAPSHOT"]]}
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server

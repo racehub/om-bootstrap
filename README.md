@@ -96,6 +96,8 @@ Om-Bootstrap works with the following dependencies:
 
 and the latest version of ClojureScript. Please create a [GitHub issue](https://github.com/racehub/om-bootstrap/issues) if you run into problems with these versions or would like to see further versions supported.
 
+Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See [this ticket](https://github.com/racehub/om-bootstrap/issues/10) for details.
+
 ## Authors
 
 - Sam Ritchie <https://twitter.com/sritchie>
