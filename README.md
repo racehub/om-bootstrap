@@ -125,4 +125,4 @@ And boom! Heroku will guide you through the process of deploying a fresh copy of
 
 ## Acknowledgements
 
-HUGE thanks to the [react-bootstrap](https://github.com/react-bootstrap/react-bootstrap) project, which I used as a reference when creating all components and the documentation site. I've kept their original MIT license on the project for now with their names, since I'm not really sure how to license a "fork" that contains no copied code, just lifted CSS from the documentation site.
+HUGE thanks to the [react-bootstrap](https://github.com/react-bootstrap/react-bootstrap) project, which I used as a reference when creating all components and the documentation site.
