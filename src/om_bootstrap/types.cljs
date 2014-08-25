@@ -81,16 +81,6 @@
   [schema]
   (assoc schema s/Any s/Any))
 
-(comment
-  "Test:"
-  (= (separate BootstrapClass {:bs-class "face" :a "b"})
-     [{:bs-class "face"} {:a "b"}])
-
-  (= (separate BootstrapClass
-               {:bs-class "face" :a "b"}
-               {:bs-style "ace" :bs-class "one" :v "d"})
-     [{:bs-style "ace", :bs-class "face"} {:v "d", :a "b"}]))
-
 ;; ## Public API
 ;;
 ;; Separate follows the best practices set out here:
@@ -110,8 +100,7 @@
         (into {} (remove (comp ks key) opts))])))
 
 (sm/defn bs-class-set :- {s/Str s/Bool}
-  "Returns input for class-set. Not really convinced that this is
-   useful."
+  "Returns input for class-set."
   [{:keys [bs-class bs-style bs-size]} :- (at-least BootstrapClass)]
   (if-let [klass (class-map bs-class)]
     (let [prefix (str (name klass) "-")]
