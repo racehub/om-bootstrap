@@ -154,12 +154,26 @@
 ;; ## Badge
 
 (def Badge
-  {(s/optional-key :pull-right?) s/Bool})
+  (t/bootstrap
+   {(s/optional-key :pull-right?) s/Bool}))
 
 (sm/defn badge :- t/Component
   [opts :- Badge & children]
   (let [[bs props] (t/separate Badge opts)
         classes {:pull-right (:pull-right? bs)
                  :badge (u/some-valid-component? children)}]
+    (d/span (u/merge-props props {:class (d/class-set classes)})
+            children)))
+
+;; ## Glyphicon
+
+(def Glyphicon
+  (t/bootstrap {:glyph s/Str}))
+
+(sm/defn glyphicon :- t/Component
+  [opts :- Glyphicon & children]
+  (let [[bs props] (t/separate Glyphicon opts {:bs-class "glyphicon"})
+        classes (assoc (t/bs-class-set bs)
+                  (str "glyphicon-" (:glyph bs)) true)]
     (d/span (u/merge-props props {:class (d/class-set classes)})
             children)))

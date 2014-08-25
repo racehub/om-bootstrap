@@ -1,7 +1,8 @@
 (ns om-bootstrap.modal
+  "IN PROGRESS work on a modal component. Depends on a fade mixin."
   (:require [cljs.core.async :as a :refer [chan put! close!]]
             [om.core :as om]
-            [om-bootstrap.mixins :refer [fade-mixin set-listener-mixin]]
+            [om-bootstrap.mixins :refer [set-listener-mixin]]
             [om-bootstrap.types :as t]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -66,20 +67,21 @@
 ;; TODO: Look up the bootstrap modal mixin here!
 ;;
 ;; https://gist.github.com/insin/8449696
+#_
 (defcomponentk modal
   "Component to render a Bootstrap modal to the DOM."
   [[:data animation? on-request-hide {keyboard? true} :as modal] :- Modal
    owner state]
   (:mixins fade-mixin set-listener-mixin)
   (init-state [_] {:keyup (chan)})
-  #_(will-mount [_]
-                (let [c (:keyup @state)]
-                  (go-loop []
-                    (let [item (a/<! c)]
-                      (if (and keyboard? (.-keycode item))
-                        (on-request-hide)))
-                    (recur))))
-  #_(did-mount [_] (.set-listener owner "keyup" (:keyup @state)))
+  (will-mount [_]
+              (let [c (:keyup @state)]
+                (go-loop []
+                  (let [item (a/<! c)]
+                    (if (and keyboard? (.-keycode item))
+                      (on-request-hide)))
+                  (recur))))
+  (did-mount [_] (.set-listener owner "keyup" (:keyup @state)))
   (render [_]
           (d/div {} (d/p {} "FUCK!!"))
           #_(let [style {:display "block"}

@@ -162,7 +162,7 @@
       (case (:type input)
         "select" (d/select (props "form-control") children)
         "textarea" (d/textarea (props "form-control"))
-        "static" (d/p (props "form-control-static") children)
+        "static" (d/p (props "form-control-static") (:value attrs))
         (d/input (assoc (props (if (checkbox-or-radio? input)
                                  ""
                                  "form-control"))

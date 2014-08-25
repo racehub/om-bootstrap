@@ -7,4 +7,4 @@
                    :position-left 150
                    :position-top 50}
                   (d/strong "Holy guacamole!")
-                  "Check this info."))
+                  " Check this info."))

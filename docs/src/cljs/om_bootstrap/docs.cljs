@@ -13,6 +13,7 @@
             [om-bootstrap.panel :as p]
             [om-bootstrap.progress-bar :as pb]
             [om-bootstrap.random :as r]
+            [om-bootstrap.table :refer [table]]
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -84,7 +85,7 @@
 (defn button-groups []
   (section
    "btn-groups"
-   ["Button groups " (d/small "ButtonGroup, ButtonToolbar")]
+   ["Button groups " (d/small "button.cljs")]
    (d/p {:class "lead"} "Group a series of buttons together on a
    single line with the button group.")
    (d/h3 "Basic example")
@@ -103,14 +104,14 @@
    (->example (slurp-example "button/group_sizes"))
 
    (d/h3 "Nesting")
-   (d/p "You can place other button types within the <ButtonGroup /> like<DropdownButton />’s.")
+   (d/p "You can place other button types within the <ButtonGroup /> like <DropdownButton />’s.")
    (TODO)
 
    (d/h3 "Vertical variation")
    (d/p "Make a set of buttons appear vertically stacked rather than
    horizontally. " (d/strong {:class "text-danger"} "Split button
    dropdowns are not supported here."))
-   (d/p "Just add" (d/code ":vertical? true") "  to the " (d/code "b/button-group"))
+   (d/p "Just add " (d/code ":vertical? true") "  to the " (d/code "b/button-group"))
    (TODO)
 
    (d/h3 "Justified button groups")
@@ -163,7 +164,7 @@
 (defn button-main []
   (section
    "buttons"
-   ["Buttons " (d/small "Button")]
+   ["Buttons " (d/small "button.cljs")]
    (button-options)
    (button-sizing)
    (button-states)
@@ -192,7 +193,7 @@
 (defn panel-block []
   (section
    "panels"
-   ["Panels " (d/small "Panel, PanelGroup, Accordion")]
+   ["Panels " (d/small "panel.cljs")]
 
    (d/h3 "Basic example")
    (d/p "By default, all the " (d/code "p/panel") " does is apply some
@@ -232,7 +233,7 @@
 (defn modal-block []
   (section
    "modals"
-   ["Modals " (d/small "Modal")]
+   ["Modals " (d/small "modal.cljs (IN PROGRESS)")]
    (d/h3 "A static example")
    (d/p "A rendered modal with header, body, and set of actions in the footer.")
    (d/p "The header is added automatically if you pass in
@@ -254,7 +255,7 @@
 (defn tooltip-block []
   (section
    "tooltips"
-   ["Tooltips " (d/small "Tooltip")]
+   ["Tooltips " (d/small "random.cljs")]
    (d/h3 "Example tooltips")
    (d/p "Tooltip component.")
    (->example (slurp-example "tooltip/basic"))
@@ -303,7 +304,7 @@
 (defn popover-block []
   (section
    "popovers"
-   ["Popovers " (d/small "Popover")]
+   ["Popovers " (d/small "random.cljs")]
    (d/h3 "Example popovers")
    (d/p "Popovers component.")
    (->example (slurp-example "popover/basic"))
@@ -319,7 +320,7 @@
 (defn progress-bar-block []
   (section
    "progress"
-   ["Progress bars " (d/small "ProgressBar")]
+   ["Progress bars " (d/small "progress_bar.cljs (IN PROGRESS)")]
    (d/p {:class "lead"}
         "Provide up-to-date feedback on the progress of a workflow or
         action with simple yet flexible progress bars.")
@@ -362,7 +363,7 @@
 (defn nav-block []
   (section
    "navs"
-   ["Navs " (d/small "Nav, NavItem")]
+   ["Navs " (d/small "nav.cljs")]
    (d/h3 "Example navs")
    (d/p "Navs come in two styles, pills:")
    (->example (slurp-example "nav/pills"))
@@ -375,7 +376,7 @@
 (defn navbar-block []
   (section
    "navbars"
-   ["Navbars " (d/small "Navbar, Nav, NavItem")]
+   ["Navbars " (d/small "nav.cljs")]
    (d/h3 "Example navbars")
    (TODO)))
 
@@ -384,7 +385,7 @@
 (defn tab-block []
   (section
    "tabs"
-   ["Toggleable tabs " (d/small "TabbedArea, TabPane")]
+   ["Toggleable tabs " (d/small "(In Progress)")]
    (d/h2 "Example tabs")
    (d/p "Add quick, dynamic tab functionality to transition through
    panes of local content, even via dropdown menus.")
@@ -412,7 +413,7 @@
 (defn pager-block []
   (section
    "pager"
-   ["Pager " (d/small "Pager, PageItem")]
+   ["Pager " (d/small "In Progress")]
    (d/p "Quick previous and next links.")
    (d/h3 "Default")
    (d/p "Centers by default.")
@@ -436,7 +437,7 @@
 (defn alert-block []
   (section
    "alerts"
-   ["Alert messages " (d/small "Alert")]
+   ["Alert messages " (d/small "random.cljs")]
    (d/h3 "Example alerts")
    (d/p "Basic alert styles.")
    (->example (slurp-example "alert/basic"))
@@ -454,7 +455,7 @@
 (defn carousel-block []
   (section
    "carousels"
-   ["Carousels " (d/small "Carousel, CarouselItem")]
+   ["Carousels " (d/small "In Progress")]
    (d/h2 "Example Carousels")
    (d/h3 "Uncontrolled")
    (d/p "Allow the component to control its own state.")
@@ -469,7 +470,7 @@
 (defn grid-block []
   (section
    "grids"
-   ["Grids " (d/small "Grid, Row, Col")]
+   ["Grids " (d/small "grid.cljs")]
    (d/h3 "Example grids")
    (->example (slurp-example "grid"))))
 
@@ -477,7 +478,8 @@
 
 (defn label-block []
   (section
-   "labels" "Labels"
+   "labels"
+   ["Labels " (d/small "random.cljs")]
    (d/h3 "Example")
    (d/p "Create " (d/code "(r/label {} \"label\")") " to show
    highlight information.")
@@ -493,17 +495,21 @@
 (defn badge-block []
   (section
    "badges"
-   "Badges"
+   ["Badges " (d/small "random.cljs")]
    (d/p "Easily highlight new or unread items by adding
    a " (d/code "r/badge") " to links, Bootstrap navs, and more.")
    (d/h3 "Example")
-   (->example (slurp-example "badge"))))
+   (->example (slurp-example "badge"))
+   (info-callout "Cross-browser compatibility"
+                 "Unlike regular Bootstrap, badges self-collapse even
+                 in Internet Explorer 8.")))
 
 ;; ## Jumbotron
 
 (defn jumbotron-block []
   (section
-   "jumbotron" "Jumbotron"
+   "jumbotron"
+   ["Jumbotron " (d/small "random.cljs")]
    (d/p "A lightweight, flexible component that can optionally extend
    the entire viewport to showcase key content on your site.")
    (d/h3 "Example")
@@ -514,7 +520,7 @@
 (defn header-block []
   (section
    "page-header"
-   "Page Header"
+   ["Page Header " (d/small "random.cljs")]
    (d/p "A simple shell for an " (d/code "h1") " to appropriately
    space out and segment sections of content on a page. It can utilize
    the " (d/code "h1") "’s default " (d/code "small") " small element,
@@ -527,7 +533,7 @@
 (defn well-block []
   (section
    "wells"
-   "Wells"
+   ["Wells " (d/small "random.cljs")]
    (d/p "Use the well as a simple effect on an element to give it an inset effect.")
    (d/h3 "Default Wells")
    (->example (slurp-example "well/basic"))
@@ -541,55 +547,58 @@
 (defn glyphicon-block []
   (section
    "glyphicons"
-   "Glyphicons"
+   ["Glyphicons " (d/small "random.cljs")]
    (d/p "Use them in buttons, button groups for a toolbar, navigation,
    or prepended form inputs.")
    (d/h3 "Example")
-   (TODO)))
+   (->example (slurp-example "glyphicon"))))
 
 ;; ## Tables
 
 (defn table-block []
   (section
    "tables"
-   "Tables"
+   ["Tables " (d/small "table.cljs")]
    (d/h3 "Example")
    (d/p "Use the "
         (d/code ":striped? true") ", "
         (d/code ":bordered? true") ", "
         (d/code ":condensed? true") ", and "
         (d/code ":hover? true") " options to customize the table.")
-   (TODO)
+   (->example (slurp-example "table/basic"))
 
    (d/h3 "Responsive")
    (d/p "Add the " (d/code ":responsive? true") " option to make them
    scroll horizontally up to small devices (under 768px). When viewing
    on anything larger than 768px wide, you will not see any difference
    in these tables.")
-   (TODO)))
+   (->example (slurp-example "table/responsive"))))
 
 ;; ## Input
 
 (defn input-block []
   (section
    "input"
-   "Input"
+   ["Input " (d/small "input.cljs")]
    (d/p "Renders an input in bootstrap wrappers. Supports label, help,
-   text input add-ons, validation and use as wrapper. TODO: Add more
-   info about how to get the current value.")
-   (TODO)
+   text input add-ons, validation and use as wrapper. om-bootstrap tags the "
+        (d/code "input") " node with a " (d/code ":ref") " and " (d/code ":key")
+        ", so you can access the internal input element with "
+        (d/code "(om/get-node owner \"input\")")
+        " as demonstrated in the snippet.")
+   (->example (slurp-example "input/validation"))
 
    (d/h3 "Types")
    (d/p "Supports "
         (d/code "select") ", "
         (d/code "textarea") ", "
         (d/code "static") " as well as the standard HTML input types.")
-   (TODO)
+   (->example (slurp-example "input/types"))
 
    (d/h3 "Add-ons")
    (d/p "Use " (d/code ":addon-before") "
    and " (d/code ":addon-after") ". Does not support buttons.")
-   (TODO)
+   (->example (slurp-example "input/addons"))
 
    (d/h3 "Validation")
    (d/p "Set " (d/code ":bs-style") " to one of "
@@ -599,7 +608,7 @@
         (d/code ":has-feedback? true")
         " to show a glyphicon. Glyphicon may need additional styling
         if there is an add-on or no label.")
-   (TODO)
+   (->example (slurp-example "input/feedback"))
 
    (d/h3 "Horizontal forms")
    (d/p "Use"
@@ -608,12 +617,12 @@
         (d/code ":wrapper-classname")
         (d/p " options to add col classes manually. Checkbox and radio
         types need special treatment because label wraps input."))
-   (TODO)
+   (->example (slurp-example "input/horizontal"))
 
    (d/h3 "Use as a wrapper")
    (d/p "If " (d/code ":type") " is not set, child element(s) will be
    rendered instead of an input element.")
-   (TODO)))
+   (->example (slurp-example "input/wrapper"))))
 
 ;; ## Final Page Loading
 
