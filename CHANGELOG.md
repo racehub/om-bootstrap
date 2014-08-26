@@ -10,9 +10,10 @@ From https://github.com/racehub/om-bootstrap/pull/13:
 
 ### New Components
 
-- dropdown-mixin (mixins.cljs)
-- menu-item, dropdown-menu, dropdown (button.cljs)
-- split (ie, SplitButton) (button.cljs)
+- `dropdown-mixin` (mixins.cljs)
+- `menu-item`, `dropdown-menu`, `dropdown` (button.cljs)
+- `split` (ie, SplitButton) (button.cljs)
+- `navbar` (ie, SplitButton) (button.cljs)
 
 ## 0.2.5
 

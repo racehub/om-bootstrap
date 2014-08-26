@@ -16,17 +16,17 @@ This project's goal is to provide wrappers for all Bootstrap 3 components, activ
 Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usage examples for all components that exist so far. The following components are currently complete:
 
 * `button`, `button-group`, `toolbar` (button.cljs)
-* `dropdown-menu`, `menu-item`, `dropdown` (button.cljs)
+* `dropdown-menu`, `menu-item`, `dropdown`, `split` (button.cljs)
 * `input` (input.cljs)
 * `jumbotron` (random.cljs)
 * `label` (random.cljs)
 * `well` (random.cljs)
-* PageHeader (random.cljs)
+* `page-header` (random.cljs)
 * `grid`, `row`, `col` (grid.cljs)
 * `glyphicon` (random.cljs)
 * `tooltip` (random.cljs)
 * `alert` (random.cljs)
-* `nav`, `nav-item` (nav.cljs)
+* `nav`, `nav-item`, `navbar` (nav.cljs)
 * `popover` (random.cljs)
 * `badge` (random.cljs)
 * `table` (table.cljs)
@@ -49,10 +49,8 @@ The project contains a few mixins that help in writing active Om components. THe
 
 These, and the mixins below, are the project's biggest TODOs.
 
-* SplitButton
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
-* NavBar
 * TabbedArea, TabPane
 * Pager
 * Carousel
