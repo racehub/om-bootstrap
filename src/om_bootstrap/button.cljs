@@ -232,8 +232,6 @@
     (s/optional-key :on-click) (sm/=> s/Any s/Any)
     (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
-;; TODO: check if om-tools is camelcasing properties that it shouldn't
-;; be touching.
 (defcomponentk split*
   "Generates a split button component responsible for its own
   toggled state. The open? toggling is handled through a dropdown
@@ -242,7 +240,7 @@
   (:mixins m/dropdown-mixin)
   (render
    [_]
-   (let [open-fn (aget owner "isDropdownOpen")
+   (let [open? ((aget owner "isDropdownOpen"))
          {:keys [opts children]} (om/get-props owner)
          [bs props] (t/separate SplitButton opts
                                 {:dropdown-title "Toggle dropdown"})
@@ -251,7 +249,7 @@
          btn (button (btn-props
                       {:ref "button"
                        :on-click (fn [e]
-                                   (when (open-fn)
+                                   (when open?
                                      (set-dropdown false))
                                    (when-let [f (:on-click bs)]
                                      (f e)))})
@@ -261,7 +259,7 @@
                             :class "dropdown-toggle"
                             :on-click (fn [e]
                                         (.preventDefault e)
-                                        (set-dropdown (not (open-fn))))})
+                                        (set-dropdown (not open?)))})
                           (d/span {:class "sr-only"} (:dropdown-title bs))
                           (d/span {:class "caret"}))
          menu (dropdown-menu {:ref "menu"
@@ -275,7 +273,7 @@
      (button-group {:bs-size (:bs-size bs)
                     :id (:id props)
                     :class (d/class-set
-                            {:open (open-fn)
+                            {:open open?
                              :dropup (:dropup? bs)})}
                    btn drop-btn menu))))
 
