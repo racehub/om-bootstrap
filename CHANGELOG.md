@@ -9,8 +9,10 @@ From https://github.com/racehub/om-bootstrap/pull/13:
 - `:on-select` handlers on top level nav elements now get called if set, along with the current nav-item `:on-select` handlers
 
 ### New Components
+
 - dropdown-mixin (mixins.cljs)
 - menu-item, dropdown-menu, dropdown (button.cljs)
+- split (ie, SplitButton) (button.cljs)
 
 ## 0.2.5
 

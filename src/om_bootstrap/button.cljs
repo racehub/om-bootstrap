@@ -218,3 +218,66 @@
   [opts :- DropdownButton & children]
   (->dropdown* {:opts opts
                 :children children}))
+
+;; ## Split Button
+
+(def SplitButton
+  (t/bootstrap
+   {(s/optional-key :pull-right?) s/Bool
+    (s/optional-key :dropup?) s/Bool
+    (s/optional-key :disabled?) s/Bool
+    (s/optional-key :title) t/Renderable
+    (s/optional-key :href) s/Str
+    (s/optional-key :dropdown-title) t/Renderable
+    (s/optional-key :on-click) (sm/=> s/Any s/Any)
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
+
+(defcomponentk split*
+  "Generates a split button component responsible for its own
+  toggled state. The open? toggling is handled through a dropdown
+  mixin."
+  [owner state]
+  (:mixins m/dropdown-mixin)
+  (render
+   [_]
+   (let [open? ((aget owner "isDropdownOpen"))
+         {:keys [opts children]} (om/get-props owner)
+         [bs props] (t/separate SplitButton opts
+                                {:dropdown-title "Toggle dropdown"})
+         set-dropdown (aget owner "setDropdownState")
+         btn-props (partial u/merge-props (dissoc opts :title :id))
+         btn (button (btn-props
+                      {:ref "button"
+                       :on-click (fn [e]
+                                   (when open?
+                                     (set-dropdown false))
+                                   (when-let [f (:on-click bs)]
+                                     (f e)))})
+                     (:title bs))
+         drop-btn (button (btn-props
+                           {:ref "dropdownButton"
+                            :class "dropdown-toggle"
+                            :on-click (fn [e]
+                                        (.preventDefault e)
+                                        (set-dropdown (not open?)))})
+                          (d/span {:class "sr-only"} (:dropdown-title bs))
+                          (d/span {:class "caret"}))
+         menu (dropdown-menu {:ref "menu"
+                              :aria-labelledby (:id props)
+                              :pull-right? (:pull-right? bs)
+                              :on-select (fn [k]
+                                           (when-let [f (:on-select bs)]
+                                             (f k))
+                                           (set-dropdown false))}
+                             children)]
+     (button-group {:bs-size (:bs-size bs)
+                    :id (:id props)
+                    :class (d/class-set
+                            {:open open?
+                             :dropup (:dropup? bs)})}
+                   btn drop-btn menu))))
+
+(sm/defn split
+  [opts :- SplitButton & children]
+  (->split* {:opts opts
+             :children children}))

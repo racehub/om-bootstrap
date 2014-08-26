@@ -146,7 +146,7 @@
    (d/h3 "Split button dropdowns")
    (d/p "Similarly, create split button dropdowns with
    the " (d/code "b/split") " component.")
-   (TODO)
+   (->example (slurp-example "button/split_basic"))
 
    (d/h3 "Sizing")
    (d/p "Button dropdowns work with buttons of all sizes.")
@@ -155,13 +155,13 @@
    (d/h3 "Dropup variation")
    (d/p "Trigger dropdown menus that site above the button by adding
    the " (d/code ":dropup? true") " option.")
-   (TODO)
+   (->example (slurp-example "button/split_dropup"))
 
 
    (d/h3 "Dropdown right variation")
    (d/p "Trigger dropdown menus that align to the right of the button
    using the " (d/code ":pull-right? true") " option.")
-   (TODO)))
+   (->example (slurp-example "button/split_right"))))
 
 (defn button-main []
   (section

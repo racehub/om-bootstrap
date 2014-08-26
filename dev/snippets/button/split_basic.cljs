@@ -3,9 +3,9 @@
 
 (b/toolbar
  {}
- (for [title ["Default" "Primary" "Success" "Info" "Warning" "Danger" "Link"]
+ (for [title ["Default" "Primary" "Success" "Info" "Warning" "Danger"]
        :let [style (.toLowerCase title)]]
-   (b/split-button
+   (b/split
     {:bs-style style, :title title}
     (b/menu-item {:key 1} "Action")
     (b/menu-item {:key 2} "Another action")
