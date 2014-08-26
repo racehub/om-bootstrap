@@ -23,9 +23,7 @@
     (d/div (u/merge-props props {:class (d/class-set classes)})
            (when-let [header (:header bs)]
              (d/div {:class "panel-heading"}
-                    (if (u/strict-valid-component? header)
-                      (u/clone-with-props header {:class "panel-title"})
-                      header)))
+                    (u/clone-with-props header {:class "panel-title"})))
            (d/div {:class "panel-body" :ref "body"}
                   children)
            (when-let [footer(:footer bs)]
