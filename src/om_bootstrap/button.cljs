@@ -117,6 +117,9 @@
 
 #_
 (defmixin dropdown-mixin
+  "Note that we're going to have to do some magic to get the state
+  setting to work
+  here. https://github.com/Prismatic/om-tools/issues/28"
   (setDropdownState [_ new-state on-state-change-complete]))
 
 
