@@ -56,37 +56,45 @@
           (= root node) true
           :else (recur (.-parentNode node)))))
 
+(def ESCAPE_KEY 27)
+
 (defn bind-root-close-handlers!
-  "For dropdowns, binds a handler for the click and "
+  "For dropdowns, binds a handler for that sets the dropdown-mixin's
+  `:open?` state to false if the user clicks outside the owning
+  component OR hits the escape key."
   [owner]
   (let [set-state (aget owner "setDropdownState")]
-    (set! (.-onDocumentClickListener owner)
-                (event-listener
-                 js/document "click"
-                 (fn [e]
-                   (when-not (in-root? (.-target e) (om/get-node owner))
-                     (set-state false)))))
-    (set! (.-onDocumentKeyupListener owner)
-          (event-listener
-           js/document "keyup"
-           (fn [e]
-             (when (= 27 (.-keyCode e))
-               (set-state false)))))))
+    (set! (.-dropdownListeners owner)
+          (array
+           (event-listener
+            js/document "click"
+            (fn [e]
+              (when-not (in-root? (.-target e) (om/get-node owner))
+                (set-state false))))
+           (event-listener
+            js/document "keyup"
+            (fn [e]
+              (when (= ESCAPE_KEY (.-keyCode e))
+                (set-state false))))))))
 
-(defn unbind-root-close-handlers! [owner]
-  (when-let [l (.-onDocumentClickListener owner)]
-    (l)
-    (set! (.-onDocumentKeyupListener owner) nil))
-  (when-let [l (.-onDocumentKeyupListener owner)]
-    (l)
-    (set! (.-onDocumentKeyupListener owner) nil)))
+(defn unbind-root-close-handlers!
+  [owner]
+  (when-let [listeners (.-dropdownListeners owner)]
+    (map #(%) listeners)
+    (set! (.-dropdownListeners owner) nil)))
 
 (defmixin dropdown-mixin
-  "Note that we're going to have to do some magic to get the state
-  setting to work
-  here. https://github.com/Prismatic/om-tools/issues/28"
+  "Mixin that manages a single piece of state - :open?. If a user
+  clicks outside the component's owning dom element OR hits the escape
+  key, the state will jump back to false.
+
+  Down the road this may need to register a callback when the state
+  changes."
   (init-state [_] {:open? false})
   (will-unmount [owner] (unbind-root-close-handlers! owner))
+  ;; This function exists because om-tools mixins can't share state
+  ;; with the component that uses them:
+  ;; https://github.com/Prismatic/om-tools/issues/28
   (isDropdownOpen [owner] (om/get-state owner :open?))
   (setDropdownState
    [owner open?]
