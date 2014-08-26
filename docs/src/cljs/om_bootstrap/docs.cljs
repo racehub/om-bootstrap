@@ -104,15 +104,17 @@
    (->example (slurp-example "button/group_sizes"))
 
    (d/h3 "Nesting")
-   (d/p "You can place other button types within the <ButtonGroup /> like <DropdownButton />’s.")
-   (TODO)
+   (d/p "You can place other button types within the "
+        (d/code "b/button-group") ", like "
+        (d/code "b/dropdown") "s.")
+   (->example (slurp-example "button/group_nested"))
 
    (d/h3 "Vertical variation")
    (d/p "Make a set of buttons appear vertically stacked rather than
    horizontally. " (d/strong {:class "text-danger"} "Split button
    dropdowns are not supported here."))
    (d/p "Just add " (d/code ":vertical? true") "  to the " (d/code "b/button-group"))
-   (TODO)
+   (->example (slurp-example "button/group_vertical"))
 
    (d/h3 "Justified button groups")
    (d/p "Make a group of buttons stretch at equal sizes to span the
@@ -121,13 +123,13 @@
    (warning
     "Style issues"
     (d/p "There are some issues and workarounds required when using
-     this property, please see"
+     this property, please see "
          (d/a {:href "http://getbootstrap.com/components/#btn-groups-justified"}
               "bootstrap's button group docs")
          " for more specifics."))
    (d/p "Just add " (d/code ":justified? true") " to
    the " (d/code "b/button-group") ".")
-   (TODO)))
+   (->example (slurp-example "button/group_justified"))))
 
 (defn button-dropdowns []
   (section
@@ -139,7 +141,7 @@
 
    (d/h3 "Single button dropdowns")
    (d/p "Create a dropdown button with the " (d/code "b/dropdown") " component.")
-   (TODO)
+   (->example (slurp-example "button/dropdown_basic"))
 
    (d/h3 "Split button dropdowns")
    (d/p "Similarly, create split button dropdowns with
@@ -148,7 +150,7 @@
 
    (d/h3 "Sizing")
    (d/p "Button dropdowns work with buttons of all sizes.")
-   (TODO)
+   (->example (slurp-example "button/dropdown_sizes"))
 
    (d/h3 "Dropup variation")
    (d/p "Trigger dropdown menus that site above the button by adding
@@ -378,6 +380,7 @@
    "navbars"
    ["Navbars " (d/small "nav.cljs")]
    (d/h3 "Example navbars")
+   #_(->example (slurp-example "nav/bar_basic"))
    (TODO)))
 
 ;; ## Toggleable Tabs

@@ -1,6 +1,7 @@
 (ns om-bootstrap.button
   "Bootstrap buttons!"
   (:require [om.core :as om]
+            [om-bootstrap.mixins :as m]
             [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
@@ -115,13 +116,37 @@
                    :class (d/class-set group-classes)}
                   children)))
 
-#_
-(defmixin dropdown-mixin
-  "Note that we're going to have to do some magic to get the state
-  setting to work
-  here. https://github.com/Prismatic/om-tools/issues/28"
-  (setDropdownState [_ new-state on-state-change-complete]))
+;; ## Dropdown Button
 
+(def MenuItem
+  (t/bootstrap
+   {:key s/Str
+    (s/optional-key :header?) s/Bool
+    (s/optional-key :divider?) s/Bool
+    (s/optional-key :href) s/Str
+    (s/optional-key :title) s/Str
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
+
+(sm/defn menu-item :- t/Component
+  [opts :- MenuItem & children]
+  (let [[bs props] (t/separate MenuItem opts {:href "#"})
+        classes {:dropdown-header (:header? bs)
+                 :divider (:divider? bs)}
+        handle-click (fn [e]
+                       (when-let [on-select (:on-select bs)]
+                         (.preventDefault e)
+                         (on-select (:key bs))))
+        children (if (:header? bs)
+                   children
+                   (d/a {:on-click handle-click
+                         :href (:href bs)
+                         :title (:title bs)
+                         :tab-index "-1"}
+                        children))]
+    (d/li (u/merge-props props {:role "presentation"
+                                :key (:key bs)
+                                :class (d/class-set classes)})
+          children)))
 
 (def DropdownMenu
   (t/bootstrap
@@ -139,29 +164,25 @@
             (map #(u/clone-with-props % {:on-select on-select}) children)
             children))))
 
-(defcomponentk dropdown-button* [owner]
+(defcomponentk dropdown* [owner state]
+  (:mixins m/dropdown-mixin)
   (render
    [_]
-   (let [open? true
+   (let [open? ((aget owner "isDropdownOpen"))
          {:keys [opts children]} (om/get-props owner)
          [bs props] (t/separate DropdownButton opts {:href "#"})
          set-dropdown (aget owner "setDropdownState")
          render-fn (partial (if (:nav-item? bs)
-                              render-button-group
-                              render-nav-item)
+                              render-nav-item
+                              render-button-group)
                             bs open?)]
      (render-fn
       [(button
-        (u/merge-props props
+        (u/merge-props (dissoc opts :nav-item? :title :pull-right? :dropup?)
                        {:ref "dropdownButton"
                         :class "dropdown-toggle"
                         :key 0
                         :nav-dropdown? (:nav-item? bs)
-                        ;; Why are these here?
-                        :nav-item? nil
-                        :title nil
-                        :pull-right? nil
-                        :dropup? nil
                         :on-click (fn [e]
                                     (.preventDefault e)
                                     (set-dropdown (not open?)))})
@@ -185,7 +206,7 @@
                             {:on-select handle}))))
          children))]))))
 
-(sm/defn dropdown-button
+(sm/defn dropdown
   [opts :- DropdownButton & children]
-  (->dropdown-button* {:opts opts
-                       :children children}))
+  (->dropdown* {:opts opts
+                :children children}))

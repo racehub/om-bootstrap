@@ -15,27 +15,29 @@ This project's goal is to provide wrappers for all Bootstrap 3 components, activ
 
 Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usage examples for all components that exist so far. The following components are currently complete:
 
-* Button, ButtonGroup, Toolbar (button.cljs)
-* Input (input.cljs)
-* Jumbotron (random.cljs)
-* Label (random.cljs)
-* Well (random.cljs)
+* `button`, `button-group`, `toolbar` (button.cljs)
+* `dropdown-menu`, `menu-item`, `dropdown` (button.cljs)
+* `input` (input.cljs)
+* `jumbotron` (random.cljs)
+* `label` (random.cljs)
+* `well` (random.cljs)
 * PageHeader (random.cljs)
-* Grid, Row, Col (grid.cljs)
-* Glyphicon (random.cljs)
-* ToolTip (random.cljs)
-* Alert (random.cljs)
-* Nav, NavItem (nav.cljs)
-* Popover (random.cljs)
-* Badge (random.cljs)
-* Table (table.cljs)
+* `grid`, `row`, `col` (grid.cljs)
+* `glyphicon` (random.cljs)
+* `tooltip` (random.cljs)
+* `alert` (random.cljs)
+* `nav`, `nav-item` (nav.cljs)
+* `popover` (random.cljs)
+* `badge` (random.cljs)
+* `table` (table.cljs)
 
 ## Mixins
 
 The project contains a few mixins that help in writing active Om components. THe current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
 
-* Listener (mixins.cljs)
-* Timeout (mixins.cljs)
+* `set-listener-mixin` (mixins.cljs)
+* `set-timeout-mixin` (mixins.cljs)
+* `dropdown-mixin` (mixins.cljs)
 
 ## Components In Progress
 
@@ -47,8 +49,7 @@ The project contains a few mixins that help in writing active Om components. THe
 
 These, and the mixins below, are the project's biggest TODOs.
 
-* DropdownButton, SplitButton, MenuItem
-* DropdownMenu (?)
+* SplitButton
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
 * NavBar
@@ -60,8 +61,7 @@ These, and the mixins below, are the project's biggest TODOs.
 ### Needed Mixins
 
 * FadeMixin
-* Overlay
-* DropdownStateMixin
+* OverlayMixin
 * CollapsibleMixin
 
 ## ClojureScript Repl

@@ -8,6 +8,10 @@ From https://github.com/racehub/om-bootstrap/pull/13:
 - `om-bootstrap.util/clone-with-props` can now "clone" proper om components by injecting extra attributes into the om cursor.
 - `:on-select` handlers on top level nav elements now get called if set, along with the current nav-item `:on-select` handlers
 
+### New Components
+- dropdown-mixin (mixins.cljs)
+- menu-item, dropdown-menu, dropdown (button.cljs)
+
 ## 0.2.5
 
 - Removed in-progress fade listeners.
