@@ -12,7 +12,7 @@
 
 (def NavItem
   (t/bootstrap
-   {:title s/Str
+   {(s/optional-key :title) s/Str
     (s/optional-key :on-select) (sm/=> s/Any s/Any)
     (s/optional-key :active?) s/Bool
     (s/optional-key :disabled?) s/Bool
