@@ -4,6 +4,10 @@
 
 This hash code bug was causing `bs-class-set`'s internal lookup in `class-map` to fail in Safari 7.0.x once the JS JIT compiler kicked in.
 
+From https://github.com/racehub/om-bootstrap/pull/13:
+- `om-bootstrap.util/clone-with-props` can now "clone" proper om components by injecting extra attributes into the om cursor.
+- `:on-select` handlers on top level nav elements now get called if set, along with the current nav-item `:on-select` handlers
+
 ## 0.2.5
 
 - Removed in-progress fade listeners.

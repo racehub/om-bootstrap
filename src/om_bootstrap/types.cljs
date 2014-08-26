@@ -60,10 +60,16 @@
    (s/optional-key :bs-size) BSSize})
 
 (defn bootstrap
-  "Applies all default bootstrap options to the supplied schema."
+  "Applies all default bootstrap options to the supplied schema. If
+  the incoming schema has one of the the keys from BootstrapClass,
+  that wins (even if it's required)."
   [schema]
-  (assoc (merge BootstrapClass schema)
-    s/Any s/Any))
+  (let [bootstrap-schema (->> (select-keys schema [:bs-class :bs-style :bs-size])
+                              (keys)
+                              (map s/optional-key)
+                              (apply dissoc BootstrapClass))]
+    (assoc (merge bootstrap-schema schema)
+      s/Any s/Any)))
 
 ;; ## Schema Utilities
 
