@@ -380,8 +380,7 @@
    "navbars"
    ["Navbars " (d/small "nav.cljs")]
    (d/h3 "Example navbars")
-   #_(->example (slurp-example "nav/bar_basic"))
-   (TODO)))
+   (->example (slurp-example "nav/bar_basic"))))
 
 ;; ## Toggleable Tabs
 
