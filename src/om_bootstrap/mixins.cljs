@@ -78,6 +78,8 @@
                 (set-state false))))))))
 
 (defn unbind-root-close-handlers!
+  "If they're present on the owning object, removes the listeners
+  registered by the dropdown mixin."
   [owner]
   (when-let [listeners (.-dropdownListeners owner)]
     (map #(%) listeners)

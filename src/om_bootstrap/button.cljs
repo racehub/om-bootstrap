@@ -142,10 +142,11 @@
                          :href (:href bs)
                          :title (:title bs)
                          :tab-index "-1"}
-                        children))]
-    (d/li (u/merge-props props {:role "presentation"
-                                :key (:key bs)
-                                :class (d/class-set classes)})
+                        children))
+        li-attrs {:role "presentation"
+                  :key (:key bs)
+                  :class (d/class-set classes)}]
+    (d/li (u/merge-props props li-attrs)
           children)))
 
 (def DropdownMenu
@@ -153,18 +154,23 @@
    {(s/optional-key :pull-right?) s/Bool
     (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
-(sm/defn dropdown-menu
+(sm/defn dropdown-menu :- t/Component
   [opts :- DropdownMenu & children]
   (let [[bs props] (t/separate DropdownMenu opts)
         classes {:dropdown-menu true
-                 :dropdown-menu-right (:pull-right? bs)}]
-    (d/ul (u/merge-props props {:class (d/class-set classes)
-                                :role "menu"})
+                 :dropdown-menu-right (:pull-right? bs)}
+        ul-attrs {:class (d/class-set classes)
+                  :role "menu"}]
+    (d/ul (u/merge-props props ul-attrs)
           (if-let [on-select (:on-select bs)]
             (map #(u/clone-with-props % {:on-select on-select}) children)
             children))))
 
-(defcomponentk dropdown* [owner state]
+(defcomponentk dropdown*
+  "Generates a dropdown button component responsible for its own
+  toggled state. The open? toggling is handled through a dropdown
+  mixin."
+  [owner state]
   (:mixins m/dropdown-mixin)
   (render
    [_]
@@ -175,38 +181,40 @@
          render-fn (partial (if (:nav-item? bs)
                               render-nav-item
                               render-button-group)
-                            bs open?)]
+                            bs open?)
+         button-props {:ref "dropdownButton"
+                       :class "dropdown-toggle"
+                       :key 0
+                       :nav-dropdown? (:nav-item? bs)
+                       :on-click (fn [e]
+                                   (.preventDefault e)
+                                   (set-dropdown (not open?)))}
+         update-child-props (fn [props]
+                              (let [handle
+                                    (when (or (:on-select (:opts props))
+                                              (:on-select bs))
+                                      (fn [key]
+                                        (if-let [os (:on-select bs)]
+                                          (os key)
+                                          (set-dropdown false))))]
+                                (update-in props [:opts]
+                                           u/merge-props
+                                           {:on-select handle})))]
      (render-fn
       [(button
         (u/merge-props (dissoc opts :nav-item? :title :pull-right? :dropup?)
-                       {:ref "dropdownButton"
-                        :class "dropdown-toggle"
-                        :key 0
-                        :nav-dropdown? (:nav-item? bs)
-                        :on-click (fn [e]
-                                    (.preventDefault e)
-                                    (set-dropdown (not open?)))})
+                       button-props)
         (:title bs) " " (d/span {:class "caret"}))
        (dropdown-menu
         {:ref "menu"
          :aria-labelledby (:id props)
          :pull-right? (:pull-right? bs)
          :key 1}
-        (map
-         #(u/clone-with-props
-           % (fn [props]
-               (let [handle (when (or (:on-select (:opts props))
-                                      (:on-select bs))
-                              (fn [key]
-                                (if-let [os (:on-select bs)]
-                                  (os key)
-                                  (set-dropdown false))))]
-                 (update-in props [:opts]
-                            u/merge-props
-                            {:on-select handle}))))
-         children))]))))
+        (map #(u/clone-with-props % update-child-props) children))]))))
 
-(sm/defn dropdown
+(sm/defn dropdown :- t/Component
+  "Returns a dropdown button component. The component manages its own
+  dropdown state."
   [opts :- DropdownButton & children]
   (->dropdown* {:opts opts
                 :children children}))
