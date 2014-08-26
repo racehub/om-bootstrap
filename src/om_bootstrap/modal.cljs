@@ -83,7 +83,7 @@
                   (recur))))
   (did-mount [_] (.set-listener owner "keyup" (:keyup @state)))
   (render [_]
-          (d/div {} (d/p {} "FUCK!!"))
+          (d/div {} (d/p {} "Placeholder."))
           #_(let [style {:display "block"}
                   klasses {:modal true
                            :fade animation?
