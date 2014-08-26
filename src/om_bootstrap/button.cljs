@@ -3,11 +3,13 @@
   (:require [om.core :as om]
             [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
+            [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
+            [om-tools.mixin :refer-macros [defmixin]]
             [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
 
-;; ## Schema
+;; ## Basic Button
 
 (def Button
   (t/bootstrap
@@ -64,6 +66,8 @@
                                            :disabled (:disabled? bs)})
                      children))))
 
+;; ## Button Toolbar
+
 (sm/defn toolbar :- t/Component
   "Renders a button toolbar."
   [opts & children]
@@ -71,6 +75,8 @@
     (d/div {:role "toolbar"
             :class (d/class-set (t/bs-class-set bs))}
            children)))
+
+;; ## Button Group
 
 (sm/defn button-group :- t/Component
   "Renders the supplied children in a wrapping button-group div."
@@ -82,3 +88,101 @@
                         :btn-group-justified (:justified? bs)})]
     (d/div (u/merge-props props {:class (d/class-set classes)})
            children)))
+
+;; ## Dropdown Button
+
+(def DropdownButton
+  (t/bootstrap
+   {(s/optional-key :title) t/Renderable
+    (s/optional-key :href) s/Str
+    (s/optional-key :on-click) (sm/=> s/Any s/Any)
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)
+    (s/optional-key :pull-right?) s/Bool
+    (s/optional-key :dropup?) s/Bool
+    (s/optional-key :nav-item?) s/Bool}))
+
+(defn render-nav-item [props open? children]
+  (let [classes {:dropdown true
+                 :open open?
+                 :dropup (:dropup? props)}]
+    (d/li {:class (d/class-set classes)}
+          children)))
+
+(defn render-button-group [props open? children]
+  (let [group-classes {:open open?
+                       :dropup (:dropup? props)}]
+    (button-group {:bs-size (:bs-size props)
+                   :class (d/class-set group-classes)}
+                  children)))
+
+#_
+(defmixin dropdown-mixin
+  (setDropdownState [_ new-state on-state-change-complete]))
+
+
+(def DropdownMenu
+  (t/bootstrap
+   {(s/optional-key :pull-right?) s/Bool
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
+
+(sm/defn dropdown-menu
+  [opts :- DropdownMenu & children]
+  (let [[bs props] (t/separate DropdownMenu opts)
+        classes {:dropdown-menu true
+                 :dropdown-menu-right (:pull-right? bs)}]
+    (d/ul (u/merge-props props {:class (d/class-set classes)
+                                :role "menu"})
+          (if-let [on-select (:on-select bs)]
+            (map #(u/clone-with-props % {:on-select on-select}) children)
+            children))))
+
+(defcomponentk dropdown-button* [owner]
+  (render
+   [_]
+   (let [open? true
+         {:keys [opts children]} (om/get-props owner)
+         [bs props] (t/separate DropdownButton opts {:href "#"})
+         set-dropdown (aget owner "setDropdownState")
+         render-fn (partial (if (:nav-item? bs)
+                              render-button-group
+                              render-nav-item)
+                            bs open?)]
+     (render-fn
+      [(button
+        (u/merge-props props
+                       {:ref "dropdownButton"
+                        :class "dropdown-toggle"
+                        :key 0
+                        :nav-dropdown? (:nav-item? bs)
+                        ;; Why are these here?
+                        :nav-item? nil
+                        :title nil
+                        :pull-right? nil
+                        :dropup? nil
+                        :on-click (fn [e]
+                                    (.preventDefault e)
+                                    (set-dropdown (not open?)))})
+        (:title bs) " " (d/span {:class "caret"}))
+       (dropdown-menu
+        {:ref "menu"
+         :aria-labelledby (:id props)
+         :pull-right? (:pull-right? bs)
+         :key 1}
+        (map
+         #(u/clone-with-props
+           % (fn [props]
+               (let [handle (when (or (:on-select (:opts props))
+                                      (:on-select bs))
+                              (fn [key]
+                                (if-let [os (:on-select bs)]
+                                  (os key)
+                                  (set-dropdown false))))]
+                 (update-in props [:opts]
+                            u/merge-props
+                            {:on-select handle}))))
+         children))]))))
+
+(sm/defn dropdown-button
+  [opts :- DropdownButton & children]
+  (->dropdown-button* {:opts opts
+                       :children children}))
