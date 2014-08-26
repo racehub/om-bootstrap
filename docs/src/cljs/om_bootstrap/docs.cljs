@@ -146,7 +146,7 @@
    (d/h3 "Split button dropdowns")
    (d/p "Similarly, create split button dropdowns with
    the " (d/code "b/split") " component.")
-   (TODO)
+   (->example (slurp-example "button/split_basic"))
 
    (d/h3 "Sizing")
    (d/p "Button dropdowns work with buttons of all sizes.")
