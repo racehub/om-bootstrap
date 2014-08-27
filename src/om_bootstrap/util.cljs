@@ -95,6 +95,8 @@
     (react-merge
      (map normalize-class prop-maps))))
 
+;; ## clone-with-props and helpers
+
 (defn copy-js
   "Returns a basic, shallow copy of the supplied JS object."
   [arr]
