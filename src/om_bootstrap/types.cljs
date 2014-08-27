@@ -60,10 +60,16 @@
    (s/optional-key :bs-size) BSSize})
 
 (defn bootstrap
-  "Applies all default bootstrap options to the supplied schema."
+  "Applies all default bootstrap options to the supplied schema. If
+  the incoming schema has one of the the keys from BootstrapClass,
+  that wins (even if it's required)."
   [schema]
-  (assoc (merge BootstrapClass schema)
-    s/Any s/Any))
+  (let [bootstrap-schema (->> (select-keys schema [:bs-class :bs-style :bs-size])
+                              (keys)
+                              (map s/optional-key)
+                              (apply dissoc BootstrapClass))]
+    (assoc (merge bootstrap-schema schema)
+      s/Any s/Any)))
 
 ;; ## Schema Utilities
 
@@ -80,16 +86,6 @@
   enforce that required keys are missing."
   [schema]
   (assoc schema s/Any s/Any))
-
-(comment
-  "Test:"
-  (= (separate BootstrapClass {:bs-class "face" :a "b"})
-     [{:bs-class "face"} {:a "b"}])
-
-  (= (separate BootstrapClass
-               {:bs-class "face" :a "b"}
-               {:bs-style "ace" :bs-class "one" :v "d"})
-     [{:bs-style "ace", :bs-class "face"} {:v "d", :a "b"}]))
 
 ;; ## Public API
 ;;
@@ -110,8 +106,7 @@
         (into {} (remove (comp ks key) opts))])))
 
 (sm/defn bs-class-set :- {s/Str s/Bool}
-  "Returns input for class-set. Not really convinced that this is
-   useful."
+  "Returns input for class-set."
   [{:keys [bs-class bs-style bs-size]} :- (at-least BootstrapClass)]
   (if-let [klass (class-map bs-class)]
     (let [prefix (str (name klass) "-")]

@@ -1,3 +1,20 @@
+## 0.2.6
+
+- Upgraded Clojurescript dependency on the doc site to get around this bug: http://dev.clojure.org/jira/browse/CLJS-839. Added a note.
+
+This hash code bug was causing `bs-class-set`'s internal lookup in `class-map` to fail in Safari 7.0.x once the JS JIT compiler kicked in.
+
+From https://github.com/racehub/om-bootstrap/pull/13:
+- `om-bootstrap.util/clone-with-props` can now "clone" proper om components by injecting extra attributes into the om cursor.
+- `:on-select` handlers on top level nav elements now get called if set, along with the current nav-item `:on-select` handlers
+
+### New Components
+
+- `dropdown-mixin` (mixins.cljs)
+- `menu-item`, `dropdown-menu`, `dropdown` (button.cljs)
+- `split` (ie, SplitButton) (button.cljs)
+- `navbar` (ie, SplitButton) (button.cljs)
+
 ## 0.2.5
 
 - Removed in-progress fade listeners.

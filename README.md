@@ -15,27 +15,29 @@ This project's goal is to provide wrappers for all Bootstrap 3 components, activ
 
 Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usage examples for all components that exist so far. The following components are currently complete:
 
-* Button, ButtonGroup, Toolbar (button.cljs)
-* Input (input.cljs)
-* Jumbotron (random.cljs)
-* Label (random.cljs)
-* Well (random.cljs)
-* PageHeader (random.cljs)
-* Grid, Row, Col (grid.cljs)
-* Glyphicon (random.cljs)
-* ToolTip (random.cljs)
-* Alert (random.cljs)
-* Nav, NavItem (nav.cljs)
-* Popover (random.cljs)
-* Badge (random.cljs)
-* Table (table.cljs)
+* `button`, `button-group`, `toolbar` (button.cljs)
+* `dropdown-menu`, `menu-item`, `dropdown`, `split` (button.cljs)
+* `input` (input.cljs)
+* `jumbotron` (random.cljs)
+* `label` (random.cljs)
+* `well` (random.cljs)
+* `page-header` (random.cljs)
+* `grid`, `row`, `col` (grid.cljs)
+* `glyphicon` (random.cljs)
+* `tooltip` (random.cljs)
+* `alert` (random.cljs)
+* `nav`, `nav-item`, `navbar` (nav.cljs)
+* `popover` (random.cljs)
+* `badge` (random.cljs)
+* `table` (table.cljs)
 
 ## Mixins
 
 The project contains a few mixins that help in writing active Om components. THe current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
 
-* Listener (mixins.cljs)
-* Timeout (mixins.cljs)
+* `set-listener-mixin` (mixins.cljs)
+* `set-timeout-mixin` (mixins.cljs)
+* `dropdown-mixin` (mixins.cljs)
 
 ## Components In Progress
 
@@ -47,11 +49,8 @@ The project contains a few mixins that help in writing active Om components. THe
 
 These, and the mixins below, are the project's biggest TODOs.
 
-* DropdownButton, SplitButton, MenuItem
-* DropdownMenu (?)
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
-* NavBar
 * TabbedArea, TabPane
 * Pager
 * Carousel
@@ -60,8 +59,7 @@ These, and the mixins below, are the project's biggest TODOs.
 ### Needed Mixins
 
 * FadeMixin
-* Overlay
-* DropdownStateMixin
+* OverlayMixin
 * CollapsibleMixin
 
 ## ClojureScript Repl
@@ -96,6 +94,8 @@ Om-Bootstrap works with the following dependencies:
 
 and the latest version of ClojureScript. Please create a [GitHub issue](https://github.com/racehub/om-bootstrap/issues) if you run into problems with these versions or would like to see further versions supported.
 
+Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See [this ticket](https://github.com/racehub/om-bootstrap/issues/10) for details.
+
 ## Authors
 
 - Sam Ritchie <https://twitter.com/sritchie>
@@ -125,4 +125,4 @@ And boom! Heroku will guide you through the process of deploying a fresh copy of
 
 ## Acknowledgements
 
-HUGE thanks to the [react-bootstrap](https://github.com/react-bootstrap/react-bootstrap) project, which I used as a reference when creating all components and the documentation site. I've kept their original MIT license on the project for now with their names, since I'm not really sure how to license a "fork" that contains no copied code, just lifted CSS from the documentation site.
+HUGE thanks to the [react-bootstrap](https://github.com/react-bootstrap/react-bootstrap) project, which I used as a reference when creating all components and the documentation site.
