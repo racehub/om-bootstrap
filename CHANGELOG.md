@@ -1,3 +1,8 @@
+## 0.2.7
+
+- Added a bunch of tests to the `types` and `util` namespaces.
+- Don't nuke merged :refs: https://github.com/racehub/om-bootstrap/pull/20
+
 ## 0.2.6
 
 - Upgraded Clojurescript dependency on the doc site to get around this bug: http://dev.clojure.org/jira/browse/CLJS-839. Added a note.
