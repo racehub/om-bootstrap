@@ -71,13 +71,14 @@
   handles :on-select :on-click, :on-blur, kebab-cased as om-tools
   prefers."
   (let [merge-class (fn [l r] (str l " " r))
+        orig-fn  (fn [l r] (or l r))
         empty-fn (fn [_ _] nil)]
     {:className merge-class
      :class merge-class
      :style merge
      :children empty-fn
      :key empty-fn
-     :ref empty-fn
+     :ref orig-fn
      :on-select chain-fns
      :on-click chain-fns
      :on-blur chain-fns}))
