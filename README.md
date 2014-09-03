@@ -101,6 +101,8 @@ Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See
 - Sam Ritchie <https://twitter.com/sritchie>
 - Dave Petrovics <https://github.com/dpetrovics>
 
+And a whole host of wonderful [contributors](https://github.com/racehub/om-bootstrap/graphs/contributors).
+
 We'd love to add your name to this list! See `CONTRIBUTING.md` for information on how to help out.
 
 ## Community and Contributions

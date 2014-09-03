@@ -3,6 +3,22 @@
   (:require [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
 
+;; ## Schema Utilities
+
+(sm/defn schema-keys
+  "Returns all keys from a schema."
+  [schema :- {s/Any s/Any}]
+  (map (fn [k]
+         (if (s/optional-key? k) (:k k) k))
+       (keys schema)))
+
+(sm/defn at-least
+  "Returns a map schema that accepts the supplied map schema, plus any
+  other optional keys that show up in the map. Such a schema can only
+  enforce that required keys are missing."
+  [schema]
+  (assoc schema s/Any s/Any))
+
 ;; ## Schema
 
 (def Component
@@ -68,24 +84,8 @@
                               (keys)
                               (map s/optional-key)
                               (apply dissoc BootstrapClass))]
-    (assoc (merge bootstrap-schema schema)
-      s/Any s/Any)))
-
-;; ## Schema Utilities
-
-(sm/defn schema-keys
-  "Returns all keys from a schema."
-  [schema :- {s/Any s/Any}]
-  (map (fn [k]
-         (if (s/optional-key? k) (:k k) k))
-       (keys schema)))
-
-(sm/defn at-least
-  "Returns a map schema that accepts the supplied map schema, plus any
-  other optional keys that show up in the map. Such a schema can only
-  enforce that required keys are missing."
-  [schema]
-  (assoc schema s/Any s/Any))
+    (at-least
+     (merge bootstrap-schema schema))))
 
 ;; ## Public API
 ;;

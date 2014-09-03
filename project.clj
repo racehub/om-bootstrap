@@ -4,7 +4,7 @@
     [http-kit "2.1.18"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.2.6"
+(defproject racehub/om-bootstrap "0.2.7"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "MIT Licens"
@@ -22,7 +22,7 @@
                   :exclude [org.clojure/clojurescript]]
                  [om "0.7.1"]]
   :profiles {:provided
-             {:dependencies [[org.clojure/clojurescript "0.0-2311"]
+             {:dependencies [[org.clojure/clojurescript "0.0-2322"]
                              [secretary "1.2.0"]
                              [weasel "0.4.0-SNAPSHOT"]]}
              :docs {:aot :all

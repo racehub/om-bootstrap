@@ -21,7 +21,7 @@
                    (d/p {:class "lead"} "Getting started!")
                    (d/h3 "Leiningen")
                    (d/p "Add the om-bootstrap dependency to your project.clj:")
-                   (->code-block {:code "[racehub/om-bootstrap \"0.2.5\"]"}))
+                   (->code-block {:code "[racehub/om-bootstrap \"0.2.6\"]"}))
                   (d/div
                    {:class "bs-docs-section"}
                    (d/h2 {:id "browser-support"
