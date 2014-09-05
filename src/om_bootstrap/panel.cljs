@@ -12,7 +12,8 @@
   (t/bootstrap
    {:on-select (sm/=> s/Any s/Any)
     :header t/Renderable
-    :footer t/Renderable}))
+    :footer t/Renderable
+    (s/optional-key :list-group) t/Renderable}))
 
 (sm/defn panel :- t/Component
   [opts :- Panel & children]
@@ -24,7 +25,9 @@
            (when-let [header (:header bs)]
              (d/div {:class "panel-heading"}
                     (u/clone-with-props header {:class "panel-title"})))
-           (d/div {:class "panel-body" :ref "body"}
-                  children)
+           (when-not (= 0 (count (filter identity children)))
+             (d/div {:class "panel-body" :ref "body"} children))
+           (when-let [list-group (:list-group bs)]
+             list-group)
            (when-let [footer(:footer bs)]
              (d/div {:class "panel-footer"} footer)))))
