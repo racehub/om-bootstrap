@@ -1,7 +1,11 @@
+## 0.2.8
+
+- Add `:list-group` to panels, makes body optional: https://github.com/racehub/om-bootstrap/pull/22 (@brutasse)
+
 ## 0.2.7
 
 - Added a bunch of tests to the `types` and `util` namespaces.
-- Don't nuke merged :refs: https://github.com/racehub/om-bootstrap/pull/20
+- Don't nuke merged :refs: https://github.com/racehub/om-bootstrap/pull/20 (@pyr)
 
 ## 0.2.6
 

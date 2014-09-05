@@ -205,6 +205,10 @@
    are not meant to be in the foreground.")
    (->example (slurp-example "panel/footer"))
 
+   (d/h3 "Panel with list group")
+   (d/p "Put full-width list-groups in your panel with the " (d/code ":list-group") "option.")
+   (->example (slurp-example "panel/list-group"))
+
    (d/h3 "Contextual alternatives")
    (d/p "Like other components, make a panel more meaningful to a
    particular context by adding a " (d/code ":bs-style") " prop.")
