@@ -117,6 +117,22 @@ We welcome contributions in the form of bug reports and pull requests! Please se
 
 To run the ClojureScript tests, simply run `lein test` in the project root. Leiningen will build the relevant Clojurescript files and run all tests for you. You must have [PhantomJS](http://phantomjs.org/) installed for the tests to run.
 
+## Running the Documentation Site
+
+To fire up the documentation site locally, all you need is `lein run`. The command will generate the development-mode CSS and start the webserver on port 8080 by default. (You can override this port by setting the `PORT` environment variable:
+
+```sh
+$ export PORT=4040; lein run
+```
+
+This is the easiest way to see quick results if you're trying to add a new example to the doc site. If you want live feedback, run this in the background for CLJS autogeneration:
+
+```clojure
+lein cljsbuild auto docs
+```
+
+You'll have to change and save `./docs/src/cljs/om_bootstrap/docs/components.cljs` to get new snippets to load, since `cljsbuild`'s watcher doesn't watch the `dev` folder.
+
 ## Deploying to Heroku
 
 If you fork this project and would like to deploy a version of the documentation site to Heroku to show off, all you need to do is click this button:
