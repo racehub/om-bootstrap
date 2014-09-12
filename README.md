@@ -13,6 +13,8 @@ subject to change. Comments and contributions are much appreciated.**
 
 This project's goal is to provide wrappers for all Bootstrap 3 components, active or inactive, so they can be used easily in [Om](https://github.com/swannodette/om) / ClojureScript projects.
 
+All component inputs and options are documented with Prismatic's [Schema](https://github.com/prismatic/schema) library. These schemas also allows for optional runtime validation of component inputs. See the [Schema README]([Schema](https://github.com/prismatic/schema)) for more details on this.
+
 Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usage examples for all components that exist so far. The following components are currently complete:
 
 * `button`, `button-group`, `toolbar` (button.cljs)
