@@ -8,11 +8,14 @@
             [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
 
+;; TODO: Dropdown functionality is NOT there yet, so :on-select is
+;; ignored (https://github.com/racehub/om-bootstrap/issues/17)
+
 (def Panel
   (t/bootstrap
-   {:on-select (sm/=> s/Any s/Any)
-    :header t/Renderable
-    :footer t/Renderable
+   {(s/optional-key :on-select) (sm/=> s/Any s/Any)
+    (s/optional-key :header) t/Renderable
+    (s/optional-key :footer) t/Renderable
     (s/optional-key :list-group) t/Renderable}))
 
 (sm/defn panel :- t/Component

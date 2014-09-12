@@ -14,22 +14,22 @@
 
 (def Button
   (t/bootstrap
-   {:active? s/Bool
-    :disabled? s/Bool
-    :block? s/Bool
-    :nav-item? s/Bool
-    :nav-dropdown? s/Bool}))
+   {(s/optional-key :active?) s/Bool
+    (s/optional-key :disabled?) s/Bool
+    (s/optional-key :block?) s/Bool
+    (s/optional-key :nav-item?) s/Bool
+    (s/optional-key :nav-dropdown?) s/Bool}))
 
 (def ButtonGroup
   (t/bootstrap
-   {:vertical? s/Bool
-    :justified? s/Bool}))
+   {(s/optional-key :vertical?) s/Bool
+    (s/optional-key :justified?) s/Bool}))
 
 ;; ## Code
 
 (sm/defn render-anchor
   [opts :- {:classes {s/Any s/Any}
-            :disabled? s/Bool
+            :disabled? (s/maybe s/Bool)
             :props {s/Any s/Any}}
    children]
   (let [props {:href (-> opts :props (:href "#"))
