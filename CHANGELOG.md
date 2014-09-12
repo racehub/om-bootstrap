@@ -1,3 +1,7 @@
+## 0.2.9
+
+- Relaxes a bunch of required keys in schemas back to optional: https://github.com/racehub/om-bootstrap/pull/23
+
 ## 0.2.8
 
 - Add `:list-group` to panels, makes body optional: https://github.com/racehub/om-bootstrap/pull/22 (@brutasse)
