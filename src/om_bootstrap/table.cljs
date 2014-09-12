@@ -7,11 +7,11 @@
   (:require-macros [schema.macros :as sm]))
 
 (def Table
-  {:striped? s/Bool
-   :bordered? s/Bool
-   :condensed? s/Bool
-   :hover? s/Bool
-   :responsive? s/Bool})
+  {(s/optional-key :striped?) s/Bool
+   (s/optional-key :bordered?) s/Bool
+   (s/optional-key :condensed?) s/Bool
+   (s/optional-key :hover?) s/Bool
+   (s/optional-key :responsive?) s/Bool})
 
 (sm/defn table
   "Generates a Bootstrap table wrapper."
