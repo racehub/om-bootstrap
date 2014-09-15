@@ -85,7 +85,7 @@ This will start a Websocket repl using [Weasel](https://github.com/tomjakubowski
 
 I personally like to start the repl with `lein repl :headless` and do all of this from Emacs. Whatever floats your boat.
 
-## Supported Clojure versions
+## Supported Versions
 
 Om-Bootstrap works with the following dependencies:
 
