@@ -6,6 +6,8 @@ Here's the latest Leiningen version info:
 
 [![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
 
+You can find more detailed information on how to configure your Clojurescript project to use Om-Bootstrap on the documentation site's [Getting Started section](http://om-bootstrap.herokuapp.com/getting-started).
+
 **This is an alpha release. The API and organizational structure are
 subject to change. Comments and contributions are much appreciated.**
 
