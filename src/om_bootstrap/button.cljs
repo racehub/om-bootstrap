@@ -127,27 +127,37 @@
     (s/optional-key :title) s/Str
     (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
+(defcomponentk menu-item*
+  "Generates an Om component of a menu item. Done this way so that
+  wrapping dropdowns will have access to the Om state."
+  [owner]
+  (render
+   [_]
+   (let [{:keys [opts children]} (om/get-props owner)
+         [bs props] (t/separate MenuItem opts {:href "#"})
+         classes {:dropdown-header (:header? bs)
+                  :divider (:divider? bs)}
+         handle-click (fn [e]
+                        (when-let [on-select (:on-select bs)]
+                          (.preventDefault e)
+                          (on-select (:key bs))))
+         children (if (:header? bs)
+                    children
+                    (d/a {:on-click handle-click
+                          :href (:href bs)
+                          :title (:title bs)
+                          :tab-index "-1"}
+                         children))
+         li-attrs {:role "presentation"
+                   :key (:key bs)
+                   :class (d/class-set classes)}]
+     (d/li (u/merge-props props li-attrs)
+           children))))
+
 (sm/defn menu-item :- t/Component
   [opts :- MenuItem & children]
-  (let [[bs props] (t/separate MenuItem opts {:href "#"})
-        classes {:dropdown-header (:header? bs)
-                 :divider (:divider? bs)}
-        handle-click (fn [e]
-                       (when-let [on-select (:on-select bs)]
-                         (.preventDefault e)
-                         (on-select (:key bs))))
-        children (if (:header? bs)
-                   children
-                   (d/a {:on-click handle-click
-                         :href (:href bs)
-                         :title (:title bs)
-                         :tab-index "-1"}
-                        children))
-        li-attrs {:role "presentation"
-                  :key (:key bs)
-                  :class (d/class-set classes)}]
-    (d/li (u/merge-props props li-attrs)
-          children)))
+  (->menu-item* {:opts opts
+                 :children children}))
 
 (def DropdownMenu
   (t/bootstrap
