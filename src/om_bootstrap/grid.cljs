@@ -9,7 +9,8 @@
 ;; ## Schema
 
 (def Grid
-  (t/bootstrap {:fluid? s/Bool}))
+  (t/bootstrap
+   {(s/optional-key :fluid?) s/Bool}))
 
 (def col-keys
   #{:xs :sm :md :lg
@@ -19,7 +20,8 @@
 
 (def Col
   (t/bootstrap
-   (zipmap col-keys (repeat s/Int))))
+   (-> (map s/optional-key col-keys)
+       (zipmap (repeat s/Int)))))
 
 ;; ## Code
 ;;

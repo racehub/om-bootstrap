@@ -6,12 +6,16 @@ Here's the latest Leiningen version info:
 
 [![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
 
+You can find more detailed information on how to configure your Clojurescript project to use Om-Bootstrap on the documentation site's [Getting Started section](http://om-bootstrap.herokuapp.com/getting-started).
+
 **This is an alpha release. The API and organizational structure are
 subject to change. Comments and contributions are much appreciated.**
 
 ## Bootstrap Components
 
 This project's goal is to provide wrappers for all Bootstrap 3 components, active or inactive, so they can be used easily in [Om](https://github.com/swannodette/om) / ClojureScript projects.
+
+All component inputs and options are documented with Prismatic's [Schema](https://github.com/prismatic/schema) library. These schemas also allows for optional runtime validation of component inputs. See the [Schema README]([Schema](https://github.com/prismatic/schema)) for more details on this.
 
 Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usage examples for all components that exist so far. The following components are currently complete:
 
@@ -83,7 +87,7 @@ This will start a Websocket repl using [Weasel](https://github.com/tomjakubowski
 
 I personally like to start the repl with `lein repl :headless` and do all of this from Emacs. Whatever floats your boat.
 
-## Supported Clojure versions
+## Supported Versions
 
 Om-Bootstrap works with the following dependencies:
 
@@ -116,6 +120,22 @@ We welcome contributions in the form of bug reports and pull requests! Please se
 ## Running the Tests
 
 To run the ClojureScript tests, simply run `lein test` in the project root. Leiningen will build the relevant Clojurescript files and run all tests for you. You must have [PhantomJS](http://phantomjs.org/) installed for the tests to run.
+
+## Running the Documentation Site
+
+To fire up the documentation site locally, all you need is `lein run`. The command will generate the development-mode CSS and start the webserver on port 8080 by default. (You can override this port by setting the `PORT` environment variable:
+
+```sh
+$ export PORT=4040; lein run
+```
+
+This is the easiest way to see quick results if you're trying to add a new example to the doc site. If you want live feedback, run this in the background for CLJS autogeneration:
+
+```clojure
+lein cljsbuild auto docs
+```
+
+You'll have to change and save `./docs/src/cljs/om_bootstrap/docs/components.cljs` to get new snippets to load, since `cljsbuild`'s watcher doesn't watch the `dev` folder.
 
 ## Deploying to Heroku
 

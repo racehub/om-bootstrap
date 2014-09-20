@@ -56,7 +56,7 @@
 
 (def ToolTip
   (t/bootstrap
-   {:placement Placement
+   {(s/optional-key :placement) Placement
     (s/optional-key :position-left) s/Int
     (s/optional-key :position-top) s/Int
     (s/optional-key :arrow-offset-left) s/Int
@@ -82,8 +82,8 @@
 
 (def Alert
   (t/bootstrap
-   {:on-dismiss (sm/=> s/Any s/Any)
-    :dismiss-after s/Int}))
+   {(s/optional-key :on-dismiss) (sm/=> s/Any s/Any)
+    (s/optional-key :dismiss-after) s/Int}))
 
 (def alert-defaults
   {:bs-class "alert" :bs-style "info"})

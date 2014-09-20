@@ -1,3 +1,10 @@
+## 0.2.10 (In Progress)
+
+## 0.2.9 (9/20/2014)
+
+- Relaxes a bunch of required keys in schemas back to optional: https://github.com/racehub/om-bootstrap/pull/23
+- Converts `om-bootstrap.button/menu-item` to an Om component, so that a wrapping `dropdown` component can access its `:on-select` attribute. The interface stays the same: https://github.com/racehub/om-bootstrap/pull/25
+
 ## 0.2.8
 
 - Add `:list-group` to panels, makes body optional: https://github.com/racehub/om-bootstrap/pull/22 (@brutasse)
