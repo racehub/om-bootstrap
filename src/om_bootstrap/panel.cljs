@@ -12,7 +12,7 @@
 
 (def Panel
   (t/bootstrap
-   {(s/optional-key :on-select) (sm/=> s/Any s/Any)
+   {(s/optional-key :on-select) (s/=> s/Any s/Any)
     (s/optional-key :header) t/Renderable
     (s/optional-key :footer) t/Renderable
     (s/optional-key :list-group) t/Renderable}))
