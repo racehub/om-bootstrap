@@ -91,7 +91,7 @@ I personally like to start the repl with `lein repl :headless` and do all of thi
 
 Om-Bootstrap works with the following dependencies:
 
-- Clojure 1.6.x
+- Clojure 1.6.x, 1.7.x
 - React.JS 0.11.x
 - Om 0.7.x
 - Bootstrap 3.1.x (probably works on 3.2, haven't tested it)
@@ -99,6 +99,8 @@ Om-Bootstrap works with the following dependencies:
 and the latest version of ClojureScript. Please create a [GitHub issue](https://github.com/racehub/om-bootstrap/issues) if you run into problems with these versions or would like to see further versions supported.
 
 Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See [this ticket](https://github.com/racehub/om-bootstrap/issues/10) for details.
+
+Also, if you're explicitly using [Prismatic's Schema](https://github.com/prismatic/schema), you'll need version `0.3.x` due to the new `:include-macros` syntax.
 
 ## Authors
 
