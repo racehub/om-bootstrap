@@ -1,3 +1,7 @@
+## 0.3.0
+
+- Revert schema upgrade... fancy that :)
+
 ## 0.3.0 (9/25/2014)
 
 - Upgrade to Schema 0.3.0

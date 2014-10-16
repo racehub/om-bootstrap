@@ -3,7 +3,8 @@
             [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 (def Table
   {(s/optional-key :striped?) s/Bool
@@ -12,7 +13,7 @@
    (s/optional-key :hover?) s/Bool
    (s/optional-key :responsive?) s/Bool})
 
-(s/defn table
+(sm/defn table
   "Generates a Bootstrap table wrapper."
   [opts :- Table & children]
   (let [[bs props] (t/separate Table opts)
