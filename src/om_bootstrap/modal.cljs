@@ -7,8 +7,9 @@
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
             [om-tools.mixin :refer-macros [defmixin]]
-            [schema.core :as s :include-macros true])
-  (:require-macros [cljs.core.async.macros :refer [go-loop]]))
+            [schema.core :as s])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]]
+                   [schema.macros :as sm]))
 
 ;; ## Schema
 ;;
@@ -30,9 +31,9 @@
    :close-button? s/Bool
    :animate? s/Bool
    :children (s/named s/Any "Child elements, if any.")
-   :on-request-hide (s/=> s/Any s/Any)})
+   :on-request-hide (sm/=> s/Any s/Any)})
 
-(s/defn render-header :- t/Component
+(sm/defn render-header :- t/Component
   "Renders the header for the modal."
   [{:keys [close-button? on-request-hide title]} :- Modal]
   (let [close-button (when close-button?
@@ -47,7 +48,7 @@
              title
              (d/h4 {:class "modal-title"} title)))))
 
-(s/defn render-backdrop :- t/Component
+(sm/defn render-backdrop :- t/Component
   "Renders the backdrop behind the modal."
   [{:keys [animation? backdrop? on-request-hide] :- Modal} modal-elem]
   (let [klasses {:modal-backdrop true

@@ -1,7 +1,8 @@
 (ns om-bootstrap.util
   "Utilities for the om-bootstrap library."
   (:require [om.core :as om]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 (defn merge-with-fns
   "Returns a map that consists of the rest of the maps conj-ed onto
@@ -22,7 +23,7 @@
             (reduce merge-entry (or m1 {}) (seq m2)))]
     (reduce merge {} maps)))
 
-(s/defn collectify :- [s/Any]
+(sm/defn collectify :- [s/Any]
   [x :- s/Any]
   (if (sequential? x) x [x]))
 
@@ -30,13 +31,13 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
-(s/defn strict-valid-component? :- s/Bool
+(sm/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
   [child]
   ((aget js/React "isValidComponent") child))
 
-(s/defn valid-component? :- s/Bool
+(sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
   false otherwise."
   [child]
@@ -44,7 +45,7 @@
       (number? child)
       (strict-valid-component? child)))
 
-(s/defn some-valid-component? :- s/Bool
+(sm/defn some-valid-component? :- s/Bool
   "Returns true if the supplied sequence contains some valid React component,
   false otherwise."
   [children]

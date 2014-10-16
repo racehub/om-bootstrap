@@ -5,19 +5,20 @@
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; TODO: Dropdown functionality is NOT there yet, so :on-select is
 ;; ignored (https://github.com/racehub/om-bootstrap/issues/17)
 
 (def Panel
   (t/bootstrap
-   {(s/optional-key :on-select) (s/=> s/Any s/Any)
+   {(s/optional-key :on-select) (sm/=> s/Any s/Any)
     (s/optional-key :header) t/Renderable
     (s/optional-key :footer) t/Renderable
     (s/optional-key :list-group) t/Renderable}))
 
-(s/defn panel :- t/Component
+(sm/defn panel :- t/Component
   [opts :- Panel & children]
   (let [[bs props] (t/separate Panel opts {:bs-class "panel"
                                            :bs-style "default"})
