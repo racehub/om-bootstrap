@@ -4,7 +4,8 @@
             [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Bootstrap Inputs for Om
 ;;
@@ -56,7 +57,7 @@
 
 ;; ### Utilities
 
-(s/defn class-set :- s/Str
+(sm/defn class-set :- s/Str
   "Mimics the class-set behavior from React. Pass in a map of
   potential class to Boolean; you'll get back a class string that
   represents the final class to apply.
@@ -68,12 +69,12 @@
                klasses)
        (string/join " ")))
 
-(s/defn glyph :- t/Component
+(sm/defn glyph :- t/Component
   "To be used with :addon-before or :addon-after."
   [glyph-name :- s/Str]
   (d/span {:class (str "glyphicon glyphicon-" glyph-name)}))
 
-(s/defn render-icon :- t/Component
+(sm/defn render-icon :- t/Component
   [{:keys [feedback? bs-style]} :- FeedbackIcons]
   (when feedback?
     (let [klasses {:glyphicon true
@@ -83,12 +84,12 @@
                    :glyphicon-remove (= "error" bs-style)}]
       (d/span {:class (class-set klasses)}))))
 
-(s/defn render-help
+(sm/defn render-help
   [help :- (s/maybe s/Str)]
   (when help
     (d/span {:class "help-block"} help)))
 
-(s/defn render-input-group
+(sm/defn render-input-group
   "Items is a vector of render instances."
   [{:keys [addon-before addon-after]} :- Addons
    items :- s/Any]
@@ -101,14 +102,14 @@
              (d/span {:class "input-group-addon"} addon-after)))
     items))
 
-(s/defn checkbox-or-radio? :- s/Bool
+(sm/defn checkbox-or-radio? :- s/Bool
   "Returns true if the supplied input is of type checkbox or radio,
   false otherwise."
   [{type :type} :- Input]
   (or (= type "checkbox")
       (= type "radio")))
 
-(s/defn checkbox-or-radio-wrapper :- t/Component
+(sm/defn checkbox-or-radio-wrapper :- t/Component
   "Wraps this business in a div."
   [{type :type} :- Input
    children]
@@ -117,7 +118,7 @@
     (d/div {:class (class-set klasses)}
            children)))
 
-(s/defn render-label
+(sm/defn render-label
   "This doesn't handle any control group stuff."
   ([input :- Input] (render-label input nil))
   ([{lc :label-classname label :label :as input} :- Input
@@ -130,14 +131,14 @@
                   label)
          child))))
 
-(s/defn render-wrapper
+(sm/defn render-wrapper
   [{wc :wrapper-classname} :- Input
    child]
   (if wc
     (d/div {:class wc} child)
     child))
 
-(s/defn render-form-group :- t/Component
+(sm/defn render-form-group :- t/Component
   "Wraps the entire form group."
   [{bs-style :bs-style cn :group-classname :as input} :- Input
    children]
@@ -150,7 +151,7 @@
     (d/div {:class (class-set classes)}
            children)))
 
-(s/defn render-input :- t/Component
+(sm/defn render-input :- t/Component
   [input :- Input attrs children]
   (let [props (fn [klass]
                 (u/merge-props attrs {:class klass
@@ -170,7 +171,7 @@
 
 ;; ### API Methods
 
-(s/defn input :- t/Component
+(sm/defn input :- t/Component
   "Returns an input component. This currently does NOT handle any of
   the default values or validation messages that we'll need to make
   this work, though."
@@ -197,7 +198,7 @@
 ;; These bad dawgs need to be abstracted out into more solid input
 ;; components. Putting them here for now.
 
-(s/defn radio-option :- t/Component
+(sm/defn radio-option :- t/Component
   "Generates a radio button entry, to place into a radio button
    grouping."
   [opts :- Radio]
@@ -210,7 +211,7 @@
       (d/label {:class "radio-inline"} core label)
       (d/div {:class "radio"} (d/label {} core label)))))
 
-(s/defn options :- [t/Component]
+(sm/defn options :- [t/Component]
   "Returns a sequence of options for use as the children of a select
   input."
   [header :- s/Str

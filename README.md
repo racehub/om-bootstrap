@@ -100,8 +100,6 @@ and the latest version of ClojureScript. Please create a [GitHub issue](https://
 
 Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See [this ticket](https://github.com/racehub/om-bootstrap/issues/10) for details.
 
-Also, if you're explicitly using [Prismatic's Schema](https://github.com/prismatic/schema), you'll need version `0.3.x` due to the new `:include-macros` syntax.
-
 ## Authors
 
 - Sam Ritchie <https://twitter.com/sritchie>
