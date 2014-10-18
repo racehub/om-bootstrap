@@ -17,8 +17,8 @@
   :jar-exclusions [#".DS_Store"]
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
-                 [prismatic/om-tools "0.3.3"]
-                 [prismatic/schema "0.3.0"
+                 [prismatic/om-tools "0.3.2"]
+                 [prismatic/schema "0.2.4"
                   :exclude [org.clojure/clojurescript]]
                  [om "0.7.1"]]
   :profiles {:provided
