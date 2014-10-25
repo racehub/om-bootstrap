@@ -37,7 +37,7 @@ Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usag
 
 ## Mixins
 
-The project contains a few mixins that help in writing active Om components. THe current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
+The project contains a few mixins that help in writing active Om components. The current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
 
 * `set-listener-mixin` (mixins.cljs)
 * `set-timeout-mixin` (mixins.cljs)
