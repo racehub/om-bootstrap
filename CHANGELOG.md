@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Added `href` tags to all `Show Code` links. Without these they weren't expanding on mobile browsers (https://github.com/racehub/om-bootstrap/issues/34)
+
 ## 0.3.1 (10/15/2014)
 
 - Revert schema upgrade... fancy that :)
