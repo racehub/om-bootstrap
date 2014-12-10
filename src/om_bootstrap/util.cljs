@@ -31,16 +31,15 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
-(sm/defn om-component? :- s/Bool
-  [x]
-  (boolean
-   (aget (.-props x) "__om_cursor")))
-
 (defn get-props
   "This is the same as om.core/get-props. We added it to get around
   the new precondition in Om 0.8.0."
   [x]
   (aget (.-props x) "__om_cursor"))
+
+(sm/defn om-component? :- s/Bool
+  [x]
+  (boolean (get-props x)))
 
 (sm/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
