@@ -31,6 +31,11 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
+(sm/defn om-component? :- s/Bool
+  [x]
+  (boolean
+   (aget (.-props x) "__om_cursor")))
+
 (sm/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
@@ -152,5 +157,5 @@
      (cond (not (strict-valid-component? child)) child
            (and (map? extra-props)
                 (empty? extra-props)) (.constructor child (.-props child))
-           (om/get-props child) (clone-om child extra-props)
+           (om-component? child) (clone-om child extra-props)
            :else (clone-basic-react child extra-props))))
