@@ -31,6 +31,16 @@
 ;;
 ;; Some of these are rewritten from various React addons.
 
+(defn get-props
+  "This is the same as om.core/get-props. We added it to get around
+  the new precondition in Om 0.8.0."
+  [x]
+  (aget (.-props x) "__om_cursor"))
+
+(sm/defn om-component? :- s/Bool
+  [x]
+  (boolean (get-props x)))
+
 (sm/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
@@ -113,7 +123,7 @@
 
   Requires that the supplied child has an Om cursor attached to it! "
   [child extra-props]
-  (let [om-props (om/get-props child)]
+  (let [om-props (get-props child)]
     (->> (doto (copy-js (.-props child))
            (aset "__om_cursor"
                  (if (fn? extra-props)
@@ -152,5 +162,5 @@
      (cond (not (strict-valid-component? child)) child
            (and (map? extra-props)
                 (empty? extra-props)) (.constructor child (.-props child))
-           (om/get-props child) (clone-om child extra-props)
+           (om-component? child) (clone-om child extra-props)
            :else (clone-basic-react child extra-props))))

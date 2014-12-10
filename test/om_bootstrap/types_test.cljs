@@ -1,7 +1,5 @@
 (ns om-bootstrap.types-test
-  (:require [cemerick.cljs.test
-             :include-macros true
-             :refer [deftest is]]
+  (:require [cemerick.cljs.test :refer-macros [deftest is]]
             [om-bootstrap.types :as t]
             [schema.core :as s]))
 
