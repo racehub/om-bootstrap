@@ -15,16 +15,16 @@
   :min-lein-version "2.3.0"
   :uberjar-name "om-bootstrap.jar"
   :jar-exclusions [#".DS_Store"]
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
-                 [prismatic/om-tools "0.3.3"]
-                 [prismatic/schema "0.3.0"
-                  :exclude [org.clojure/clojurescript]]
+  :dependencies [[org.clojure/clojure "1.7.0-alpha2"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [prismatic/om-tools "0.3.6" :exclusions [om]]
+                 [prismatic/schema "0.3.1"
+                  :exclusions [org.clojure/clojurescript]]
                  [om "0.7.1"]]
   :profiles {:provided
-             {:dependencies [[org.clojure/clojurescript "0.0-2322"]
+             {:dependencies [[org.clojure/clojurescript "0.0-2411"]
                              [secretary "1.2.0"]
-                             [weasel "0.4.0-SNAPSHOT"]]}
+                             [weasel "0.4.2"]]}
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server
@@ -37,8 +37,9 @@
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
+             :om-8 {:dependencies [[om "0.8.0-beta3"]]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
-                             [com.cemerick/clojurescript.test "0.3.0"]
+                             [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
                    :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.3"])
                    :source-paths ["docs/src/clj" "docs/src-dev"]
@@ -47,6 +48,7 @@
                    :repl-options
                    {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
   :aliases {"test" ["cljsbuild" "test"]
+            "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
             "repl" ["do" "cljsbuild" "once" "docs," "repl"]
             "uberjar" ["with-profile" "docs" "uberjar"]}
   :cljsbuild
