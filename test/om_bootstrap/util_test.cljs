@@ -3,6 +3,7 @@
              :include-macros true
              :refer [deftest is are use-fixtures]]
             [om.core :as om]
+            [om-bootstrap.button :refer [dropdown]]
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -89,6 +90,11 @@
     (is (= 3 @counter)
         "The chained version executes the side effects of `adder`
         twice, incrementing the counter by two more.")))
+
+(deftest om-component-test
+  []
+  (is (not (u/om-component? (d/p "Just a p"))))
+  (is (u/om-component? (dropdown {:title "Title!"}))))
 
 (deftest merge-props-test
   (is (= (u/merge-props {:face "cake" :class "first"}
