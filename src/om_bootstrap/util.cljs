@@ -36,6 +36,12 @@
   (boolean
    (aget (.-props x) "__om_cursor")))
 
+(defn get-props
+  "This is the same as om.core/get-props. We added it to get around
+  the new precondition in Om 0.8.0."
+  [x]
+  (aget (.-props x) "__om_cursor"))
+
 (sm/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
@@ -118,7 +124,7 @@
 
   Requires that the supplied child has an Om cursor attached to it! "
   [child extra-props]
-  (let [om-props (om/get-props child)]
+  (let [om-props (get-props child)]
     (->> (doto (copy-js (.-props child))
            (aset "__om_cursor"
                  (if (fn? extra-props)
