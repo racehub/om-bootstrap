@@ -20,7 +20,7 @@
                  [prismatic/om-tools "0.3.6" :exclusions [om]]
                  [prismatic/schema "0.3.1"
                   :exclusions [org.clojure/clojurescript]]
-                 [om "0.7.1"]]
+                 [om "0.8.0-beta5"]]
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2411"]
                              [secretary "1.2.0"]
@@ -53,7 +53,7 @@
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
-             :om-8 {:dependencies [[om "0.8.0-beta3"]]}
+             :om-8 {:dependencies [[om "0.8.0-beta5"]]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]

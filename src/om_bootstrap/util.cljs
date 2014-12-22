@@ -117,6 +117,11 @@
         (aset ret k (aget arr k))))
     ret))
 
+(defn create-element
+  ([child] (create-element child nil))
+  ([child props]
+     (.createElement js/React (.-type child) props)))
+
 (defn clone-om
   "Merges the supplied extra properties into the underlying Om cursor
   and calls the constructor to clone the React component.
@@ -129,7 +134,10 @@
                  (if (fn? extra-props)
                    (extra-props om-props)
                    (merge-props om-props extra-props))))
-         (.constructor child))))
+         (.createElement js/React (fn [& x]
+                                    (.log js/console "Getting " (js-keys child))
+                                    ;; Closer! No copying's happening.
+                                    child)))))
 
 (defn clone-basic-react
   "This function is called if the React component child was NOT
@@ -142,7 +150,7 @@
                            (merge-props props extra-props))
                          (when-let [children (:children props)]
                            {:children children}))]
-    (.constructor child (clj->js new-props))))
+    (create-element child (clj->js new-props))))
 
 (defn clone-with-props
   "Returns a shallow copy of the supplied component (child); the copy
@@ -160,7 +168,7 @@
      (clone-with-props child {}))
   ([child extra-props]
      (cond (not (strict-valid-component? child)) child
-           (and (map? extra-props)
-                (empty? extra-props)) (.constructor child (.-props child))
            (om-component? child) (clone-om child extra-props)
+           (and (map? extra-props)
+                (empty? extra-props)) (create-element child (.-props child))
            :else (clone-basic-react child extra-props))))

@@ -20,7 +20,7 @@
 (defn clojurescript []
   (if (dev?)
     (list
-     (h/include-js "http://fb.me/react-0.11.1.js")
+     (h/include-js "http://fb.me/react-0.12.2.js")
      (h/include-js "static/generated/goog/base.js")
      (h/include-js "static/assets/main.js")
      (e/javascript-tag "goog.require(\"om_bootstrap.docs\");"))
