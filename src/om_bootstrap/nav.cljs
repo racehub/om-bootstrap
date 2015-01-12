@@ -89,7 +89,6 @@
    [_]
    (let [{:keys [opts children]} (om/get-props owner)
          [bs props] (t/separate Nav opts {:bs-class "nav"})
-         classes {:navbar-collapse (:collapsible? bs)}
          ul-props {:ref "ul"
                    :class (d/class-set
                            (merge (t/bs-class-set bs)
@@ -101,8 +100,7 @@
      (if (and (:navbar? bs)
               (not (:collapsible? bs)))
        (d/ul (u/merge-props props ul-props) children)
-       (d/nav (u/merge-props props {:class (d/class-set classes)})
-              (d/ul ul-props children))))))
+       (d/nav props (d/ul ul-props children))))))
 
 (sm/defn nav :- t/Component
   [opts :- Nav & children]
@@ -130,11 +128,11 @@
 
 (defn render-toggle-button [owner bs]
   (let [handle-toggle (fn []
+                        (om/set-state! owner [:changing?] true)
                         (when-let [f (:on-toggle bs)]
-                          (om/set-state-nr! owner [:changing?] true)
-                          (f)
-                          (om/set-state-nr! owner [:changing?] false))
-                        (om/update-state-nr! owner [:changing?] not))
+                          (f))
+                        (om/set-state! owner [:changing?] false)
+                        (om/update-state! owner [:nav-open?] not))
         tb (u/clone-with-props (:toggle-button bs)
                                {:class "navbar-toggle"
                                 :on-click handle-toggle})]
@@ -169,15 +167,22 @@
       (u/clone-with-props child prop-fn))))
 
 (defn render-navbar-child [owner child bs]
-  (let [f (fn [props]
+  (let [nav-open? (om/get-state owner :nav-open?)
+        changing? (om/get-state owner :changing?)
+        f (fn [props]
             (let [opts (:opts props)
                   collapsible? (when (:toggle-nav-key bs)
                                  (= (:key opts) (:toggle-nav-key bs)))
+                  expanded? (and collapsible?
+                                 (or (:nav-expanded? bs)
+                                     nav-open?))
+                  collapsed? (not expanded?)
                   base {:navbar? true
-                        :collapsible? collapsible?
-                        :expanded? (and collapsible?
-                                        (or (:nav-expanded? bs)
-                                            (om/get-state owner :nav-open?)))}]
+                        :class (d/class-set {:navbar-collapse collapsible?
+                                             :collapse (not changing?)
+                                             :collapsing changing?
+                                             :in (and (not changing?)
+                                                      expanded?)})}]
               (update-in props [:opts] u/merge-props base)))]
     (u/clone-with-props child f)))
 
@@ -206,6 +211,10 @@
              (when (or (:brand bs)
                        (:toggle-button bs)
                        (:toggle-nav-key bs))
+               ;;TODO: Think about `render-header`, and if brand and
+               ;;toggle button are the only things that would ever go
+               ;;in there. What if someone wants a brand, and some
+               ;;text?
                (render-header owner bs))
              (map #(render-navbar-child owner % bs) children))))))
 
