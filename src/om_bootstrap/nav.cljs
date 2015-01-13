@@ -89,9 +89,9 @@
    [_]
    (let [{:keys [opts children]} (om/get-props owner)
          [bs props] (t/separate Nav opts {:bs-class "nav"})
-         classes (d/class-set {:navbar-collapse (:collapsible? bs)
-                               :collapse (not (:expanded? bs))
-                               :in (:expanded? bs)})
+         classes {:navbar-collapse (:collapsible? bs)
+                  :collapse (not (:expanded? bs))
+                  :in (:expanded? bs)}
          ul-props {:ref "ul"
                    :class (d/class-set
                            (merge (t/bs-class-set bs)
@@ -148,13 +148,20 @@
                       (d/span {:class "icon-bar" :key 2})
                       (d/span {:class "icon-bar" :key 3})]))))
 
+(sm/defn render-header-and-toggle-btn? :- s/Bool
+  "Returns true if any of the necessary properties are in place to
+  render the navbar-header and toggle button."
+  [bs]
+  (or (:brand bs)
+      (:toggle-button bs)
+      (:toggle-nav-key bs)))
+
 (defn render-header [owner bs]
   (d/div {:class "navbar-header"}
          (if (u/strict-valid-component? (:brand bs))
            (u/clone-with-props (:brand bs) {:class "navbar-brand"})
            (d/span {:class "navbar-brand"} (:brand bs)))
-         (when (or (:toggle-button bs)
-                   (:toggle-nav-key bs))
+         (when (render-header-and-toggle-btn? bs)
            (render-toggle-button owner bs))))
 
 (sm/defn clone-nav-item
@@ -173,8 +180,9 @@
 (defn render-navbar-child [owner child bs]
   (let [f (fn [props]
             (let [opts (:opts props)
-                  collapsible? (when (:toggle-nav-key bs)
-                                 (= (:key opts) (:toggle-nav-key bs)))
+                  collapsible? (or (:collapsible? opts)
+                                   (when (:toggle-nav-key bs)
+                                     (= (:key opts) (:toggle-nav-key bs))))
                   base {:navbar? true
                         :collapsible? collapsible?
                         :expanded? (and collapsible?
@@ -205,9 +213,7 @@
      ((:component-fn bs) (u/merge-props (merge bs props)
                                         {:class (d/class-set classes)})
       (d/div {:class (if (:fluid props) "container-fluid" "container")}
-             (when (or (:brand bs)
-                       (:toggle-button bs)
-                       (:toggle-nav-key bs))
+             (when (render-header-and-toggle-btn? bs)
                (render-header owner bs))
              (map #(render-navbar-child owner % bs) children))))))
 

@@ -5,10 +5,9 @@
 
 (n/navbar
  {:brand (d/a {:href "#"}
-              "Navbar")
-  :toggle-nav-key 0}
+              "Navbar")}
  (n/nav
-  {:key 0}
+  {:collapsible? true}
   (n/nav-item {:key 1 :href "#"} "Link")
   (n/nav-item {:key 2 :href "#"} "Link")
   (b/dropdown {:key 3, :title "Dropdown"}
