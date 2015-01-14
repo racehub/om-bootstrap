@@ -1,3 +1,7 @@
+## 0.3.3 (1/13/2015)
+
+- Added collapse functionality for navbars (https://github.com/racehub/om-bootstrap/pull/41)
+
 ## 0.3.2 (12/9/2014)
 
 - Added `href` tags to all `Show Code` links. Without these they weren't expanding on mobile browsers (https://github.com/racehub/om-bootstrap/issues/34)

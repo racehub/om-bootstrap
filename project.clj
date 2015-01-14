@@ -4,7 +4,7 @@
     [http-kit "2.1.18"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.3.2"
+(defproject racehub/om-bootstrap "0.3.4-SNAPSHOT"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "MIT Licens"
@@ -25,6 +25,22 @@
              {:dependencies [[org.clojure/clojurescript "0.0-2411"]
                              [secretary "1.2.0"]
                              [weasel "0.4.2"]]}
+             ;; Change to the first version of the uberjar profile
+             ;; when this bug gets fixed:
+             ;; https://github.com/technomancy/leiningen/issues/1694
+             ;; :uberjar [:docs {}]
+             :uberjar {:aot :all
+                       :omit-source true
+                       :main om-bootstrap.server
+                       :plugins [[lein-cljsbuild "1.0.3"]]
+                       :prep-tasks ^:replace [["clean"]
+                                              ["cljsbuild" "clean"]
+                                              ["cljsbuild" "once" "heroku"]
+                                              ["javac"]
+                                              ["compile" ":all"]]
+                       :dependencies ~server-deps
+                       :source-paths ["docs/src/clj"]
+                       :resource-paths ["dev"]}
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server
@@ -49,8 +65,7 @@
                    {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
   :aliases {"test" ["cljsbuild" "test"]
             "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
-            "repl" ["do" "cljsbuild" "once" "docs," "repl"]
-            "uberjar" ["with-profile" "docs" "uberjar"]}
+            "repl" ["do" "cljsbuild" "once" "docs," "repl"]}
   :cljsbuild
   {:test-commands {"unit"
                    ["phantomjs" :runner
