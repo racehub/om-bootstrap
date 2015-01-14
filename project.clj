@@ -4,10 +4,10 @@
     [http-kit "2.1.18"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.3.4-SNAPSHOT"
+(defproject racehub/om-bootstrap "0.3.3"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
-  :license {:name "MIT Licens"
+  :license {:name "MIT License"
             :url "http://www.opensource.org/licenses/mit-license.php"
             :distribution :repo}
   :scm {:name "git"
