@@ -1,3 +1,6 @@
+## 0.3.3 (1/21/2015)
+- Turned Om into a provided dependency.
+
 ## 0.3.3 (1/13/2015)
 
 - Added collapse functionality for navbars (https://github.com/racehub/om-bootstrap/pull/41)
