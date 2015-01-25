@@ -1,9 +1,11 @@
 #_
 (:require [om-bootstrap.button :as b]
-          [om-bootstrap.nav :as n])
+          [om-bootstrap.nav :as n]
+          [om-tools.dom :as d :include-macros true])
 
 (n/navbar
- {}
+ {:brand (d/a {:href "#"}
+              "Navbar")}
  (n/nav
   {:collapsible? true}
   (n/nav-item {:key 1 :href "#"} "Link")

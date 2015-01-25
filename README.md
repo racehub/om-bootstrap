@@ -37,7 +37,7 @@ Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usag
 
 ## Mixins
 
-The project contains a few mixins that help in writing active Om components. THe current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
+The project contains a few mixins that help in writing active Om components. The current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
 
 * `set-listener-mixin` (mixins.cljs)
 * `set-timeout-mixin` (mixins.cljs)
@@ -98,8 +98,6 @@ Om-Bootstrap works with the following dependencies:
 and the latest version of ClojureScript. Please create a [GitHub issue](https://github.com/racehub/om-bootstrap/issues) if you run into problems with these versions or would like to see further versions supported.
 
 Note that we've seen trouble with Safari 7.0.x on CLJS versions <= 0.0.2261. See [this ticket](https://github.com/racehub/om-bootstrap/issues/10) for details.
-
-Also, if you're explicitly using [Prismatic's Schema](https://github.com/prismatic/schema), you'll need version `0.3.x` due to the new `:include-macros` syntax.
 
 ## Authors
 

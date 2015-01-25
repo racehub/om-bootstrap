@@ -1,8 +1,8 @@
 (ns om-bootstrap.util-test
   (:require [cemerick.cljs.test :as t
-             :include-macros true
-             :refer [deftest is are use-fixtures]]
-            [om.core :as om]
+             :refer-macros [deftest is are use-fixtures]]
+            [om.core :as om :refer-macros [component]]
+            [om-bootstrap.button :refer [dropdown]]
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -90,6 +90,11 @@
         "The chained version executes the side effects of `adder`
         twice, incrementing the counter by two more.")))
 
+(deftest om-component-test
+  []
+  (is (not (u/om-component? (d/p "Just a p"))))
+  (is (u/om-component? (dropdown {:title "Title!"}))))
+
 (deftest merge-props-test
   (is (= (u/merge-props {:face "cake" :class "first"}
                         {:cake "face" :className "second"})
@@ -121,8 +126,8 @@
                                     :class "walrus"})))
 
     (is (= {:x "one" :y "two" :z "three"}
-           (om/get-props (->fake-div {:x "one" :y "two" :z "three"})))
-        "om/get-props returns the inner Om props, as expected. These
+           (u/get-props (->fake-div {:x "one" :y "two" :z "three"})))
+        "u/get-props returns the inner Om props, as expected. These
         are trapped inside the actual props in a field called
         __om_cursor.")
 
@@ -134,7 +139,7 @@
            (-> (->fake-div {:x "one" :y "two" :z "three"
                             :class "cake"})
                (u/clone-with-props {:x "alpha", :class "walrus"})
-               (om/get-props)))
+               (u/get-props)))
         "Cloning an om component merges the extra properties into the
         cursor, NOT into the overall props.")
 
@@ -149,7 +154,7 @@
               :class "cake-hut!"}
              (-> (->fake-div {:x "one" :y "two" :z "three" :class "cake"})
                  (u/clone-with-props hut-the-vals)
-                 (om/get-props)))
+                 (u/get-props)))
           "clone-with-props can take a function as well. This one adds
           hut! onto the end of all string values.
 

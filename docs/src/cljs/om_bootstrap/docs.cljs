@@ -10,7 +10,7 @@
             [om-bootstrap.docs.shared :refer [four-oh-four]]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [secretary.core :as route :include-macros true :refer [defroute]]
+            [secretary.core :as route :refer-macros [defroute]]
             [weasel.repl :as ws-repl])
   (:require-macros [cljs.core.async.macros :refer [go-loop]])
   (:import [goog.history EventType]))

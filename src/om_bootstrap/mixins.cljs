@@ -2,17 +2,18 @@
   (:require [cljs.core.async :as a :refer [put!]]
             [om.core :as om]
             [om-tools.mixin :refer-macros [defmixin]]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Listener Mixin
 
-(s/defn event-listener :- (s/=> s/Any)
+(sm/defn event-listener :- (sm/=> s/Any)
   "Registers the callback on the supplied target for events of type
    `event-type`. Returns a function of no arguments that, when called,
    unregisters the callback."
   [target :- s/Any
    event-type :- s/Str
-   callback :- (s/=> s/Any s/Any)]
+   callback :- (sm/=> s/Any s/Any)]
   (cond (.-addEventListener target)
         (do (.addEventListener target event-type callback false)
             (fn [] (.removeEventListener target event-type callback false)))

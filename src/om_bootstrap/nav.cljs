@@ -5,14 +5,15 @@
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## NavItem
 
 (def NavItem
   (t/bootstrap
    {(s/optional-key :title) s/Str
-    (s/optional-key :on-select) (s/=> s/Any s/Any)
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)
     (s/optional-key :active?) s/Bool
     (s/optional-key :disabled?) s/Bool
     (s/optional-key :href) s/Str}))
@@ -39,7 +40,7 @@
                  :on-click handle-click}
                 children)))))
 
-(s/defn nav-item :- t/Component
+(sm/defn nav-item :- t/Component
   [opts :- NavItem & children]
   (->nav-item* {:opts opts
                 :children children}))
@@ -58,7 +59,7 @@
     (s/optional-key :navbar?) s/Bool
     (s/optional-key :pull-right?) s/Bool}))
 
-(s/defn child-active? :- s/Bool
+(sm/defn child-active? :- s/Bool
   "Accepts a NavItem's child props and the current options provided to
   the Nav bar; returns true if the child component should be active,
   false otherwise."
@@ -70,7 +71,7 @@
        (when-let [ak (:active-href opts)]
          (= ak (:href child-props))))))
 
-(s/defn clone-nav-item
+(sm/defn clone-nav-item
   "Takes the options supplied to the top level nav and returns a
   function that will CLONE the inner nav items, transferring all
   relevant props from the outer code to the inner code."
@@ -88,7 +89,9 @@
    [_]
    (let [{:keys [opts children]} (om/get-props owner)
          [bs props] (t/separate Nav opts {:bs-class "nav"})
-         classes {:navbar-collapse (:collapsible? bs)}
+         classes {:navbar-collapse (:collapsible? bs)
+                  :collapse (not (:expanded? bs))
+                  :in (:expanded? bs)}
          ul-props {:ref "ul"
                    :class (d/class-set
                            (merge (t/bs-class-set bs)
@@ -103,7 +106,7 @@
        (d/nav (u/merge-props props {:class (d/class-set classes)})
               (d/ul ul-props children))))))
 
-(s/defn nav :- t/Component
+(sm/defn nav :- t/Component
   [opts :- Nav & children]
   (->nav* {:opts opts
            :children children}))
@@ -115,14 +118,14 @@
 
 (def NavBar
   (t/bootstrap
-   {(s/optional-key :component-fn) (s/=> s/Any s/Any)
+   {(s/optional-key :component-fn) (sm/=> s/Any s/Any)
     (s/optional-key :fixed-top?) s/Bool
     (s/optional-key :fixed-bottom?) s/Bool
     (s/optional-key :static-top?) s/Bool
     (s/optional-key :inverse?) s/Bool
     (s/optional-key :role) s/Str
     (s/optional-key :brand) t/Renderable
-    (s/optional-key :on-toggle) (s/=> s/Any s/Any)
+    (s/optional-key :on-toggle) (sm/=> s/Any s/Any)
     (s/optional-key :toggle-nav-key) s/Str
     (s/optional-key :nav-expanded?) s/Bool
     (s/optional-key :default-nav-expanded?) s/Bool}))
@@ -133,7 +136,7 @@
                           (om/set-state-nr! owner [:changing?] true)
                           (f)
                           (om/set-state-nr! owner [:changing?] false))
-                        (om/update-state-nr! owner [:changing?] not))
+                        (om/update-state! owner [:nav-open?] not))
         tb (u/clone-with-props (:toggle-button bs)
                                {:class "navbar-toggle"
                                 :on-click handle-toggle})]
@@ -145,16 +148,23 @@
                       (d/span {:class "icon-bar" :key 2})
                       (d/span {:class "icon-bar" :key 3})]))))
 
+(sm/defn render-header-and-toggle-btn? :- s/Bool
+  "Returns true if any of the necessary properties are in place to
+  render the navbar-header and toggle button."
+  [bs]
+  (or (:brand bs)
+      (:toggle-button bs)
+      (:toggle-nav-key bs)))
+
 (defn render-header [owner bs]
   (d/div {:class "navbar-header"}
          (if (u/strict-valid-component? (:brand bs))
            (u/clone-with-props (:brand bs) {:class "navbar-brand"})
            (d/span {:class "navbar-brand"} (:brand bs)))
-         (when (or (:toggle-button bs)
-                   (:toggle-nav-key bs))
+         (when (render-header-and-toggle-btn? bs)
            (render-toggle-button owner bs))))
 
-(s/defn clone-nav-item
+(sm/defn clone-nav-item
   "Takes the options supplied to the top level nav and returns a
   function that will CLONE the inner nav items, transferring all
   relevant props from the outer code to the inner code."
@@ -170,8 +180,9 @@
 (defn render-navbar-child [owner child bs]
   (let [f (fn [props]
             (let [opts (:opts props)
-                  collapsible? (when (:toggle-nav-key bs)
-                                 (= (:key opts) (:toggle-nav-key bs)))
+                  collapsible? (or (:collapsible? opts)
+                                   (when (:toggle-nav-key bs)
+                                     (= (:key opts) (:toggle-nav-key bs))))
                   base {:navbar? true
                         :collapsible? collapsible?
                         :expanded? (and collapsible?
@@ -202,13 +213,11 @@
      ((:component-fn bs) (u/merge-props (merge bs props)
                                         {:class (d/class-set classes)})
       (d/div {:class (if (:fluid props) "container-fluid" "container")}
-             (when (or (:brand bs)
-                       (:toggle-button bs)
-                       (:toggle-nav-key bs))
+             (when (render-header-and-toggle-btn? bs)
                (render-header owner bs))
              (map #(render-navbar-child owner % bs) children))))))
 
-(s/defn navbar
+(sm/defn navbar
   [opts :- NavBar & children]
   (->navbar* {:opts opts
               :children children}))

@@ -1,4 +1,22 @@
-## 0.3.1 (9/25/2014)
+## 0.3.3 (1/13/2015)
+
+- Added collapse functionality for navbars (https://github.com/racehub/om-bootstrap/pull/41)
+
+## 0.3.2 (12/9/2014)
+
+- Added `href` tags to all `Show Code` links. Without these they weren't expanding on mobile browsers (https://github.com/racehub/om-bootstrap/issues/34)
+- Fixed compatibility issue with om-0.8.0-beta3, and added tests.
+- Upgraded clojure to 1.7.0-alpha2
+- Upgraded core.async to 0.1.346.0-17112a-alpha
+- Upgraded om-tools to 0.3.6
+- Upgraded schema to 0.3.1
+- Upgraded weasel to 0.4.2
+
+## 0.3.1 (10/15/2014)
+
+- Revert schema upgrade... fancy that :)
+
+## 0.3.0 (9/25/2014)
 
 - Upgrade to Schema 0.3.0
 

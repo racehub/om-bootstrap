@@ -7,7 +7,8 @@
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
             [om-tools.mixin :refer-macros [defmixin]]
-            [schema.core :as s :include-macros true]))
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Basic Button
 
@@ -26,7 +27,7 @@
 
 ;; ## Code
 
-(s/defn render-anchor
+(sm/defn render-anchor
   [opts :- {:classes {s/Any s/Any}
             :disabled? (s/maybe s/Bool)
             :props {s/Any s/Any}}
@@ -38,7 +39,7 @@
     (d/a (u/merge-props props (:props opts))
          children)))
 
-(s/defn button :- t/Component
+(sm/defn button :- t/Component
   "Renders a button."
   [props :- Button & children]
   (let [[bs props] (t/separate Button props {:bs-class "button"
@@ -68,7 +69,7 @@
 
 ;; ## Button Toolbar
 
-(s/defn toolbar :- t/Component
+(sm/defn toolbar :- t/Component
   "Renders a button toolbar."
   [opts & children]
   (let [[bs props] (t/separate {} opts {:bs-class "button-toolbar"})]
@@ -78,7 +79,7 @@
 
 ;; ## Button Group
 
-(s/defn button-group :- t/Component
+(sm/defn button-group :- t/Component
   "Renders the supplied children in a wrapping button-group div."
   [opts :- ButtonGroup & children]
   (let [[bs props] (t/separate ButtonGroup opts {:bs-class "button-group"})
@@ -95,8 +96,8 @@
   (t/bootstrap
    {(s/optional-key :title) t/Renderable
     (s/optional-key :href) s/Str
-    (s/optional-key :on-click) (s/=> s/Any s/Any)
-    (s/optional-key :on-select) (s/=> s/Any s/Any)
+    (s/optional-key :on-click) (sm/=> s/Any s/Any)
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)
     (s/optional-key :pull-right?) s/Bool
     (s/optional-key :dropup?) s/Bool
     (s/optional-key :nav-item?) s/Bool}))
@@ -124,7 +125,7 @@
     (s/optional-key :divider?) s/Bool
     (s/optional-key :href) s/Str
     (s/optional-key :title) s/Str
-    (s/optional-key :on-select) (s/=> s/Any s/Any)}))
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
 (defcomponentk menu-item*
   "Generates an Om component of a menu item. Done this way so that
@@ -153,7 +154,7 @@
      (d/li (u/merge-props props li-attrs)
            children))))
 
-(s/defn menu-item :- t/Component
+(sm/defn menu-item :- t/Component
   [opts :- MenuItem & children]
   (->menu-item* {:opts opts
                  :children children}))
@@ -161,9 +162,9 @@
 (def DropdownMenu
   (t/bootstrap
    {(s/optional-key :pull-right?) s/Bool
-    (s/optional-key :on-select) (s/=> s/Any s/Any)}))
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
-(s/defn dropdown-menu :- t/Component
+(sm/defn dropdown-menu :- t/Component
   [opts :- DropdownMenu & children]
   (let [[bs props] (t/separate DropdownMenu opts)
         classes {:dropdown-menu true
@@ -221,7 +222,7 @@
          :key 1}
         (map #(u/clone-with-props % update-child-props) children))]))))
 
-(s/defn dropdown :- t/Component
+(sm/defn dropdown :- t/Component
   "Returns a dropdown button component. The component manages its own
   dropdown state."
   [opts :- DropdownButton & children]
@@ -238,8 +239,8 @@
     (s/optional-key :title) t/Renderable
     (s/optional-key :href) s/Str
     (s/optional-key :dropdown-title) t/Renderable
-    (s/optional-key :on-click) (s/=> s/Any s/Any)
-    (s/optional-key :on-select) (s/=> s/Any s/Any)}))
+    (s/optional-key :on-click) (sm/=> s/Any s/Any)
+    (s/optional-key :on-select) (sm/=> s/Any s/Any)}))
 
 (defcomponentk split*
   "Generates a split button component responsible for its own
@@ -286,7 +287,7 @@
                              :dropup (:dropup? bs)})}
                    btn drop-btn menu))))
 
-(s/defn split
+(sm/defn split
   [opts :- SplitButton & children]
   (->split* {:opts opts
              :children children}))

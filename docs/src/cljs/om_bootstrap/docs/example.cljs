@@ -33,10 +33,13 @@
           (bs-example body)
           (when open?
             (->code-block {:code code}))
-          (d/a {:class (d/class-set
+          (d/a {:href "#"
+                :class (d/class-set
                         {:code-toggle true
                          :open open?})
-                :on-click #(swap! state update-in [:open?] not)}
+                :on-click (fn [e]
+                            (swap! state update-in [:open?] not)
+                            (.preventDefault e))}
                (if open?
                  "hide code"
                  "show code")))))
