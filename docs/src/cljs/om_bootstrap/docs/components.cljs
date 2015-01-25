@@ -314,6 +314,7 @@
 
 ;; ## Progress Bars
 
+
 (defn progress-bar-block []
   (section
    "progress"
@@ -323,33 +324,33 @@
         action with simple yet flexible progress bars.")
    (d/h3 "Basic example")
    (d/p "Default progress bar.")
-   (TODO)
+   (->example (slurp-example "progressbar/basic"))
 
    (d/h3 "With label")
    (d/p "Add a " (d/code ":label") " prop to show a visible
    percentage. For low percentages, consider adding
    a" (d/code ":min-width") " to ensure the label's text is fully
    visible.")
-   (TODO)
+   (->example (slurp-example "progressbar/label"))
 
    (d/h3 "Screenreader only label")
    (d/p "Add the " (d/code ":sr-only? true") " option to hide the
    label visually.")
-   (TODO)
+   (->example (slurp-example "progressbar/sr_only_label"))
 
    (d/h3 "Contextual alternatives")
    (d/p "Progress bars use some of the same button and alert classes
    for consistent styles.")
-   (TODO)
+   (->example (slurp-example "progressbar/contextual"))
 
    (d/h3 "Striped")
    (d/p "Uses a gradient to create a striped effect. Not available in IE8.")
-   (TODO)
+   (->example (slurp-example "progressbar/striped"))
 
    (d/h3 "Animated")
    (d/p "Add the " (d/code ":active? true") " option to animate the
    stripes right to left. Not available in IE9 and below.")
-   (TODO)
+   (->example (slurp-example "progressbar/active"))
 
    (d/h3 "Stacked")
    (d/p "Nest " (d/code "pb/progress-bar") "s to stack them.")
