@@ -16,11 +16,7 @@
 (sm/defn page :- t/Component [opts :- Page & children]
   (let [[bs props] (t/separate Page opts {:href "#"})
         classes {:disabled (:disabled? bs)
-                 :active (:active? bs)}
-        on-click (when-let [f (:on-click bs)]
-                   (fn [e]
-                     (.preventDefault e)
-                     (f e)))]
+                 :active (:active? bs)}]
     (d/li (u/merge-props props {:class (d/class-set classes)})
       (d/a {:href (:href bs)
             :on-click on-click}
