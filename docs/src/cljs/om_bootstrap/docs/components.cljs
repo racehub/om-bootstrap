@@ -8,6 +8,7 @@
             [om-bootstrap.input :as i]
             [om-bootstrap.mixins :as m]
             [om-bootstrap.nav :as n]
+            [om-bootstrap.pagination :as pg]
             [om-bootstrap.panel :as p]
             [om-bootstrap.progress-bar :as pb]
             [om-bootstrap.random :as r]
@@ -410,6 +411,24 @@
      (d/a {:href "#navs"} "tabbed navigation component")
      " to add tabbable areas."])))
 
+;; ## Pagination
+(defn pagination-block []
+  (section
+    "pagination"
+    ["Pagination " (d/small "basic.cljs")]
+    (d/p "Creates pages that can have " (d/code ":href") " or " (d/code ":on-click") " set to navigate between pages")
+    (d/h3 "Basic Pagination")
+    (->example (slurp-example "pagination/basic"))
+
+    (d/h3 "Pagination with previous and next")
+    (->example (slurp-example "pagination/navigation"))
+
+    (d/h3 "Pages can be disabled")
+    (->example (slurp-example "pagination/disabled"))
+
+    (d/h3 "Pages can be marked as active")
+    (->example (slurp-example "pagination/active"))))
+
 ;; ## Pager
 
 (defn pager-block []
@@ -644,6 +663,7 @@
            (n/nav-item {:href "#navs"} "Navs")
            (n/nav-item {:href "#navbars"} "Navbars")
            (n/nav-item {:href "#tabs"} "Toggleable Tabs")
+           (n/nav-item {:href "#pagination"} "Pagination")
            (n/nav-item {:href "#pager"} "Pager")
            (n/nav-item {:href "#alerts"} "Alerts")
            (n/nav-item {:href "#carousels"} "Carousels")
@@ -686,6 +706,7 @@
       (nav-block)
       (navbar-block)
       (tab-block)
+      (pagination-block)
       (pager-block)
       (alert-block)
       (carousel-block)
