@@ -18,9 +18,9 @@
         classes {:disabled (:disabled? bs)
                  :active (:active? bs)}]
     (d/li (u/merge-props props {:class (d/class-set classes)})
-      (d/a {:href (:href bs)
-            :on-click on-click}
-        children))))
+          (d/a {:href (:href bs)
+                :on-click (:on-click bs)}
+               children))))
 
 (sm/defn previous :- t/Component [opts :- Page]
   (page (assoc opts :aria-label "Previous") (d/span {:aria-hidden "true"} "«")))
