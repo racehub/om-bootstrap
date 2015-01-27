@@ -20,4 +20,4 @@
           (d/option {:value "select"} "select")
           (d/option {:value "other"} "..."))
  (i/input {:type "textarea" :default-value "textarea"})
- (i/input {:type "static"} "static"))
+ (i/input {:type "static" :value "Static Text"}))

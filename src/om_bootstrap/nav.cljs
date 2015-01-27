@@ -88,7 +88,8 @@
   (render
    [_]
    (let [{:keys [opts children]} (om/get-props owner)
-         [bs props] (t/separate Nav opts {:bs-class "nav"})
+         [bs props] (t/separate Nav opts {:expanded? true
+                                          :bs-class "nav"})
          classes {:navbar-collapse (:collapsible? bs)
                   :collapse (not (:expanded? bs))
                   :in (:expanded? bs)}
