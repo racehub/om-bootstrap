@@ -3,8 +3,9 @@
   work."
   (:require [om-bootstrap.types :as t]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s :include-macros true]
-            [om-bootstrap.util :as u]))
+            [om-bootstrap.util :as u]
+            [schema.core :as s])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Schema
 
@@ -17,7 +18,7 @@
     (s/optional-key :sr-only?) (s/named s/Bool "Screenreader-only? Hide the label?")
     (s/optional-key :striped?) s/Bool
     (s/optional-key :active?) s/Bool
-    (s/optional-key :nested?) (s/named s/Bool "Specify this for a nested ProgressBar inside a stacked ProgerssBar.")}))
+    (s/optional-key :nested?) (s/named s/Bool "Specify this for a nested ProgressBar inside a stacked ProgressBar.")}))
 
 (def defaults
   {:min 0
@@ -27,14 +28,14 @@
    :active? false
    :nested? false})
 
-(s/defn percentage :- s/Num
+(sm/defn percentage :- s/Num
   [min :- s/Int now :- s/Int max :- s/Int]
   (-> (/ (- now min)
          (- max min))
       (* 100)
       (Math/ceil)))
 
-(s/defn child-bar :- t/Component
+(sm/defn child-bar :- t/Component
   "Generates a progress bar child."
   [opts :- ProgressBar & children]
   (let [[bs props] (t/separate ProgressBar opts defaults)
@@ -57,7 +58,7 @@
                (d/span {:class "sr-only"} label)
                label)))))
 
-(s/defn progress-bar
+(sm/defn progress-bar
   "Generates a progress bar component."
   [opts :- ProgressBar & children]
   (if (:nested? opts)
