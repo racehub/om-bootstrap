@@ -1,4 +1,5 @@
 (ns om-bootstrap.pagination
+  (:refer-clojure :exclude [next])
   (:require [om.core :as om]
             [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
