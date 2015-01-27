@@ -355,7 +355,7 @@
 
    (d/h3 "Stacked")
    (d/p "Nest " (d/code "pb/progress-bar") "s to stack them.")
-   (TODO)))
+   (->example (slurp-example "progressbar/stacked"))))
 
 ;; ## Navs
 
