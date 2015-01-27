@@ -17,25 +17,31 @@
     (s/optional-key :header) t/Renderable
     (s/optional-key :footer) t/Renderable
     (s/optional-key :list-group) t/Renderable
+    (s/optional-key :collapsible?) s/Bool
     (s/optional-key :collapsed?) s/Bool}))
+
+(declare ->collapsible-panel*)
 
 (sm/defn panel :- t/Component
   [opts :- Panel & children]
   (let [[bs props] (t/separate Panel opts {:bs-class "panel"
                                            :bs-style "default"})
         classes (assoc (t/bs-class-set bs) :panel true)]
-    (d/div (u/merge-props props {:class (d/class-set classes)})
-           (when-let [header (:header bs)]
-             (d/div {:class "panel-heading"}
-                    (u/clone-with-props header {:class "panel-title"})))
-           (when-not (= 0 (count (filter identity children)))
-             (d/div {:class (str "panel-body" (when (:collapsed? bs) " collapse"))
-                     :ref "body"}
-                    children))
-           (when-let [list-group (:list-group bs)]
-             list-group)
-           (when-let [footer (:footer bs)]
-             (d/div {:class "panel-footer"} footer)))))
+    (if (:collapsible? bs)
+      (->collapsible-panel* {:opts     (dissoc opts :collapsible?)
+                            :children children})
+      (d/div (u/merge-props props {:class (d/class-set classes)})
+             (when-let [header (:header bs)]
+               (d/div {:class "panel-heading"}
+                      (u/clone-with-props header {:class "panel-title"})))
+             (when-not (= 0 (count (filter identity children)))
+               (d/div {:class (str "panel-body" (when (:collapsed? bs) " collapse"))
+                       :ref   "body"}
+                      children))
+             (when-let [list-group (:list-group bs)]
+               list-group)
+             (when-let [footer (:footer bs)]
+               (d/div {:class "panel-footer"} footer))))))
 
 ;; ## Collapsible Panel
 
@@ -55,9 +61,3 @@
       (panel (u/merge-props opts {:header collapsible-header
                                   :collapsed? is-collapsed?})
              children))))
-
-(sm/defn collapsible-panel :- t/Component
-  "Returns a collapsible panel"
-  [opts :- Panel & children]
-  (->collapsible-panel* {:opts opts
-                         :children children}))
