@@ -3,61 +3,56 @@
   work."
   (:require [om-bootstrap.types :as t]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+            [schema.core :as s :include-macros true]
+            [om-bootstrap.util :as u]))
 
 ;; ## Schema
 
 (def ProgressBar
   (t/bootstrap
-   {:min s/Int
+   {(s/optional-key :min) s/Int
     :now s/Int
-    :max s/Int
-    :label t/Renderable
-    :sr-only? (s/named s/Bool "Screenreader-only? Hide the label?")
-    :striped? s/Bool
-    :active? s/Bool}))
+    (s/optional-key :max) s/Int
+    (s/optional-key :label) t/Renderable
+    (s/optional-key :sr-only?) (s/named s/Bool "Screenreader-only? Hide the label?")
+    (s/optional-key :striped?) s/Bool
+    (s/optional-key :active?) s/Bool}))
 
 (def defaults
-  {:min 0 :max 100 :bs-class "progress-bar"})
+  {:min 0
+   :max 100
+   :bs-class "progress-bar"
+   :striped? false
+   :active? false})
 
-(sm/defn percentage :- s/Num
+(s/defn percentage :- s/Num
   [min :- s/Int now :- s/Int max :- s/Int]
   (-> (/ (- now min)
          (- max min))
       (* 100)
       (Math/ceil)))
 
-(sm/defn sr-only-label :- t/Component
-  "Renders a screenreader-only label."
-  [label :- t/Renderable]
-  (d/span {:class "sr-only"} label))
-
-(comment
-  (sm/defn render-label
-    "There's some bullshit in here able interpolation that I have to
-    figure out."
-    [percentage :- s/Num]
-
-    )
-
-  "Actual progress bar rendering."
-  (sm/defn render-progress-bar
-    [{:keys [label]} :- ProgressBar]
-    (cond
-     (string? label) (render-label label)
-     (nil?)
-     )))
-
-(sm/defn progress-bar :- t/Component
+(s/defn progress-bar :- t/Component
   "Generates a Bootstrap progress bar component."
   [opts :- ProgressBar & children]
   (let [[bs props] (t/separate ProgressBar opts defaults)
-        classes (-> (cond
-                     (:active? bs) {:progress-striped true
-                                    :active true}
-                     (:striped? bs) {:progress-striped true}
-                     :else {})
-                    (assoc :progress true))
-        ]
-    ))
+        classes (merge
+                  (t/bs-class-set bs)
+                  {:progress-bar true}
+                  (when (:active? bs) {:progress-bar-striped true
+                                       :active true})
+                  (when (:striped? bs) {:progress-bar-striped true}))
+        values {:aria-value-min (:min bs)
+                :aria-value-max (:max bs)
+                :aria-value-now (:now bs)}
+        style {:width  (str (percentage (:min bs) (:now bs) (:max bs)) "%")}]
+    (d/div {:class "progress"}
+           (d/div (u/merge-props props
+                                 {:class (d/class-set classes)}
+                                 values
+                                 {:style style})
+                  (when-let [label (:label bs)]
+                    (if (:sr-only? bs)
+                      (d/span {:class "sr-only"} label)
+                      label)))
+           children)))
