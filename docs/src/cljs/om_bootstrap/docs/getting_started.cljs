@@ -31,8 +31,8 @@
                    (->code-block {:code "(defproject foo \"0.1.0\"
   ...
   :dependencies [[org.clojure/clojure \"1.6.0\"]
-                 [org.clojure/clojurescript \"0.0-2322\"]
-                 [racehub/om-bootstrap \"0.3.1\"]
+                 [org.clojure/clojurescript \"0.0-2411\"]
+                 [racehub/om-bootstrap \"0.3.4\"]
                  [om \"0.7.3\"]]
   ...)"})
                    (d/p "Om-Bootstrap requires Om 0.7.0 or later, and has been tested against Bootstrap 3.1.0 and later. The "
