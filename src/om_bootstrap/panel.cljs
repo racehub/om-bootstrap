@@ -56,7 +56,7 @@
                                   :collapsed? is-collapsed?})
              children))))
 
-(s/defn collapsible-panel :- t/Component
+(sm/defn collapsible-panel :- t/Component
   "Returns a collapsible panel"
   [opts :- Panel & children]
   (->collapsible-panel* {:opts opts
