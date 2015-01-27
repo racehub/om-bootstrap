@@ -1,5 +1,8 @@
-## 0.3.3 (1/21/2015)
-- Turned Om into a provided dependency.
+## 0.3.4
+
+- Turned Om into a provided dependency (https://github.com/racehub/om-bootstrap/pull/44)
+- add Pagination, thanks to @dignati (https://github.com/racehub/om-bootstrap/pull/47)
+- Fixes a bug where navs were un-expanded by default (https://github.com/racehub/om-bootstrap/pull/48)
 
 ## 0.3.3 (1/13/2015)
 

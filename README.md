@@ -62,7 +62,6 @@ These, and the mixins below, are the project's biggest TODOs.
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
 * TabbedArea, TabPane
-* Pager
 * Carousel
 * CarouselItem
 
