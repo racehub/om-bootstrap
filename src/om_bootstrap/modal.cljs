@@ -1,15 +1,13 @@
 (ns om-bootstrap.modal
   "IN PROGRESS work on a modal component. Depends on a fade mixin."
-  (:require [cljs.core.async :as a :refer [chan put! close!]]
-            [om.core :as om]
-            [om-bootstrap.mixins :refer [set-listener-mixin]]
+  (:require [om.core :as om]
+            [om-bootstrap.mixins :refer [fade-mixin]]
             [om-bootstrap.types :as t]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [om-tools.mixin :refer-macros [defmixin]]
-            [schema.core :as s])
-  (:require-macros [cljs.core.async.macros :refer [go-loop]]
-                   [schema.macros :as sm]))
+            [schema.core :as s]
+            [om-bootstrap.util :as u])
+  (:require-macros [schema.macros :as sm]))
 
 ;; ## Schema
 ;;
@@ -25,13 +23,12 @@
 
 (def Modal
   "Options for the modal."
-  {:title (s/named s/Any "Either a valid react component OR a string.")
-   :backdrop? s/Bool
-   :keyboard? s/Bool
-   :close-button? s/Bool
-   :animate? s/Bool
-   :children (s/named s/Any "Child elements, if any.")
-   :on-request-hide (sm/=> s/Any s/Any)})
+  {:header s/Any
+   :footer s/Any
+   (s/optional-key :backdrop?) s/Bool
+   (s/optional-key :keyboard?) s/Bool
+   (s/optional-key :close-button?) s/Bool
+   (s/optional-key :animate?) s/Bool})
 
 (sm/defn render-header :- t/Component
   "Renders the header for the modal."
@@ -63,6 +60,40 @@
                             (on-request-hide))))
             :ref "backdrop"}
            modal-elem)))
+
+(defcomponentk modal*
+  "Component that renders a Modal. Manages it's own toggle state"
+  [owner state]
+  (:mixins fade-mixin)
+  (render [_]
+          (let [{:keys [opts children]} (om/get-props owner)
+                [bs props] (t/separate Modal opts {:bs-class "modal"})
+                show! (aget owner "show")
+                hide! (aget owner "hide")
+                visible? (aget owner "isVisible")
+                classes {:modal true
+                         :fade true
+                         :in (visible? owner)}]
+            (d/div (u/merge-props props
+                                  {:class (t/bs-class-set bs)}
+                                  {:class (t/class-map classes)})
+                   (d/div {:class "modal-dialog"}
+                          (d/div {:class "modal-content"}
+                                 (d/div {:class "modal-header"}
+                                        (when (:close-button? bs)
+                                          (d/button {:type         "button"
+                                                     :class        "close"
+                                                     :aria-hidden  true
+                                                     :data-dismiss "modal"}
+                                                    "&times;"))
+                                        (:header bs))
+                                 (d/div {:class "modal-body"}
+                                        children)
+                                 (d/div {:class "modal-footer"}
+                                        (:footer bs))))))))
+(sm/defn modal
+  [opts :- Modal & children]
+  (->modal* {:opts opts :children children}))
 
 ;; TODO: Look up the bootstrap modal mixin here!
 ;;
