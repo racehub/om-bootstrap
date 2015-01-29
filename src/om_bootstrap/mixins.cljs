@@ -104,10 +104,3 @@
      (bind-root-close-handlers! owner)
      (unbind-root-close-handlers! owner))
    (om/set-state! owner [:open?] open?)))
-
-;; ## Fade
-
-(defmixin fade-mixin
-  (isVisible [owner] (om/get-state owner [:visible?]))
-  (show [owner] (om/set-state! owner [:visible?] true))
-  (hide [owner] (om/set-state! owner [:visible?] false)))

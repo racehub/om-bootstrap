@@ -1,7 +1,6 @@
 (ns om-bootstrap.modal
   "IN PROGRESS work on a modal component. Depends on a fade mixin."
   (:require [om.core :as om]
-            [om-bootstrap.mixins :refer [fade-mixin]]
             [om-bootstrap.types :as t]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
@@ -23,7 +22,6 @@
 (defcomponentk modal*
   "Component that renders a Modal. Manages it's own toggle state"
   [owner state]
-  (:mixins fade-mixin)
   (init-state [_]
     {:visible? (-> (om/get-props owner)
                    :opts
@@ -31,12 +29,10 @@
   (render [_]
     (let [{:keys [opts children]} (om/get-props owner)
           [bs props] (t/separate Modal opts {:bs-class "modal"})
-          show! (aget owner "show")
-          hide! (aget owner "hide")
-          visible? (aget owner "isVisible")
+          visible? (om/get-state owner [:visible?])
           classes {:modal true
                    :fade true
-                         :in (visible? owner)}]
+                   :in visible?}]
       (d/div (u/merge-props props
                             {:class (d/class-set classes)})
              (d/div {:class "modal-dialog"}
@@ -44,7 +40,7 @@
                            (d/div {:class "modal-header"}
                                   (when (:close-button? bs)
                                     (d/button {:type         "button"
-                                                     :class        "close"
+                                               :class        "close"
                                                :aria-hidden  true
                                                :on-click (fn [_] (hide! owner))}
                                               "×"))
