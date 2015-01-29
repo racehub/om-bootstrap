@@ -108,7 +108,6 @@
 ;; ## Fade
 
 (defmixin fade-mixin
-  (init-state [_] {:visible? false})
-  (isVisible [owner] (om/get-state owner [:visible]))
+  (isVisible [owner] (om/get-state owner [:visible?]))
   (show [owner] (om/set-state! owner [:visible?] true))
   (hide [owner] (om/set-state! owner [:visible?] false)))
