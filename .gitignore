@@ -30,3 +30,4 @@ schema.png
 dev/public/assets/main.js
 dev/public/generated
 dev/public/assets/generated
+*-init.clj

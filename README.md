@@ -6,6 +6,12 @@ Here's the latest Leiningen version info:
 
 [![Clojars Project](http://clojars.org/racehub/om-bootstrap/latest-version.svg)](http://clojars.org/racehub/om-bootstrap)
 
+You'll also need to add Om:
+
+```clojure
+[om "0.7.3"]
+```
+
 You can find more detailed information on how to configure your Clojurescript project to use Om-Bootstrap on the documentation site's [Getting Started section](http://om-bootstrap.herokuapp.com/getting-started).
 
 **This is an alpha release. The API and organizational structure are
@@ -37,7 +43,7 @@ Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usag
 
 ## Mixins
 
-The project contains a few mixins that help in writing active Om components. THe current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
+The project contains a few mixins that help in writing active Om components. The current set of mixins makes it easy to set listeners and timeouts on some component, and guarantee that they'll be cleaned up when the component unmounts:
 
 * `set-listener-mixin` (mixins.cljs)
 * `set-timeout-mixin` (mixins.cljs)
@@ -56,7 +62,6 @@ These, and the mixins below, are the project's biggest TODOs.
 * Subnav (?)
 * Panel (hard), PanelGroup (easy), Accordion (easy)
 * TabbedArea, TabPane
-* Pager
 * Carousel
 * CarouselItem
 
@@ -64,7 +69,6 @@ These, and the mixins below, are the project's biggest TODOs.
 
 * FadeMixin
 * OverlayMixin
-* CollapsibleMixin
 
 ## ClojureScript Repl
 

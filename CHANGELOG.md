@@ -1,3 +1,17 @@
+## 0.3.5 (1/27/2015)
+
+- Support for collapsible panels, thanks to @dignati (https://github.com/racehub/om-bootstrap/pull/45)
+
+## 0.3.4 (1/27/2015)
+
+- Turned Om into a provided dependency (https://github.com/racehub/om-bootstrap/pull/44)
+- add Pagination, thanks to @dignati (https://github.com/racehub/om-bootstrap/pull/47)
+- Fixes a bug where navs were un-expanded by default (https://github.com/racehub/om-bootstrap/pull/48)
+
+## 0.3.3 (1/13/2015)
+
+- Added collapse functionality for navbars (https://github.com/racehub/om-bootstrap/pull/41)
+
 ## 0.3.2 (12/9/2014)
 
 - Added `href` tags to all `Show Code` links. Without these they weren't expanding on mobile browsers (https://github.com/racehub/om-bootstrap/issues/34)
