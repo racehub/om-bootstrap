@@ -240,14 +240,8 @@
    (->example (slurp-example "modal/static"))
 
    (d/h3 "Live Demo")
-   (d/p "Use " (d/code "overlay-trigger") " to create a real modal
-   that's added to the document body when opened.")
-   (TODO)
-
-   (d/h3 "Custom trigger")
-   (d/p "Use " (d/code "overlay-mixin") " in a custom component to
-   manage the modal's state yourself.")
-   (TODO)))
+   (d/p "Build your own component to trigger a modal")
+   (->example (slurp-example "modal/live"))))
 
 ;; ## Tooltips
 
