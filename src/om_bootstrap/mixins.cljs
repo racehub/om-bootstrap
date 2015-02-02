@@ -104,3 +104,13 @@
      (bind-root-close-handlers! owner)
      (unbind-root-close-handlers! owner))
    (om/set-state! owner [:open?] open?)))
+
+(defmixin collapsible-mixin
+  "Mixin that enables collapsible Panels. Similar to the Dropdown
+   Mixin it only manages a single piece of state - :collapsed?. The Panel
+   is opened and closen by clicking on the header."
+  (init-state [_] {:collapsed? false})
+  (isPanelCollapsed [owner] (om/get-state owner :collapsed?))
+  (toggleCollapsed
+    [owner]
+    (om/update-state! owner [:collapsed?] not)))

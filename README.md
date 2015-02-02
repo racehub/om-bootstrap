@@ -27,7 +27,9 @@ Om-Bootstrap's [documentation site](http://om-bootstrap.herokuapp.com/) has usag
 
 * `button`, `button-group`, `toolbar` (button.cljs)
 * `dropdown-menu`, `menu-item`, `dropdown`, `split` (button.cljs)
+* `modal` (modal.cljs)
 * `input` (input.cljs)
+* `panel` (panel.cljs)
 * `jumbotron` (random.cljs)
 * `label` (random.cljs)
 * `well` (random.cljs)
@@ -51,9 +53,8 @@ The project contains a few mixins that help in writing active Om components. The
 
 ## Components In Progress
 
-* Modal, ModalTrigger (modal.cljs)
+* ModalTrigger (modal.cljs)
 * ProgressBar (progress_bar.cljs)
-* Nav Collapsible Functionality
 
 ## Needed Components
 
@@ -69,7 +70,6 @@ These, and the mixins below, are the project's biggest TODOs.
 
 * FadeMixin
 * OverlayMixin
-* CollapsibleMixin
 
 ## ClojureScript Repl
 
