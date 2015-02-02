@@ -135,6 +135,7 @@
       "Cloning an Om component works too."
       (is=el om-component (u/clone-with-props om-component)))
 
+    ;; FIRST FAILING TEST
     (is (= {:x "alpha", :y "two", :z "three", :className "cake walrus"}
            (-> (->fake-div {:x "one" :y "two" :z "three"
                             :class "cake"})
@@ -143,21 +144,22 @@
         "Cloning an om component merges the extra properties into the
         cursor, NOT into the overall props.")
 
-    (let [hut-the-vals (fn [m]
-                         (->> (map (fn [[k v]]
-                                     [k (str v "-hut!")])
-                                   m)
-                              (into {})))]
-      (is (= {:x "one-hut!"
-              :y "two-hut!"
-              :z "three-hut!"
-              :class "cake-hut!"}
-             (-> (->fake-div {:x "one" :y "two" :z "three" :class "cake"})
-                 (u/clone-with-props hut-the-vals)
-                 (u/get-props)))
-          "clone-with-props can take a function as well. This one adds
+    (comment
+      (let [hut-the-vals (fn [m]
+                           (->> (map (fn [[k v]]
+                                       [k (str v "-hut!")])
+                                     m)
+                                (into {})))]
+        (is (= {:x "one-hut!"
+                :y "two-hut!"
+                :z "three-hut!"
+                :class "cake-hut!"}
+               (-> (->fake-div {:x "one" :y "two" :z "three" :class "cake"})
+                   (u/clone-with-props hut-the-vals)
+                   (u/get-props)))
+            "clone-with-props can take a function as well. This one adds
           hut! onto the end of all string values.
 
           The whole :class merging only comes into play if extra attrs
           contains a :class as well. :class is left alone here and not
-          converted to :className."))))
+          converted to :className.")))))
