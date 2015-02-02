@@ -69,7 +69,6 @@ These, and the mixins below, are the project's biggest TODOs.
 
 * FadeMixin
 * OverlayMixin
-* CollapsibleMixin
 
 ## ClojureScript Repl
 

@@ -1,3 +1,7 @@
+## 0.3.5 (1/27/2015)
+
+- Support for collapsible panels, thanks to @dignati (https://github.com/racehub/om-bootstrap/pull/45)
+
 ## 0.3.4 (1/27/2015)
 
 - Turned Om into a provided dependency (https://github.com/racehub/om-bootstrap/pull/44)

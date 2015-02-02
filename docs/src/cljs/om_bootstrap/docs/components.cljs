@@ -216,6 +216,11 @@
    particular context by adding a " (d/code ":bs-style") " prop.")
    (->example (slurp-example "panel/contextual"))
 
+   (d/h3 "Collapsible panels")
+   (d/p "This panel is collapsed by default and can be extended by clicking
+   on the title")
+   (->example (slurp-example "panel/collapsible"))
+
    (d/h3 "Controlled PanelGroups")
    (d/p (d/code "p/panel-group") "s can be controlled by a parent
    component. The " (d/code ":active-key") " prop dictates which panel
