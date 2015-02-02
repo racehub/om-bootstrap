@@ -30,3 +30,5 @@ schema.png
 dev/public/assets/main.js
 dev/public/generated
 dev/public/assets/generated
+.idea
+om_bootstrap.iml
