@@ -32,3 +32,4 @@ dev/public/generated
 dev/public/assets/generated
 .idea
 om_bootstrap.iml
+*-init.clj
