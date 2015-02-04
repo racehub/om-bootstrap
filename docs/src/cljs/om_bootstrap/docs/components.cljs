@@ -13,6 +13,7 @@
             [om-bootstrap.panel :as p]
             [om-bootstrap.progress-bar :as pb]
             [om-bootstrap.random :as r]
+            [om-bootstrap.tab :as t]
             [om-bootstrap.table :refer [table]]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true])
@@ -391,11 +392,11 @@
 
    (d/h3 "Uncontrolled")
    (d/p "Allow the component to control its own state.")
-   (TODO)
+   (->example (slurp-example "tab/uncontrolled"))
 
    (d/h3 "Controlled")
    (d/p "Pass down the active state on render via props.")
-   (TODO)
+   (->example (slurp-example "tab/controlled"))
 
    (d/h3 "No animation")
    (d/p "Set the " (d/code ":animation?") " property to " (d/code "false") ".")
