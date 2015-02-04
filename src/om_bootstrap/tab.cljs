@@ -45,9 +45,13 @@
                                       (:title child)))))
                    (d/div {:class "tab-content"}
                           (for [child children]
-                            (d/div {:role  "tabpanel"
-                                    :class (str "tab-pane" (when (active-tab? child) " active"))}
-                                   (:content child))))))))
+                            (let [active? (active-tab? child)
+                                  animated? (:animate? bs)]
+                              (d/div {:role  "tabpanel"
+                                      :class (d/class-set {:active active?
+                                                           :fade   animated?
+                                                           :in     (and animated? active?)})}
+                                     (:content child)))))))))
 
 (sm/defn tabbed-area [opts :- TabbedArea & children :- [TabPane]]
   (->tabbed-area* {:opts opts :children children}))
