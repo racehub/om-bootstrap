@@ -54,4 +54,5 @@
               (:footer bs))))))))
 
 (sm/defn modal
-  [opts :- Modal & children])
+  [opts :- Modal & children]
+  (->modal* {:opts opts :children children}))
