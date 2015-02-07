@@ -79,6 +79,7 @@
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/main.js"
                 :output-dir "dev/public/generated"
+                :preamble ["react/react.js"]
                 :optimizations :none
                 :source-maps true}}
     :heroku

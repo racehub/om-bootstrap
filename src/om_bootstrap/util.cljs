@@ -46,7 +46,7 @@
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
   [child]
-  ((aget js/React "isValidComponent") child))
+  ((aget js/React "isValidElement") child))
 
 (sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
@@ -104,8 +104,10 @@
             (if (contains? m :class)
               (react-merge [(dissoc m :class) {:className (:class m)}])
               m))]
-    (react-merge
-     (map normalize-class prop-maps))))
+    (let [ret (react-merge (map normalize-class prop-maps))]
+      (if-not (:key ret)
+        (dissoc ret :key)
+        ret))))
 
 ;; ## clone-with-props and helpers
 
