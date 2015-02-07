@@ -20,7 +20,7 @@
                  [prismatic/om-tools "0.3.10" :exclusions [om]]
                  [prismatic/schema "0.3.1"
                   :exclusions [org.clojure/clojurescript]]
-                 [org.omcljs/om "0.8.8" :scope "provided"]]
+                 [org.omcljs/om "0.8.7" :scope "provided"]]
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2760"]
                              [secretary "1.2.0"]
@@ -32,9 +32,8 @@
              :uberjar {:aot :all
                        :omit-source true
                        :main om-bootstrap.server
-                       :plugins [[lein-cljsbuild "1.0.3"]]
+                       :plugins [[lein-cljsbuild "1.0.4"]]
                        :prep-tasks ^:replace [["clean"]
-                                              ["cljsbuild" "clean"]
                                               ["cljsbuild" "once" "heroku"]
                                               ["javac"]
                                               ["compile" ":all"]]
@@ -44,9 +43,8 @@
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server
-                    :plugins [[lein-cljsbuild "1.0.3"]]
+                    :plugins [[lein-cljsbuild "1.0.4"]]
                     :prep-tasks ^:replace [["clean"]
-                                           ["cljsbuild" "clean"]
                                            ["cljsbuild" "once" "heroku"]
                                            ["javac"]
                                            ["compile" ":all"]]
@@ -79,16 +77,13 @@
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/main.js"
                 :output-dir "dev/public/generated"
-                :preamble ["react/react.js"]
                 :optimizations :none
                 :source-maps true}}
     :heroku
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/generated/om_bootstrap.js"
                 :output-dir "dev/public/assets/generated"
-                :externs ["react/externs/react.js"
-                          "externs/highlight.js"]
-                :preamble ["react/react.min.js"]
+                :externs ["externs/highlight.js"]
                 :optimizations :advanced
                 :pretty-print false
                 :source-map "dev/public/assets/generated/om_bootstrap.js.map"}}
@@ -96,8 +91,6 @@
     {:source-paths ["src" "test"]
      :compiler {:output-to "target/om_bootstrap.js"
                 :optimizations :whitespace
-                :pretty-print true
-                :preamble ["react/react.min.js"]
-                :externs ["react/externs/react.js"]}}}}
+                :pretty-print true}}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
