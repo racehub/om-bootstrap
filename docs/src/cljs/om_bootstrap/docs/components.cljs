@@ -7,6 +7,7 @@
             [om-bootstrap.grid :as g]
             [om-bootstrap.input :as i]
             [om-bootstrap.mixins :as m]
+            [om-bootstrap.modal :as md]
             [om-bootstrap.nav :as n]
             [om-bootstrap.pagination :as pg]
             [om-bootstrap.panel :as p]
@@ -241,17 +242,11 @@
    (d/p "A rendered modal with header, body, and set of actions in the footer.")
    (d/p "The header is added automatically if you pass in
    a " (d/code ":title") " option.")
-   (TODO)
+   (->example (slurp-example "modal/static"))
 
    (d/h3 "Live Demo")
-   (d/p "Use " (d/code "overlay-trigger") " to create a real modal
-   that's added to the document body when opened.")
-   (TODO)
-
-   (d/h3 "Custom trigger")
-   (d/p "Use " (d/code "overlay-mixin") " in a custom component to
-   manage the modal's state yourself.")
-   (TODO)))
+   (d/p "Build your own component to trigger a modal")
+   (->example (slurp-example "modal/live"))))
 
 ;; ## Tooltips
 

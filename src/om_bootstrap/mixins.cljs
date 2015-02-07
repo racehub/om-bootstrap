@@ -105,7 +105,6 @@
      (unbind-root-close-handlers! owner))
    (om/set-state! owner [:open?] open?)))
 
-
 (defmixin collapsible-mixin
   "Mixin that enables collapsible Panels. Similar to the Dropdown
    Mixin it only manages a single piece of state - :collapsed?. The Panel
