@@ -20,7 +20,7 @@
                  [prismatic/om-tools "0.3.10" :exclusions [om]]
                  [prismatic/schema "0.3.1"
                   :exclusions [org.clojure/clojurescript]]
-                 [org.omcljs/om "0.8.7" :scope "provided"]]
+                 [org.omcljs/om "0.8.8" :scope "provided"]]
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2760"]
                              [secretary "1.2.0"]

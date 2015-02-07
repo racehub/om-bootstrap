@@ -31,9 +31,9 @@
                    (->code-block {:code "(defproject foo \"0.1.0\"
   ...
   :dependencies [[org.clojure/clojure \"1.6.0\"]
-                 [org.clojure/clojurescript \"0.0-2411\"]
+                 [org.clojure/clojurescript \"0.0-2760\"]
                  [racehub/om-bootstrap \"0.4.0\"]
-                 [om \"0.7.3\"]]
+                 [org.omcljs/om \"0.8.8\"]]
   ...)"})
                    (d/p "Om-Bootstrap requires Om 0.8.0 or later, and has been tested against Bootstrap 3.1.0 and later. The "
                         (d/a {:href "https://github.com/racehub/om-bootstrap#supported-versions"} "Om-Bootstrap README")
@@ -57,7 +57,6 @@
   </head>
   <body>
     <div id=\"my-app\"></div>
-    <script src=\"http://fb.me/react-0.12.2.js\"></script>
     <script src=\"out/goog/base.js\" type=\"text/javascript\"></script>
     <script src=\"main.js\" type=\"text/javascript\"></script>
     <script type=\"text/javascript\">goog.require(\"main.core\");</script>
@@ -76,9 +75,7 @@
             :compiler {
               :output-to \"main.js\"
               :optimizations :advanced
-              :pretty-print false
-              :preamble [\"react/react.min.js\"]
-              :externs [\"react/externs/react.js\"]}}]}"})
+              :pretty-print false}}]}"})
                    (d/p "This will generate a single file called " (d/code "main.js") "."
                         "Your production markup should look something like this:")
                    (->code-block {:code "<html>
