@@ -131,11 +131,10 @@
         are trapped inside the actual props in a field called
         __om_cursor.")
 
-    (let [om-component (->fake-div {:x "one" :y "two" :z "three" :class "cake"})]
+    (let [om-component (->fake-div {:x "one" :y "two" :z "three" :className "cake"})]
       "Cloning an Om component works too."
       (is=el om-component (u/clone-with-props om-component)))
 
-    ;; FIRST FAILING TEST
     (is (= {:x "alpha", :y "two", :z "three", :className "cake walrus"}
            (-> (->fake-div {:x "one" :y "two" :z "three"
                             :class "cake"})
@@ -144,22 +143,21 @@
         "Cloning an om component merges the extra properties into the
         cursor, NOT into the overall props.")
 
-    (comment
-      (let [hut-the-vals (fn [m]
-                           (->> (map (fn [[k v]]
-                                       [k (str v "-hut!")])
-                                     m)
-                                (into {})))]
-        (is (= {:x "one-hut!"
-                :y "two-hut!"
-                :z "three-hut!"
-                :class "cake-hut!"}
-               (-> (->fake-div {:x "one" :y "two" :z "three" :class "cake"})
-                   (u/clone-with-props hut-the-vals)
-                   (u/get-props)))
-            "clone-with-props can take a function as well. This one adds
+    (let [hut-the-vals (fn [m]
+                         (->> (map (fn [[k v]]
+                                     [k (str v "-hut!")])
+                                   m)
+                              (into {})))]
+      (is (= {:x "one-hut!"
+              :y "two-hut!"
+              :z "three-hut!"
+              :class "cake-hut!"}
+             (-> (->fake-div {:x "one" :y "two" :z "three" :class "cake"})
+                 (u/clone-with-props hut-the-vals)
+                 (u/get-props)))
+          "clone-with-props can take a function as well. This one adds
           hut! onto the end of all string values.
 
           The whole :class merging only comes into play if extra attrs
           contains a :class as well. :class is left alone here and not
-          converted to :className.")))))
+          converted to :className."))))

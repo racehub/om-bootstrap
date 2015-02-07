@@ -1,6 +1,7 @@
 (ns om-bootstrap.util
   "Utilities for the om-bootstrap library."
-  (:require [om.core :as om]
+  (:require [goog.object :as gobject]
+            [om.core :as om]
             [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
 
@@ -128,16 +129,16 @@
 
   Requires that the supplied child has an Om cursor attached to it! "
   [child extra-props]
-  (let [om-props (get-props child)]
-    (->> (doto (copy-js (.-props child))
-           (aset "__om_cursor"
-                 (if (fn? extra-props)
-                   (extra-props om-props)
-                   (merge-props om-props extra-props))))
-         (.createElement js/React (fn [& x]
-                                    (.log js/console "Getting " (js-keys child))
-                                    ;; Closer! No copying's happening.
-                                    child)))))
+  (let [om-props (get-props child)
+        props #js {}
+        cloned-child (gobject/clone child)]
+    (gobject/extend props
+      (.-props child)
+      #js {:__om_cursor (if (fn? extra-props)
+                          (extra-props om-props)
+                          (merge-props om-props extra-props))})
+    (gobject/extend cloned-child #js {:props props})
+    cloned-child))
 
 (defn clone-basic-react
   "This function is called if the React component child was NOT
