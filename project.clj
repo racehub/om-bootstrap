@@ -53,7 +53,6 @@
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
-             :om-8 {:dependencies [[om "0.8.0-beta5"]]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
@@ -64,7 +63,8 @@
                    :repl-options
                    {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
   :aliases {"test" ["cljsbuild" "test"]
-            "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
+            ;; We'll change this for the next new alpha that comes out.
+            ;; "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
             "repl" ["do" "cljsbuild" "once" "docs," "repl"]}
   :cljsbuild
   {:test-commands {"unit"
