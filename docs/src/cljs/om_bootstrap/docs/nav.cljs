@@ -46,7 +46,7 @@
                        :href "getting-started"
                        :active? (= "getting-started" active-page)}
                       "Getting started")
-          (n/nav-item {:title "Hooki2"
+          (n/nav-item {:title "Components"
                        :href "components"
                        :on-select (fn [& _]
                                     (.setToken history

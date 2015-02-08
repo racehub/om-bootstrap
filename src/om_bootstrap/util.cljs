@@ -1,6 +1,7 @@
 (ns om-bootstrap.util
   "Utilities for the om-bootstrap library."
-  (:require [om.core :as om]
+  (:require [goog.object :as gobject]
+            [om.core :as om]
             [schema.core :as s])
   (:require-macros [schema.macros :as sm]))
 
@@ -45,7 +46,7 @@
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
   [child]
-  ((aget js/React "isValidComponent") child))
+  ((aget js/React "isValidElement") child))
 
 (sm/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
@@ -103,8 +104,10 @@
             (if (contains? m :class)
               (react-merge [(dissoc m :class) {:className (:class m)}])
               m))]
-    (react-merge
-     (map normalize-class prop-maps))))
+    (let [ret (react-merge (map normalize-class prop-maps))]
+      (if-not (:key ret)
+        (dissoc ret :key)
+        ret))))
 
 ;; ## clone-with-props and helpers
 
@@ -117,19 +120,27 @@
         (aset ret k (aget arr k))))
     ret))
 
+(defn create-element
+  ([child] (create-element child nil))
+  ([child props]
+     (.createElement js/React (.-type child) props)))
+
 (defn clone-om
   "Merges the supplied extra properties into the underlying Om cursor
   and calls the constructor to clone the React component.
 
   Requires that the supplied child has an Om cursor attached to it! "
   [child extra-props]
-  (let [om-props (get-props child)]
-    (->> (doto (copy-js (.-props child))
-           (aset "__om_cursor"
-                 (if (fn? extra-props)
-                   (extra-props om-props)
-                   (merge-props om-props extra-props))))
-         (.constructor child))))
+  (let [om-props (get-props child)
+        props #js {}
+        cloned-child (gobject/clone child)]
+    (gobject/extend props
+      (.-props child)
+      #js {:__om_cursor (if (fn? extra-props)
+                          (extra-props om-props)
+                          (merge-props om-props extra-props))})
+    (gobject/extend cloned-child #js {:props props})
+    cloned-child))
 
 (defn clone-basic-react
   "This function is called if the React component child was NOT
@@ -142,7 +153,7 @@
                            (merge-props props extra-props))
                          (when-let [children (:children props)]
                            {:children children}))]
-    (.constructor child (clj->js new-props))))
+    (create-element child (clj->js new-props))))
 
 (defn clone-with-props
   "Returns a shallow copy of the supplied component (child); the copy
@@ -160,7 +171,7 @@
      (clone-with-props child {}))
   ([child extra-props]
      (cond (not (strict-valid-component? child)) child
-           (and (map? extra-props)
-                (empty? extra-props)) (.constructor child (.-props child))
            (om-component? child) (clone-om child extra-props)
+           (and (map? extra-props)
+                (empty? extra-props)) (create-element child (.-props child))
            :else (clone-basic-react child extra-props))))

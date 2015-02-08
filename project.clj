@@ -4,7 +4,7 @@
     [http-kit "2.1.18"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.3.7-SNAPSHOT"
+(defproject racehub/om-bootstrap "0.4.0-SNAPSHOT"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "MIT License"
@@ -17,10 +17,10 @@
   :jar-exclusions [#".DS_Store"]
   :dependencies [[org.clojure/clojure "1.7.0-alpha2"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [prismatic/om-tools "0.3.6" :exclusions [om]]
+                 [prismatic/om-tools "0.3.10" :exclusions [om]]
                  [prismatic/schema "0.3.1"
                   :exclusions [org.clojure/clojurescript]]
-                 [om "0.7.1" :scope "provided"]]
+                 [org.omcljs/om "0.8.7" :scope "provided"]]
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2411"]
                              [secretary "1.2.0"]
@@ -53,7 +53,6 @@
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
-             :om-8 {:dependencies [[om "0.8.0-beta3"]]}
              :dev {:plugins [[lein-cljsbuild "1.0.3"]
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
@@ -64,7 +63,8 @@
                    :repl-options
                    {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
   :aliases {"test" ["cljsbuild" "test"]
-            "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
+            ;; We'll change this for the next new alpha that comes out.
+            ;; "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
             "repl" ["do" "cljsbuild" "once" "docs," "repl"]}
   :cljsbuild
   {:test-commands {"unit"
@@ -79,6 +79,7 @@
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/main.js"
                 :output-dir "dev/public/generated"
+                :preamble ["react/react.js"]
                 :optimizations :none
                 :source-maps true}}
     :heroku
