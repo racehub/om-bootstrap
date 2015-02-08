@@ -1,3 +1,6 @@
+(def cljsbuild
+  '[lein-cljsbuild "1.0.4" :exclusions [org.clojure/clojurescript]])
+
 (def server-deps
   '[[javax.servlet/servlet-api "2.5"]
     [compojure "1.1.8"]
@@ -20,9 +23,9 @@
                  [prismatic/om-tools "0.3.10" :exclusions [om]]
                  [prismatic/schema "0.3.1"
                   :exclusions [org.clojure/clojurescript]]
-                 [org.omcljs/om "0.8.7" :scope "provided"]]
+                 [org.omcljs/om "0.8.8" :scope "provided"]]
   :profiles {:provided
-             {:dependencies [[org.clojure/clojurescript "0.0-2411"]
+             {:dependencies [[org.clojure/clojurescript "0.0-2760"]
                              [secretary "1.2.0"]
                              [weasel "0.4.2"]]}
              ;; Change to the first version of the uberjar profile
@@ -32,9 +35,8 @@
              :uberjar {:aot :all
                        :omit-source true
                        :main om-bootstrap.server
-                       :plugins [[lein-cljsbuild "1.0.3"]]
+                       :plugins [~cljsbuild]
                        :prep-tasks ^:replace [["clean"]
-                                              ["cljsbuild" "clean"]
                                               ["cljsbuild" "once" "heroku"]
                                               ["javac"]
                                               ["compile" ":all"]]
@@ -44,16 +46,15 @@
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server
-                    :plugins [[lein-cljsbuild "1.0.3"]]
+                    :plugins [~cljsbuild]
                     :prep-tasks ^:replace [["clean"]
-                                           ["cljsbuild" "clean"]
                                            ["cljsbuild" "once" "heroku"]
                                            ["javac"]
                                            ["compile" ":all"]]
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
-             :dev {:plugins [[lein-cljsbuild "1.0.3"]
+             :dev {:plugins [~cljsbuild
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
                    :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.3"])
@@ -79,16 +80,13 @@
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/main.js"
                 :output-dir "dev/public/generated"
-                :preamble ["react/react.js"]
                 :optimizations :none
                 :source-maps true}}
     :heroku
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
      :compiler {:output-to "dev/public/assets/generated/om_bootstrap.js"
                 :output-dir "dev/public/assets/generated"
-                :externs ["react/externs/react.js"
-                          "externs/highlight.js"]
-                :preamble ["react/react.min.js"]
+                :externs ["externs/highlight.js"]
                 :optimizations :advanced
                 :pretty-print false
                 :source-map "dev/public/assets/generated/om_bootstrap.js.map"}}
@@ -96,8 +94,6 @@
     {:source-paths ["src" "test"]
      :compiler {:output-to "target/om_bootstrap.js"
                 :optimizations :whitespace
-                :pretty-print true
-                :preamble ["react/react.min.js"]
-                :externs ["react/externs/react.js"]}}}}
+                :pretty-print true}}}}
   :lein-release {:deploy-via :shell
                  :shell ["lein" "deploy" "clojars"]})
