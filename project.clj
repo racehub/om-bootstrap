@@ -1,3 +1,6 @@
+(def cljsbuild
+  '[lein-cljsbuild "1.0.4" :exclusions [org.clojure/clojurescript]])
+
 (def server-deps
   '[[javax.servlet/servlet-api "2.5"]
     [compojure "1.1.8"]
@@ -32,7 +35,7 @@
              :uberjar {:aot :all
                        :omit-source true
                        :main om-bootstrap.server
-                       :plugins [[lein-cljsbuild "1.0.4"]]
+                       :plugins [~cljsbuild]
                        :prep-tasks ^:replace [["clean"]
                                               ["cljsbuild" "once" "heroku"]
                                               ["javac"]
@@ -43,7 +46,7 @@
              :docs {:aot :all
                     :omit-source true
                     :main om-bootstrap.server
-                    :plugins [[lein-cljsbuild "1.0.4"]]
+                    :plugins [~cljsbuild]
                     :prep-tasks ^:replace [["clean"]
                                            ["cljsbuild" "once" "heroku"]
                                            ["javac"]
@@ -51,7 +54,7 @@
                     :dependencies ~server-deps
                     :source-paths ["docs/src/clj"]
                     :resource-paths ["dev"]}
-             :dev {:plugins [[lein-cljsbuild "1.0.3"]
+             :dev {:plugins [~cljsbuild
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
                    :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.3"])
