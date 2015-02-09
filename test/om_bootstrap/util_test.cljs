@@ -131,7 +131,7 @@
         are trapped inside the actual props in a field called
         __om_cursor.")
 
-    (let [om-component (->fake-div {:x "one" :y "two" :z "three" :class "cake"})]
+    (let [om-component (->fake-div {:x "one" :y "two" :z "three" :className "cake"})]
       "Cloning an Om component works too."
       (is=el om-component (u/clone-with-props om-component)))
 

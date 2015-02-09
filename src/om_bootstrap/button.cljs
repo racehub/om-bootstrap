@@ -148,9 +148,10 @@
                           :title (:title bs)
                           :tab-index "-1"}
                          children))
-         li-attrs {:role "presentation"
-                   :key (:key bs)
-                   :class (d/class-set classes)}]
+         li-attrs (merge {:role "presentation"
+                          :class (d/class-set classes)}
+                         (when-let [k (:key bs)]
+                           {:key k}))]
      (d/li (u/merge-props props li-attrs)
            children))))
 
