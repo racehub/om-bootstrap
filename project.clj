@@ -27,7 +27,7 @@
   :profiles {:provided
              {:dependencies [[org.clojure/clojurescript "0.0-2760"]
                              [secretary "1.2.0"]
-                             [weasel "0.4.2"]]}
+                             [weasel "0.5.0"]]}
              ;; Change to the first version of the uberjar profile
              ;; when this bug gets fixed:
              ;; https://github.com/technomancy/leiningen/issues/1694
@@ -57,7 +57,7 @@
              :dev {:plugins [~cljsbuild
                              [com.cemerick/clojurescript.test "0.3.1"]
                              [paddleguru/lein-gitflow "0.1.2"]]
-                   :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.3"])
+                   :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.5"])
                    :source-paths ["docs/src/clj" "docs/src-dev"]
                    :resource-paths ["dev"]
                    :main om-bootstrap.server
