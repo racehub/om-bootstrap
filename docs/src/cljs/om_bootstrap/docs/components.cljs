@@ -400,7 +400,7 @@
 
    (d/h3 "No animation")
    (d/p "Set the " (d/code ":animation?") " property to " (d/code "false") ".")
-   (TODO)
+   (->example (slurp-example "tab/animated"))
 
    (info-callout
     "Extends tabbed navigation"
