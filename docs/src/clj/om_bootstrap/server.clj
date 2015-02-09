@@ -20,7 +20,6 @@
 (defn clojurescript []
   (if (dev?)
     (list
-     (h/include-js "http://fb.me/react-0.11.1.js")
      (h/include-js "static/generated/goog/base.js")
      (h/include-js "static/assets/main.js")
      (e/javascript-tag "goog.require(\"om_bootstrap.docs\");"))
@@ -66,6 +65,3 @@
     (reset! server (run-server (handler/api #'app-routes)
                                {:port port}))
     (println "Server started on port [" port "].")))
-
-;; TODO: Check out history.js for supporting the html5 pushstate stuff
-;; on different browsers.

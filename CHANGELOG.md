@@ -1,3 +1,14 @@
+## 0.4.0
+
+- Upgrade to Om 0.8.x and React 0.12.x (https://github.com/racehub/om-bootstrap/pull/40)
+- Move React into the preamble on the docs site
+- Remove explicit React script include on the docs site HTML
+- Change `validReactComponent` call in `util.cljs` to `validReactElement`
+
+## 0.3.6 (2/5/2015)
+
+- Actually build modal component (https://github.com/racehub/om-bootstrap/pull/53)
+
 ## 0.3.5 (2/2/2015)
 
 - Modal component, thanks to @dignati! (https://github.com/racehub/om-bootstrap/pull/50)
