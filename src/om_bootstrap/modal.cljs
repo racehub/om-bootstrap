@@ -33,11 +33,15 @@
   (render [_]
     (let [{:keys [opts children]} (om/get-props owner)
           [bs props] (t/separate Modal opts {:bs-class "modal"})
+          visible? (om/get-state owner :visible?)
           classes {:modal true
                    :fade true
-                   :in (om/get-state owner [:visible?])}]
+                   :in visible?}
+          styles {:display (if visible? "block" "none")
+                  :position "relative"}]
       (d/div (u/merge-props props
-                            {:class (d/class-set classes)})
+                            {:class (d/class-set classes)
+                             :style styles})
         (d/div {:class "modal-dialog"}
           (d/div {:class "modal-content"}
             (d/div {:class "modal-header"}
