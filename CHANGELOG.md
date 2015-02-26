@@ -1,6 +1,6 @@
-## 0.4.1
+## 0.4.1 (2/26/2015)
 
-- Fix schema validation with input components
+- Fix schema validation with input components (https://github.com/racehub/om-bootstrap/pull/60)
 
 ## 0.4.0
 
