@@ -38,16 +38,17 @@
 
 (def Input
   "Input fields that match these bad dawgs:
-   https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Input.jsx"
-  (merge Addons
-         FeedbackIcons
-         {(s/optional-key :type) s/Str
-          (s/optional-key :label) s/Str
-          (s/optional-key :skip-form-group?) (s/named s/Bool "DON'T render a wrapping form group?")
-          (s/optional-key :help) s/Str
-          (s/optional-key :group-classname) s/Str
-          (s/optional-key :wrapper-classname) s/Str
-          (s/optional-key :label-classname) s/Str}))
+  https://github.com/react-bootstrap/react-bootstrap/blob/master/src/Input.jsx"
+  (t/bootstrap
+   (merge Addons
+          FeedbackIcons
+          {(s/optional-key :type) s/Str
+           (s/optional-key :label) s/Str
+           (s/optional-key :skip-form-group?) (s/named s/Bool "DON'T render a wrapping form group?")
+           (s/optional-key :help) s/Str
+           (s/optional-key :group-classname) s/Str
+           (s/optional-key :wrapper-classname) s/Str
+           (s/optional-key :label-classname) s/Str})))
 
 (def Radio
   (t/bootstrap
