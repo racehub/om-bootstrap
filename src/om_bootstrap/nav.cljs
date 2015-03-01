@@ -165,19 +165,6 @@
          (when (render-header-and-toggle-btn? bs)
            (render-toggle-button owner bs))))
 
-(sm/defn clone-nav-item
-  "Takes the options supplied to the top level nav and returns a
-  function that will CLONE the inner nav items, transferring all
-  relevant props from the outer code to the inner code."
-  [opts]
-  (letfn [(prop-fn [props]
-            (let [base (-> (select-keys opts [:on-select :active-key :active-href])
-                           (assoc :active? (child-active? (:opts props) opts)
-                                  :nav-item? true))]
-              (update-in props [:opts] u/merge-props base)))]
-    (fn [child]
-      (u/clone-with-props child prop-fn))))
-
 (defn render-navbar-child [owner child bs]
   (let [f (fn [props]
             (let [opts (:opts props)
