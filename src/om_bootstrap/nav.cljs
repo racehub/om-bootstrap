@@ -153,9 +153,10 @@
   "Returns true if any of the necessary properties are in place to
   render the navbar-header and toggle button."
   [bs]
-  (or (:brand bs)
-      (:toggle-button bs)
-      (:toggle-nav-key bs)))
+  (boolean 
+    (or (:brand bs)
+        (:toggle-button bs)
+        (:toggle-nav-key bs))))
 
 (defn render-header [owner bs]
   (d/div {:class "navbar-header"}
