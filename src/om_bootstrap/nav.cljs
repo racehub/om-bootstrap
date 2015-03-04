@@ -153,9 +153,10 @@
   "Returns true if any of the necessary properties are in place to
   render the navbar-header and toggle button."
   [bs]
-  (or (:brand bs)
-      (:toggle-button bs)
-      (:toggle-nav-key bs)))
+  (boolean 
+    (or (:brand bs)
+        (:toggle-button bs)
+        (:toggle-nav-key bs))))
 
 (defn render-header [owner bs]
   (d/div {:class "navbar-header"}
@@ -164,19 +165,6 @@
            (d/span {:class "navbar-brand"} (:brand bs)))
          (when (render-header-and-toggle-btn? bs)
            (render-toggle-button owner bs))))
-
-(sm/defn clone-nav-item
-  "Takes the options supplied to the top level nav and returns a
-  function that will CLONE the inner nav items, transferring all
-  relevant props from the outer code to the inner code."
-  [opts]
-  (letfn [(prop-fn [props]
-            (let [base (-> (select-keys opts [:on-select :active-key :active-href])
-                           (assoc :active? (child-active? (:opts props) opts)
-                                  :nav-item? true))]
-              (update-in props [:opts] u/merge-props base)))]
-    (fn [child]
-      (u/clone-with-props child prop-fn))))
 
 (defn render-navbar-child [owner child bs]
   (let [f (fn [props]
