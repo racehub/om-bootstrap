@@ -1,5 +1,6 @@
 ## 0.4.1 (2/26/2015)
 
+- Fix schema error in dropdown (https://github.com/racehub/om-bootstrap/pull/62)
 - Fix schema validation with input components (https://github.com/racehub/om-bootstrap/pull/60)
 
 ## 0.4.0
