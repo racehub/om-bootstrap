@@ -37,8 +37,7 @@
           classes {:modal true
                    :fade true
                    :in visible?}
-          styles {:display (if visible? "block" "none")
-                  :position "relative"}]
+          styles {:display (if visible? "block" "none")}]
       (d/div (u/merge-props props
                             {:class (d/class-set classes)
                              :style styles})
