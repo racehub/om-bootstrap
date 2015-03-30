@@ -1,5 +1,5 @@
 #_
-(:require [om-bootstrap.pager :as pg])
+(:require [om-bootstrap.pagination :as pg])
 
 (pg/pagination {}
   (pg/previous {})

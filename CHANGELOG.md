@@ -1,3 +1,7 @@
+## 0.4.3
+
+- Fix bad references to `pager` in the docs. Replaced with `pagination`.
+
 ## 0.4.1 (2/26/2015)
 
 - Fix schema error in dropdown (https://github.com/racehub/om-bootstrap/pull/62)
