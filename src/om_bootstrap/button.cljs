@@ -8,7 +8,7 @@
             [om-tools.dom :as d :include-macros true]
             [om-tools.mixin :refer-macros [defmixin]]
             [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 ;; ## Basic Button
 

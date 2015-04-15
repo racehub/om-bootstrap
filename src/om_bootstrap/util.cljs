@@ -3,7 +3,7 @@
   (:require [goog.object :as gobject]
             [om.core :as om]
             [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 (defn merge-with-fns
   "Returns a map that consists of the rest of the maps conj-ed onto

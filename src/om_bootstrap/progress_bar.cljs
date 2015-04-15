@@ -5,7 +5,7 @@
             [om-tools.dom :as d :include-macros true]
             [om-bootstrap.util :as u]
             [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 ;; ## Schema
 

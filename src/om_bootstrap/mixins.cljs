@@ -3,7 +3,7 @@
             [om.core :as om]
             [om-tools.mixin :refer-macros [defmixin]]
             [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 ;; ## Listener Mixin
 

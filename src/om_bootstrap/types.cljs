@@ -1,7 +1,7 @@
 (ns om-bootstrap.types
   "Types for working with Bootstrap."
   (:require [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 ;; ## Schema Utilities
 

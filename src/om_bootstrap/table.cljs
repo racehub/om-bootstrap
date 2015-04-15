@@ -4,7 +4,7 @@
             [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
             [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require-macros [schema.core :as sm]))
 
 (def Table
   {(s/optional-key :striped?) s/Bool
