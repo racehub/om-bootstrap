@@ -32,7 +32,7 @@
   ...
   :dependencies [[org.clojure/clojure \"1.6.0\"]
                  [org.clojure/clojurescript \"0.0-2760\"]
-                 [racehub/om-bootstrap \"0.4.1\"]
+                 [racehub/om-bootstrap \"0.5.0\"]
                  [org.omcljs/om \"0.8.8\"]]
   ...)"})
                    (d/p "Om-Bootstrap requires Om 0.8.0 or later, and has been tested against Bootstrap 3.1.0 and later. The "
