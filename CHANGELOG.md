@@ -1,3 +1,11 @@
+## 0.5.0 (4/16/2015)
+
+- Upgrade to Schema 0.4.0 and om-tools 0.3.11 (https://github.com/racehub/om-bootstrap/pull/67)
+
+## 0.4.3
+
+- Fix bad references to `pager` in the docs. Replaced with `pagination`.
+
 ## 0.4.1 (2/26/2015)
 
 - Fix schema error in dropdown (https://github.com/racehub/om-bootstrap/pull/62)

@@ -24,6 +24,7 @@
           (i/input
            {:feedback? true
             :type "text"
+            :value (:text @state)
             :label "Working example with validation"
             :placeholder "Enter text"
             :help "Validates based on string length."

@@ -7,7 +7,7 @@
     [http-kit "2.1.18"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.4.2"
+(defproject racehub/om-bootstrap "0.5.0"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "MIT License"
@@ -20,8 +20,8 @@
   :jar-exclusions [#".DS_Store"]
   :dependencies [[org.clojure/clojure "1.7.0-alpha2"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [prismatic/om-tools "0.3.10" :exclusions [om]]
-                 [prismatic/schema "0.3.1"
+                 [prismatic/om-tools "0.3.11" :exclusions [om]]
+                 [prismatic/schema "0.4.0"
                   :exclusions [org.clojure/clojurescript]]
                  [org.omcljs/om "0.8.8" :scope "provided"]]
   :profiles {:provided

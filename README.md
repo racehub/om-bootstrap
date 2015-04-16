@@ -9,7 +9,7 @@ Here's the latest Leiningen version info:
 You'll also need to add Om:
 
 ```clojure
-[org.omcljs/om "0.8.7"]
+[org.omcljs/om "0.8.8"]
 ```
 
 You can find more detailed information on how to configure your Clojurescript project to use Om-Bootstrap on the documentation site's [Getting Started section](http://om-bootstrap.herokuapp.com/getting-started).
@@ -99,6 +99,7 @@ Om-Bootstrap works with the following dependencies:
 - Clojure 1.6.x, 1.7.x
 - React.JS 0.12.x
 - Om 0.8.x
+- Schema 0.4.x
 - Bootstrap 3.1.x (probably works on 3.2, haven't tested it)
 
 and the latest version of ClojureScript. Please create a [GitHub issue](https://github.com/racehub/om-bootstrap/issues) if you run into problems with these versions or would like to see further versions supported.
