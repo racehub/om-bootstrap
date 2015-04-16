@@ -1,3 +1,12 @@
+## 0.4.3
+
+- Fix bad references to `pager` in the docs. Replaced with `pagination`.
+
+## 0.4.1 (2/26/2015)
+
+- Fix schema error in dropdown (https://github.com/racehub/om-bootstrap/pull/62)
+- Fix schema validation with input components (https://github.com/racehub/om-bootstrap/pull/60)
+
 ## 0.4.0
 
 - Upgrade to Om 0.8.x and React 0.12.x (https://github.com/racehub/om-bootstrap/pull/40)
