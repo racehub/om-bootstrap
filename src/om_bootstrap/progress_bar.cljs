@@ -4,8 +4,7 @@
   (:require [om-bootstrap.types :as t]
             [om-tools.dom :as d :include-macros true]
             [om-bootstrap.util :as u]
-            [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+            [schema.core :as s :include-macros true]))
 
 ;; ## Schema
 
@@ -28,14 +27,14 @@
    :active? false
    :nested? false})
 
-(sm/defn percentage :- s/Num
+(s/defn percentage :- s/Num
   [min :- s/Int now :- s/Int max :- s/Int]
   (-> (/ (- now min)
          (- max min))
       (* 100)
       (Math/ceil)))
 
-(sm/defn child-bar :- t/Component
+(s/defn child-bar :- t/Component
   "Generates a progress bar child."
   [opts :- ProgressBar & children]
   (let [[bs props] (t/separate ProgressBar opts defaults)
@@ -58,7 +57,7 @@
                (d/span {:class "sr-only"} label)
                label)))))
 
-(sm/defn progress-bar
+(s/defn progress-bar
   "Generates a progress bar component."
   [opts :- ProgressBar & children]
   (if (:nested? opts)

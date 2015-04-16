@@ -3,8 +3,7 @@
   (:require [om-bootstrap.types :as t]
             [om-bootstrap.util :as u]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+            [schema.core :as s :include-macros true]))
 
 ;; ## Schema
 
@@ -26,7 +25,7 @@
 ;; ## Code
 ;;
 ;; TODO: Do we want a custom component class, like in react-bootstrap?
-(sm/defn grid :- t/Component
+(s/defn grid :- t/Component
   "Generates a wrapper for a bootstrap grid."
   [opts :- Grid & children]
   (let [[bs props] (t/separate Grid opts {})
@@ -36,13 +35,13 @@
     (d/div (u/merge-props props {:class class})
            children)))
 
-(sm/defn row :- t/Component
+(s/defn row :- t/Component
   "Generates a Bootstrap row element."
   [opts & children]
   (d/div (u/merge-props opts {:class "row"})
          children))
 
-(sm/defn col :- t/Component
+(s/defn col :- t/Component
   "Generates a Bootstrap column element."
   [opts :- Col & children]
   (let [[bs props] (t/separate Col opts {})

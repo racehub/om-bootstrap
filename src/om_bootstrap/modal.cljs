@@ -4,9 +4,8 @@
             [om-bootstrap.types :as t]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s]
-            [om-bootstrap.util :as u])
-  (:require-macros [schema.macros :as sm]))
+            [schema.core :as s :include-macros true]
+            [om-bootstrap.util :as u]))
 
 ;; ## Schema
 
@@ -53,6 +52,6 @@
             (d/div {:class "modal-footer"}
               (:footer bs))))))))
 
-(sm/defn modal
+(s/defn modal
   [opts :- Modal & children]
   (->modal* {:opts opts :children children}))

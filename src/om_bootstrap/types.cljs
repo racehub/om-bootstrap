@@ -1,18 +1,17 @@
 (ns om-bootstrap.types
   "Types for working with Bootstrap."
-  (:require [schema.core :as s])
-  (:require-macros [schema.macros :as sm]))
+  (:require [schema.core :as s :include-macros true]))
 
 ;; ## Schema Utilities
 
-(sm/defn schema-keys
+(s/defn schema-keys
   "Returns all keys from a schema."
   [schema :- {s/Any s/Any}]
   (map (fn [k]
          (if (s/optional-key? k) (:k k) k))
        (keys schema)))
 
-(sm/defn at-least
+(s/defn at-least
   "Returns a map schema that accepts the supplied map schema, plus any
   other optional keys that show up in the map. Such a schema can only
   enforce that required keys are missing."
@@ -92,7 +91,7 @@
 ;; Separate follows the best practices set out here:
 ;; https://gist.github.com/sebmarkbage/a6e220b7097eb3c79ab7
 
-(sm/defn separate :- (s/pair
+(s/defn separate :- (s/pair
                       {s/Any s/Any} "om-bootstrap options."
                       {s/Any s/Any} "all other props.")
   "Returns two maps; the first is all of the schema options, the
@@ -105,7 +104,7 @@
        [(into {} (filter (comp ks key) opts))
         (into {} (remove (comp ks key) opts))])))
 
-(sm/defn bs-class-set :- {s/Str s/Bool}
+(s/defn bs-class-set :- {s/Str s/Bool}
   "Returns input for class-set."
   [{:keys [bs-class bs-style bs-size]} :- (at-least BootstrapClass)]
   (if-let [klass (class-map bs-class)]
