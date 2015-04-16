@@ -6,12 +6,11 @@
             [om-bootstrap.util :as u]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [schema.core :as s])
-  (:require-macros [schema.core :as sm]))
+            [schema.core :as s :include-macros true]))
 
 ;; ## Jumbotron
 
-(sm/defn jumbotron :- t/Component
+(s/defn jumbotron :- t/Component
   "A lightweight, flexible component that can optionally extend the
    entire viewport to showcase key content on your site."
   [opts & children]
@@ -20,7 +19,7 @@
 
 ;; ## Label
 
-(sm/defn label :- t/Component
+(s/defn label :- t/Component
   "Create a (label {} \"label!\") to show highlight information."
   [opts & children]
   (let [[bs props] (t/separate {} opts {:bs-class "label"
@@ -31,7 +30,7 @@
 
 ;; ## Well
 
-(sm/defn well :- t/Component
+(s/defn well :- t/Component
   "Use the well as a simple effect on an element to give it an inset effect."
   [opts & children]
   (let [[bs props] (t/separate {} opts {:bs-class "well"})
@@ -41,7 +40,7 @@
 
 ;; ## Header
 
-(sm/defn page-header :- t/Component
+(s/defn page-header :- t/Component
   "A simple shell for an h1 to appropriately space out and segment
   sections of content on a page. It can utilize the h1’s default small
   element, as well as most other components (with additional styles)."
@@ -62,7 +61,7 @@
     (s/optional-key :arrow-offset-left) s/Int
     (s/optional-key :arrow-offset-top) s/Int}))
 
-(sm/defn tooltip :- t/Component
+(s/defn tooltip :- t/Component
   [opts :- ToolTip & children]
   (let [[bs _] (t/separate ToolTip opts {:placement "right"})
         classes {:tooltip true
@@ -82,7 +81,7 @@
 
 (def Alert
   (t/bootstrap
-   {(s/optional-key :on-dismiss) (sm/=> s/Any s/Any)
+   {(s/optional-key :on-dismiss) (s/=> s/Any s/Any)
     (s/optional-key :dismiss-after) s/Int}))
 
 (def alert-defaults
@@ -111,7 +110,7 @@
             dismiss-button
             children))))
 
-(sm/defn alert :- t/Component
+(s/defn alert :- t/Component
   "Wrapper for the alert component to allow a better user interface."
   [opts :- Alert & children]
   (let [[bs props] (t/separate Alert opts alert-defaults)]
@@ -132,7 +131,7 @@
 
 ;; TODO: Abstract out shared style generation between here and
 ;; tooltip.
-(sm/defn popover :- t/Component
+(s/defn popover :- t/Component
   [opts :- Popover & children]
   (let [[bs _] (t/separate Popover opts {:placement "right"})
         classes {:popover true
@@ -157,7 +156,7 @@
   (t/bootstrap
    {(s/optional-key :pull-right?) s/Bool}))
 
-(sm/defn badge :- t/Component
+(s/defn badge :- t/Component
   [opts :- Badge & children]
   (let [[bs props] (t/separate Badge opts)
         classes {:pull-right (:pull-right? bs)
@@ -170,7 +169,7 @@
 (def Glyphicon
   (t/bootstrap {:glyph s/Str}))
 
-(sm/defn glyphicon :- t/Component
+(s/defn glyphicon :- t/Component
   [opts :- Glyphicon & children]
   (let [[bs props] (t/separate Glyphicon opts {:bs-class "glyphicon"})
         classes (assoc (t/bs-class-set bs)

@@ -2,8 +2,7 @@
   "Utilities for the om-bootstrap library."
   (:require [goog.object :as gobject]
             [om.core :as om]
-            [schema.core :as s])
-  (:require-macros [schema.core :as sm]))
+            [schema.core :as s :include-macros true]))
 
 (defn merge-with-fns
   "Returns a map that consists of the rest of the maps conj-ed onto
@@ -24,7 +23,7 @@
             (reduce merge-entry (or m1 {}) (seq m2)))]
     (reduce merge {} maps)))
 
-(sm/defn collectify :- [s/Any]
+(s/defn collectify :- [s/Any]
   [x :- s/Any]
   (if (sequential? x) x [x]))
 
@@ -38,17 +37,17 @@
   [x]
   (aget (.-props x) "__om_cursor"))
 
-(sm/defn om-component? :- s/Bool
+(s/defn om-component? :- s/Bool
   [x]
   (boolean (get-props x)))
 
-(sm/defn strict-valid-component? :- s/Bool
+(s/defn strict-valid-component? :- s/Bool
   "TODO: Once Om updates its externs to include this file, we can
   remove the janky aget call."
   [child]
   ((aget js/React "isValidElement") child))
 
-(sm/defn valid-component? :- s/Bool
+(s/defn valid-component? :- s/Bool
   "Returns true if the supplied argument is a valid React component,
   false otherwise."
   [child]
@@ -56,7 +55,7 @@
       (number? child)
       (strict-valid-component? child)))
 
-(sm/defn some-valid-component? :- s/Bool
+(s/defn some-valid-component? :- s/Bool
   "Returns true if the supplied sequence contains some valid React component,
   false otherwise."
   [children]
