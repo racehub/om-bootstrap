@@ -28,7 +28,8 @@
 
 (def Addons
   {(s/optional-key :addon-before) (s/either s/Str t/Component)
-   (s/optional-key :addon-after) (s/either s/Str t/Component)})
+   (s/optional-key :addon-after) (s/either s/Str t/Component)
+   (s/optional-key :addon-button) (s/either s/Str t/Component)})
 
 (def FeedbackIcons
   "Helps render feedback icons."
@@ -91,15 +92,17 @@
 
 (s/defn render-input-group
   "Items is a vector of render instances."
-  [{:keys [addon-before addon-after]} :- Addons
+  [{:keys [addon-before addon-after addon-button]} :- Addons
    items :- s/Any]
-  (if (or addon-before addon-after)
+  (if (or addon-before addon-after addon-button)
     (d/div {:class "input-group"}
            (when addon-before
              (d/span {:class "input-group-addon"} addon-before))
            items
            (when addon-after
-             (d/span {:class "input-group-addon"} addon-after)))
+             (d/span {:class "input-group-addon"} addon-after))
+           (when addon-button
+             (d/span {:class "input-group-btn"} addon-button)))
     items))
 
 (s/defn checkbox-or-radio? :- s/Bool
@@ -186,7 +189,7 @@
            (render-form-group input))
       (->> [(render-label input)
             (->> [(render-input-group
-                   (select-keys input [:addon-before :addon-after])
+                   (select-keys input [:addon-before :addon-after :addon-button])
                    (render-input input attrs children))
                   (render-icon (select-keys input [:feedback? :bs-style]))
                   (render-help (:help input))]
