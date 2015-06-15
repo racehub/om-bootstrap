@@ -613,8 +613,8 @@
    (->example (slurp-example "input/types"))
 
    (d/h3 "Add-ons")
-   (d/p "Use " (d/code ":addon-before") "
-   and " (d/code ":addon-after") ". Does not support buttons.")
+   (d/p "Use " (d/code ":addon-before") ", " (d/code ":addon-after") "
+   and " (d/code ":addon-button") ".")
    (->example (slurp-example "input/addons"))
 
    (d/h3 "Validation")
