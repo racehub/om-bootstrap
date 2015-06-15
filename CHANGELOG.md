@@ -1,3 +1,7 @@
+## 0.5.1 (6/15/2015)
+
+- Added `input-group-btn` (https://github.com/racehub/om-bootstrap/pull/69)
+
 ## 0.5.0 (4/16/2015)
 
 - Upgrade to Schema 0.4.0 and om-tools 0.3.11 (https://github.com/racehub/om-bootstrap/pull/67)
