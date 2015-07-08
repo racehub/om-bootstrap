@@ -68,8 +68,9 @@
            (event-listener
             js/document "click"
             (fn [e]
-              (when-not (in-root? (.-target e) (om/get-node owner))
-                (set-state false))))
+              (when ((aget owner "isMounted"))
+                (when-not (in-root? (.-target e) (om/get-node owner))
+                  (set-state false)))))
            (event-listener
             js/document "keyup"
             (fn [e]
