@@ -52,9 +52,8 @@
                        {:active (:active? bs)
                         :btn-block (:block? bs)})]
     (cond
-     (:nav-item? bs) (d/li {:class (d/class-set {:active (:active? bs)})}
+     (:nav-item? bs) (d/li {:class (d/class-set {:active (:active? bs) :disabled? (:disabled? bs)})}
                            (render-anchor {:props props
-                                           :disabled? (:disabled? bs)
                                            :classes klasses}
                                           children))
      (or (:href props)
