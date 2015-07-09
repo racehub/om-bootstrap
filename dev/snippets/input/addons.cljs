@@ -7,5 +7,7 @@
  (i/input {:type "text" :addon-before "@"})
  (i/input {:type "text" :addon-after ".00"})
  (i/input {:type "text" :addon-before "$" :addon-after ".00"})
- (i/input {:type "text" :addon-button
-                 (b/button {:bs-style "primary" :onClick #(js/alert "hi!")} "Click Me!")}))
+ (i/input {:type "text" :addon-button-before
+           (b/button {:bs-style "primary" :onClick #(js/alert "hi!")} "Click Me!")})
+ (i/input {:type "text" :addon-button-after
+           (b/button {:bs-style "primary" :onClick #(js/alert "hi!")} "Click Me!")}))

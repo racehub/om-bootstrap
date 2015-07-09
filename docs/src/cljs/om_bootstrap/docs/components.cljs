@@ -613,8 +613,16 @@
    (->example (slurp-example "input/types"))
 
    (d/h3 "Add-ons")
-   (d/p "Use " (d/code ":addon-before") ", " (d/code ":addon-after") "
-   and " (d/code ":addon-button") ".")
+   (d/p
+    "Use "
+    (d/code ":addon-before")
+    ", "
+    (d/code ":addon-after")
+    ", "
+    (d/code ":addon-button-before")
+    " and "
+    (d/code ":addon-button-after")
+    ".")
    (->example (slurp-example "input/addons"))
 
    (d/h3 "Validation")
