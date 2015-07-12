@@ -44,7 +44,6 @@
 
 ;; ## Collapsible Panel
 
-
 (defcomponentk collapsible-panel*
   "Generates a collapsible panel component resposible for its own toggled state.
    The :collapsed? state is handled through a collapsible mixin."

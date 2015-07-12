@@ -113,6 +113,7 @@
    (d/p "Make a group of buttons stretch at equal sizes to span the
    entire width of its parent. Also works with button dropdowns within
    the button group.")
+
    (warning
     "Style issues"
     (d/p "There are some issues and workarounds required when using
@@ -613,8 +614,16 @@
    (->example (slurp-example "input/types"))
 
    (d/h3 "Add-ons")
-   (d/p "Use " (d/code ":addon-before") ", " (d/code ":addon-after") "
-   and " (d/code ":addon-button") ".")
+   (d/p
+    "Use "
+    (d/code ":addon-before")
+    ", "
+    (d/code ":addon-after")
+    ", "
+    (d/code ":addon-button-before")
+    " and "
+    (d/code ":addon-button-after")
+    ".")
    (->example (slurp-example "input/addons"))
 
    (d/h3 "Validation")
