@@ -113,6 +113,7 @@
    (d/p "Make a group of buttons stretch at equal sizes to span the
    entire width of its parent. Also works with button dropdowns within
    the button group.")
+
    (warning
     "Style issues"
     (d/p "There are some issues and workarounds required when using
