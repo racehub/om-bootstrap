@@ -108,8 +108,13 @@
   "Mixin that enables collapsible Panels. Similar to the Dropdown
    Mixin it only manages a single piece of state - :collapsed?. The Panel
    is opened and closen by clicking on the header."
-  (init-state [_] {:collapsed? false})
-  (isPanelCollapsed [owner] (om/get-state owner :collapsed?))
+  (init-state [_] {:collapsed? true})
+  (isPanelCollapsed [owner]
+                    (let [collapsed? (om/get-state owner :collapsed?)]
+                      (if (nil? collapsed?)
+                        (do (om/set-state! owner :collapsed? true)
+                            true)
+                        collapsed?)))
   (toggleCollapsed
-    [owner]
-    (om/update-state! owner [:collapsed?] not)))
+   [owner]
+   (om/update-state! owner [:collapsed?] not)))
