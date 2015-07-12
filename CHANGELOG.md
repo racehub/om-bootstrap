@@ -1,3 +1,8 @@
+## 0.5.2 (7/12/2015)
+
+- Changed collapsible panels to initialize closed, not open.
+- Fixes to nav items.
+
 ## 0.5.1 (6/15/2015)
 
 - Added `input-group-btn` (https://github.com/racehub/om-bootstrap/pull/69)
