@@ -27,7 +27,8 @@
   "Handles a sequence of listeners for the component, and removes them
    from the document when the component is unmounted."
   (will-mount [owner] (set! (.-listeners owner) #js []))
-  (will-unmount [owner] (.. owner -listeners (map #(%))))
+  (will-unmount [owner] (doseq [l (.-listeners owner)]
+                          (l)))
   (set-listener [owner target event-type callback]
                 (let [remove-fn (event-listener target event-type callback)]
                   (.push (.-listeners owner) remove-fn))))
@@ -81,7 +82,8 @@
   registered by the dropdown mixin."
   [owner]
   (when-let [listeners (.-dropdownListeners owner)]
-    (map #(%) listeners)
+    (doseq [l listeners]
+      (l))
     (set! (.-dropdownListeners owner) nil)))
 
 (defmixin dropdown-mixin
