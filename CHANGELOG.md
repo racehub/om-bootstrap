@@ -1,6 +1,6 @@
-## 0.5.3
+## 0.5.3 (7/13/2015)
 
-- Change `map` to `doseq` in unbind-root-close-handlers to force effects.
+- Change `map` to `doseq` in unbind-root-close-handlers to force effects (https://github.com/racehub/om-bootstrap/pull/76)
 
 ## 0.5.2 (7/12/2015)
 
