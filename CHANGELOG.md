@@ -1,3 +1,7 @@
+## 0.5.3
+
+- Change `map` to `doseq` in unbind-root-close-handlers to force effects.
+
 ## 0.5.2 (7/12/2015)
 
 - Changed collapsible panels to initialize closed, not open.
