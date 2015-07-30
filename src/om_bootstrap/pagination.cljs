@@ -29,6 +29,6 @@
   (page (assoc opts :aria-label "Next") (d/span {:aria-hidden "true"} "»")))
 
 (s/defn pagination :- t/Component [opts & children]
-  (d/nav
+  (d/nav opts
     (d/ul {:class "pagination"}
           children)))
