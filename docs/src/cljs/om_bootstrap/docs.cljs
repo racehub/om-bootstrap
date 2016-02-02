@@ -10,8 +10,7 @@
             [om-bootstrap.docs.shared :refer [four-oh-four]]
             [om-tools.core :refer-macros [defcomponentk]]
             [om-tools.dom :as d :include-macros true]
-            [secretary.core :as route :refer-macros [defroute]]
-            [weasel.repl :as ws-repl])
+            [secretary.core :as route :refer-macros [defroute]])
   (:require-macros [cljs.core.async.macros :refer [go-loop]])
   (:import [goog.history EventType]))
 
@@ -72,8 +71,6 @@
   "Loading actions for the main docs page."
   []
   (route/dispatch! (-> js/window .-location .-pathname))
-  (setup-app)
-  (when-not (ws-repl/alive?)
-    (ws-repl/connect "ws://localhost:9001" :verbose true)))
+  (setup-app))
 
 (on-load)
