@@ -1,6 +1,6 @@
 #_
 (:require [om-bootstrap.panel :as p]
-          [om-tools.div :as d :include-macros true])
+          [om-tools.dom :as d :include-macros true])
 
 (d/div
  (p/panel {:header "Panel heading without title"}

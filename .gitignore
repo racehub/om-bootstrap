@@ -33,3 +33,4 @@ dev/public/assets/generated
 .idea
 *.iml
 *-init.clj
+*.log

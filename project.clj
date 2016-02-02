@@ -1,13 +1,13 @@
 (def cljsbuild
-  '[lein-cljsbuild "1.0.4" :exclusions [org.clojure/clojurescript]])
+  '[lein-cljsbuild "1.1.2" :exclusions [org.clojure/clojurescript]])
 
 (def server-deps
   '[[javax.servlet/servlet-api "2.5"]
-    [compojure "1.1.8"]
-    [http-kit "2.1.18"]
+    [compojure "1.4.0"]
+    [http-kit "2.1.19"]
     [hiccup "1.0.5"]])
 
-(defproject racehub/om-bootstrap "0.5.3"
+(defproject racehub/om-bootstrap "0.6.0-SNAPSHOT"
   :description "Bootstrap meets Om."
   :url "http://github.com/racehub/om-bootstrap"
   :license {:name "MIT License"
@@ -18,16 +18,15 @@
   :min-lein-version "2.3.0"
   :uberjar-name "om-bootstrap.jar"
   :jar-exclusions [#".DS_Store"]
-  :dependencies [[org.clojure/clojure "1.7.0-alpha2"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/core.async "0.2.374"]
                  [prismatic/om-tools "0.3.11" :exclusions [om]]
                  [prismatic/schema "0.4.0"
                   :exclusions [org.clojure/clojurescript]]
                  [org.omcljs/om "0.8.8" :scope "provided"]]
   :profiles {:provided
-             {:dependencies [[org.clojure/clojurescript "0.0-2760"]
-                             [secretary "1.2.0"]
-                             [weasel "0.5.0"]]}
+             {:dependencies [[org.clojure/clojurescript "1.7.228"]
+                             [secretary "1.2.3"]]}
              ;; Change to the first version of the uberjar profile
              ;; when this bug gets fixed:
              ;; https://github.com/technomancy/leiningen/issues/1694
@@ -56,13 +55,12 @@
                     :resource-paths ["dev"]}
              :dev {:plugins [~cljsbuild
                              [com.cemerick/clojurescript.test "0.3.1"]
-                             [paddleguru/lein-gitflow "0.1.2"]]
-                   :dependencies ~(conj server-deps '[com.cemerick/piggieback "0.1.5"])
+                             [paddleguru/lein-gitflow "0.1.2"]
+                             [lein-figwheel "0.5.0-6"]]
+                   :dependencies ~server-deps
                    :source-paths ["docs/src/clj" "docs/src-dev"]
                    :resource-paths ["dev"]
-                   :main om-bootstrap.server
-                   :repl-options
-                   {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+                   :main om-bootstrap.server}}
   :aliases {"test" ["cljsbuild" "test"]
             ;; We'll change this for the next new alpha that comes out.
             ;; "test-8" ["do" "clean," "cljsbuild" "clean," "with-profile" "+om-8" "cljsbuild" "test"]
@@ -78,6 +76,7 @@
    :builds
    {:docs
     {:source-paths ["src" "docs/src/cljs" "docs/src/clj"]
+     :figwheel true
      :compiler {:output-to "dev/public/assets/main.js"
                 :output-dir "dev/public/generated"
                 :optimizations :none

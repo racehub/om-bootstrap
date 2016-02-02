@@ -424,7 +424,10 @@
     (->example (slurp-example "pagination/disabled"))
 
     (d/h3 "Pages can be marked as active")
-    (->example (slurp-example "pagination/active"))))
+    (->example (slurp-example "pagination/active"))
+
+    (d/h3 "Pages can be centered")
+    (->example (slurp-example "pagination/centered"))))
 
 ;; ## Pager
 
