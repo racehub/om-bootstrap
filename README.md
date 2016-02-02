@@ -81,14 +81,7 @@ lein repl
 
 You'll be dropped into the `om-bootstrap.server` namespace. Fire up the webapp by running `(-main)`. You can access the dev site at `http://localhost:8080`. (Set the `PORT` environment variable to customize the launch port.)
 
-Next, require the `repl` namespace and boot the Clojurescript repl:
-
-```clojure
-(require '[om-bootstrap.repl :as repl])
-(repl/repl!)
-```
-
-This will start a Websocket repl using [Weasel](https://github.com/tomjakubowski/weasel). When you reload `http://localhost:8080`, it should automatically connect to Weasel and anything you type at the repl will start evaluating.
+Next, to fire up a Clojurescript repl you can use `lein figwheel`. This will start a Websocket repl using [Figwheel](https://github.com/bhauman/lein-figwheel). When you reload `http://localhost:8080`, it should automatically connect to Figwheel and anything you type at the repl will start evaluating.
 
 I personally like to start the repl with `lein repl :headless` and do all of this from Emacs. Whatever floats your boat.
 
