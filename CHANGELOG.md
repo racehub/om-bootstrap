@@ -1,3 +1,11 @@
+## 0.6.0 (2/2/2016)
+
+- Major Changes:
+- Upgrade Clojure to 1.8
+- Upgrade Clojurescript to 1.7.228
+- Replace Weasel/Piggieback with Figwheel
+- Several other minor dependency upgrades
+
 ## 0.5.3 (7/13/2015)
 
 - Change `map` to `doseq` in unbind-root-close-handlers to force effects (https://github.com/racehub/om-bootstrap/pull/76)
