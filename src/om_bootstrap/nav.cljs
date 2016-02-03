@@ -91,20 +91,39 @@
                                           :bs-class "nav"})
          classes {:navbar-collapse (:collapsible? bs)
                   :collapse (not (:expanded? bs))
-                  :in (:expanded? bs)}
-         ul-props {:ref "ul"
-                   :class (d/class-set
-                           (merge (t/bs-class-set bs)
-                                  {:nav-stacked (:stacked? bs)
-                                   :nav-justified (:justified? bs)
-                                   :navbar-nav (:navbar? bs)
-                                   :pull-right (:pull-right? bs)}))}
-         children (map (clone-nav-item opts) children)]
+                  :in (:expanded? bs)}]
      (if (and (:navbar? bs)
               (not (:collapsible? bs)))
-       (d/ul (u/merge-props props ul-props) children)
-       (d/nav (u/merge-props props {:class (d/class-set classes)})
-              (d/ul ul-props children))))))
+       (let [children (map (clone-nav-item opts) children)
+             ul-props {:ref "ul"
+                       :class (d/class-set
+                               (merge (t/bs-class-set bs)
+                                      {:nav-stacked (:stacked? bs)
+                                       :nav-justified (:justified? bs)
+                                       :navbar-nav (:navbar? bs)
+                                       :pull-right (:pull-right? bs)}))}]
+         (d/ul (u/merge-props props ul-props) children))
+       (let [ul-props-left {:ref "ul"
+                            :class (d/class-set
+                                    (merge (t/bs-class-set bs)
+                                           {:nav-stacked (:stacked? bs)
+                                            :nav-justified (:justified? bs)
+                                            :navbar-nav (:navbar? bs)
+                                            :pull-right false}))}
+             ul-props-right
+             {:ref "ul"
+              :class (d/class-set
+                      (merge (t/bs-class-set bs)
+                             {:nav-stacked (:stacked? bs)
+                              :nav-justified (:justified? bs)
+                              :navbar-nav (:navbar? bs)
+                              :pull-right true}))}
+             [children-left _ children-right] (partition-by #(= :right %) children)
+             children-left (map (clone-nav-item opts) children-left)
+             children-right (map (clone-nav-item opts) children-right)]
+         (d/nav (u/merge-props props {:class (d/class-set classes)})
+                (if (not (empty? children-left)) (d/ul ul-props-left children-left))
+                (if (not (empty? children-right))(d/ul ul-props-right children-right))))))))
 
 (s/defn nav :- t/Component
   [opts :- Nav & children]

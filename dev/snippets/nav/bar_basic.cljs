@@ -15,4 +15,6 @@
               (b/menu-item {:key 2} "Another action")
               (b/menu-item {:key 3} "Something else here")
               (b/menu-item {:divider? true})
-              (b/menu-item {:key 4} "Separated link"))))
+              (b/menu-item {:key 4} "Separated link"))
+  :right
+  (n/nav-item {:key 1 :href "#"} "Right")))
