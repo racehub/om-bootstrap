@@ -1,3 +1,6 @@
+## 0.6.1 (2/3/2016)
+- Added pull right for nav bar.
+
 ## 0.6.0 (2/2/2016)
 
 - Major Changes:
