@@ -47,6 +47,7 @@
           {(s/optional-key :type) s/Str
            (s/optional-key :label) s/Str
            (s/optional-key :skip-form-group?) (s/named s/Bool "DON'T render a wrapping form group?")
+           (s/optional-key :disabled) s/Bool
            (s/optional-key :help) s/Str
            (s/optional-key :group-classname) s/Str
            (s/optional-key :wrapper-classname) s/Str
@@ -120,10 +121,11 @@
 
 (s/defn checkbox-or-radio-wrapper :- t/Component
   "Wraps this business in a div."
-  [{type :type} :- Input
+  [{type :type disabled :disabled} :- Input
    children]
   (let [klasses {:checkbox (= "checkbox" type)
-                 :radio (= "radio" type)}]
+                 :radio (= "radio" type)
+                 :disabled disabled}]
     (d/div {:class (class-set klasses)}
            children)))
 
@@ -185,7 +187,8 @@
   the default values or validation messages that we'll need to make
   this work, though."
   [opts :- Input & children]
-  (let [[input attrs] (t/separate Input opts)]
+  (let [[input props] (t/separate Input opts)
+        attrs (assoc props :disabled (:disabled input))]
     (if (checkbox-or-radio? input)
       (->> [(->> (render-input input attrs children)
                  (render-label input)
