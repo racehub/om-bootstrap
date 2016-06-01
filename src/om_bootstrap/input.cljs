@@ -27,11 +27,11 @@
 ;; ### Schema
 
 (def Addons
-  {(s/optional-key :addon-before) (s/either s/Str t/Component)
-   (s/optional-key :addon-after) (s/either s/Str t/Component)
-   (s/optional-key :addon-button) (s/either s/Str t/Component)
-   (s/optional-key :addon-button-before) (s/either s/Str t/Component)
-   (s/optional-key :addon-button-after) (s/either s/Str t/Component)})
+  {(s/optional-key :addon-before) (s/cond-pre s/Str t/Component)
+   (s/optional-key :addon-after) (s/cond-pre s/Str t/Component)
+   (s/optional-key :addon-button) (s/cond-pre s/Str t/Component)
+   (s/optional-key :addon-button-before) (s/cond-pre s/Str t/Component)
+   (s/optional-key :addon-button-after) (s/cond-pre s/Str t/Component)})
 
 (def FeedbackIcons
   "Helps render feedback icons."
@@ -66,7 +66,7 @@
   represents the final class to apply.
 
   TODO: Use class-set from om-tools."
-  [klasses :- {(s/either s/Str s/Keyword) s/Bool}]
+  [klasses :- {(s/cond-pre s/Str s/Keyword) s/Bool}]
   (->> (mapcat (fn [[k keep?]]
                  (when keep? [(name k)]))
                klasses)

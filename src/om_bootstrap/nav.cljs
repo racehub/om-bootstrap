@@ -49,7 +49,7 @@
 (def Nav
   (t/bootstrap
    {:bs-style (s/enum "tabs" "pills")
-    (s/optional-key :active-key) (s/either s/Str s/Num)
+    (s/optional-key :active-key) (s/cond-pre s/Str s/Num)
     (s/optional-key :active-href) s/Str
     (s/optional-key :stacked?) s/Bool
     (s/optional-key :justified?) s/Bool
@@ -171,7 +171,7 @@
   "Returns true if any of the necessary properties are in place to
   render the navbar-header and toggle button."
   [bs]
-  (boolean 
+  (boolean
     (or (:brand bs)
         (:toggle-button bs)
         (:toggle-nav-key bs))))
